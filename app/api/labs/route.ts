@@ -1,4 +1,5 @@
-import clientPromise from '../../../lib/mongodb'
+import mongoosePromise from '../../../lib/mongoose'
+import LabAsset from '../../../lib/models/LabAsset'
 
 export async function POST(req: Request) {
   try {
@@ -10,7 +11,7 @@ export async function POST(req: Request) {
     const erFile = form.get('erDiagram') as File | null
     const relFile = form.get('relationship') as File | null
 
-    const payload: any = { updatedAt: new Date() }
+    const payload: any = {}
     if (labId) payload.labId = labId
     if (sqlSchema) payload.sqlSchema = sqlSchema
 
@@ -32,17 +33,16 @@ export async function POST(req: Request) {
       }
     }
 
-    const client = await clientPromise
-    const db = client.db(process.env.MONGODB_DB || 'dbms')
-    const coll = db.collection('labs_assets')
+    await mongoosePromise
 
     if (!labId) {
-      await coll.insertOne({ ...payload })
+      const doc = new LabAsset({ ...payload })
+      await doc.save()
     } else {
-      await coll.updateOne({ labId }, { $set: payload }, { upsert: true })
+      await LabAsset.findOneAndUpdate({ labId }, { $set: payload }, { upsert: true, new: true })
     }
 
-  return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { 'Content-Type': 'application/json' } })
+    return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { 'Content-Type': 'application/json' } })
   } catch (err: any) {
     // Log full error server-side for debugging (auth/connection errors)
     // eslint-disable-next-line no-console
@@ -61,18 +61,18 @@ export async function GET(req: Request) {
   try {
     const url = new URL(req.url)
     const labId = url.searchParams.get('labId')
-    const client = await clientPromise
-    const db = client.db(process.env.MONGODB_DB || 'dbms')
-    const coll = db.collection('labs_assets')
+
+    await mongoosePromise
 
     if (labId) {
-      const doc = await coll.findOne({ labId })
-  return new Response(JSON.stringify({ ok: true, doc }), { status: 200, headers: { 'Content-Type': 'application/json' } })
+      const doc = await LabAsset.findOne({ labId }).lean()
+      return new Response(JSON.stringify({ ok: true, doc }), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }
 
-    const docs = await coll.find({}).toArray()
-  return new Response(JSON.stringify({ ok: true, docs }), { status: 200, headers: { 'Content-Type': 'application/json' } })
+    const docs = await LabAsset.find({}).lean()
+    return new Response(JSON.stringify({ ok: true, docs }), { status: 200, headers: { 'Content-Type': 'application/json' } })
   } catch (err: any) {
-  return new Response(JSON.stringify({ ok: false, error: err?.message || String(err) }), { status: 500, headers: { 'Content-Type': 'application/json' } })
+    const message = err?.message || String(err)
+    return new Response(JSON.stringify({ ok: false, error: message }), { status: 500, headers: { 'Content-Type': 'application/json' } })
   }
 }

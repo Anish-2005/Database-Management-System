@@ -1,4 +1,5 @@
-import clientPromise from '../../../../lib/mongodb'
+import mongoosePromise from '../../../../lib/mongoose'
+import Lab from '../../../../lib/models/Lab'
 
 export async function POST(req: Request) {
   try {
@@ -9,23 +10,25 @@ export async function POST(req: Request) {
       return new Response(JSON.stringify({ ok: false, error: 'title is required' }), { status: 400 })
     }
 
-    const client = await clientPromise
-    const db = client.db(process.env.MONGODB_DB || 'dbms')
-    const coll = db.collection('labs')
+    // ensure mongoose connected
+    await mongoosePromise
 
-    const labDoc = {
-      id: id || `lab-${Date.now()}`,
-      title,
-      description: description || '',
-      tags: Array.isArray(tags) ? tags : (typeof tags === 'string' && tags ? tags.split(',').map((t: string) => t.trim()).filter(Boolean) : []),
-      link: link || '#',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }
+    const labId = id || `lab-${Date.now()}`
+    const tagsArr = Array.isArray(tags) ? tags : (typeof tags === 'string' && tags ? tags.split(',').map((t: string) => t.trim()).filter(Boolean) : [])
 
-    await coll.updateOne({ id: labDoc.id }, { $set: labDoc }, { upsert: true })
+    const doc = await Lab.findOneAndUpdate(
+      { id: labId },
+      {
+        id: labId,
+        title,
+        description: description || '',
+        tags: tagsArr,
+        link: link || '#'
+      },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    ).lean()
 
-  return new Response(JSON.stringify({ ok: true, lab: labDoc }), { status: 200, headers: { 'Content-Type': 'application/json' } })
+    return new Response(JSON.stringify({ ok: true, lab: doc }), { status: 200, headers: { 'Content-Type': 'application/json' } })
   } catch (err: any) {
     // Log full error server-side for debugging (auth/network errors)
     // eslint-disable-next-line no-console
@@ -43,13 +46,11 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const client = await clientPromise
-    const db = client.db(process.env.MONGODB_DB || 'dbms')
-    const coll = db.collection('labs')
-
-    const docs = await coll.find({}).sort({ createdAt: -1 }).toArray()
-  return new Response(JSON.stringify({ ok: true, labs: docs }), { status: 200, headers: { 'Content-Type': 'application/json' } })
+    await mongoosePromise
+    const docs = await Lab.find({}).sort({ createdAt: -1 }).lean()
+    return new Response(JSON.stringify({ ok: true, labs: docs }), { status: 200, headers: { 'Content-Type': 'application/json' } })
   } catch (err: any) {
-  return new Response(JSON.stringify({ ok: false, error: err?.message || String(err) }), { status: 500, headers: { 'Content-Type': 'application/json' } })
+    const message = err?.message || String(err)
+    return new Response(JSON.stringify({ ok: false, error: message }), { status: 500, headers: { 'Content-Type': 'application/json' } })
   }
 }
