@@ -106,9 +106,234 @@ function LabCard({ lab, onRequestEdit, onRequestDelete, onOpenDetail }: { lab: L
 
 function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab: Lab; onClose: () => void; onRequestEdit: (lab: Lab) => void; onRequestDelete?: (lab: Lab) => void }) {
   const [sqlSchema, setSqlSchema] = useState("")
+  const canvasRef = useRef<HTMLCanvasElement>(null)
   const [erDiagram, setErDiagram] = useState<string | null>(null)
   const [relationshipDiagram, setRelationshipDiagram] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const [isPlaying, setIsPlaying] = useState(true)
+  const [scrollY, setScrollY] = useState(0)
+  // Enhanced Three.js Scene with Multiple Objects
+ // Enhanced Three.js Scene with Multiple Objects
+  useEffect(() => {
+    if (!canvasRef.current) return
+
+    // Scene setup
+    const scene = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvasRef.current,
+      alpha: true,
+      antialias: true,
+    })
+
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setClearColor(0x000000, 0)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    camera.position.z = 15
+
+    // Enhanced particle system
+    const createParticles = (count: number, color: number, size: number) => {
+      const geometry = new THREE.BufferGeometry()
+      const positions = new Float32Array(count * 3)
+      const colors = new Float32Array(count * 3)
+
+      for (let i = 0; i < count * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 50
+        positions[i + 1] = (Math.random() - 0.5) * 50
+        positions[i + 2] = (Math.random() - 0.5) * 50
+
+        // Color variations
+        colors[i] = (color >> 16 & 255) / 255
+        colors[i + 1] = (color >> 8 & 255) / 255
+        colors[i + 2] = (color & 255) / 255
+      }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+
+      const material = new THREE.PointsMaterial({
+        size: size,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.8,
+        sizeAttenuation: true
+      })
+
+      return new THREE.Points(geometry, material)
+    }
+
+    // Create multiple particle systems
+    const particles1 = createParticles(2000, 0x6366f1, 0.1)
+    const particles2 = createParticles(1500, 0x8b5cf6, 0.08)
+    const particles3 = createParticles(1000, 0x06b6d4, 0.12)
+
+    scene.add(particles1)
+    scene.add(particles2)
+    scene.add(particles3)
+
+    // Create geometric shapes for database visualization
+    const createDatabaseShape = (type: string, position: [number, number, number]) => {
+      let geometry
+      switch (type) {
+        case 'cylinder':
+          geometry = new THREE.CylinderGeometry(1, 1, 2, 8)
+          break
+        case 'cube':
+          geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5)
+          break
+        case 'sphere':
+          geometry = new THREE.SphereGeometry(1, 8, 6)
+          break
+        default:
+          geometry = new THREE.ConeGeometry(1, 2, 6)
+      }
+
+      const material = new THREE.MeshPhongMaterial({
+        color: Math.random() * 0xffffff,
+        transparent: true,
+        opacity: 0.7,
+        shininess: 100
+      })
+
+      const mesh = new THREE.Mesh(geometry, material)
+      mesh.position.set(...position)
+      return mesh
+    }
+
+    // Add database shapes
+    const shapes = [
+      createDatabaseShape('cylinder', [-4, 0, 0]),
+      createDatabaseShape('cube', [0, 0, 0]),
+      createDatabaseShape('sphere', [4, 0, 0]),
+    ]
+
+    shapes.forEach(shape => scene.add(shape))
+
+    // Create connection lines
+    const lineGeometry = new THREE.BufferGeometry()
+    const linePositions = new Float32Array([
+      -4, 0, 0,  0, 0, 0,
+      0, 0, 0,    4, 0, 0,
+      -4, 0, 0,   4, 0, 0
+    ])
+    lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3))
+
+    const lineMaterial = new THREE.LineBasicMaterial({
+      color: 0x6366f1,
+      transparent: true,
+      opacity: 0.5,
+      linewidth: 2
+    })
+
+    const lines = new THREE.LineSegments(lineGeometry, lineMaterial)
+    scene.add(lines)
+
+    // Add ambient and directional light
+    const ambientLight = new THREE.AmbientLight(0x404040, 2)
+    scene.add(ambientLight)
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
+    directionalLight.position.set(5, 5, 5)
+    scene.add(directionalLight)
+
+    // Animation loop
+    const clock = new THREE.Clock()
+
+    const animate = () => {
+      if (!isPlaying) return
+
+      requestAnimationFrame(animate)
+      const elapsedTime = clock.getElapsedTime()
+
+      // Animate particles
+      particles1.rotation.x = elapsedTime * 0.1
+      particles1.rotation.y = elapsedTime * 0.15
+      particles2.rotation.x = -elapsedTime * 0.08
+      particles2.rotation.y = -elapsedTime * 0.12
+      particles3.rotation.x = elapsedTime * 0.05
+      particles3.rotation.y = elapsedTime * 0.1
+
+      // Animate shapes
+      shapes.forEach((shape, index) => {
+        shape.rotation.x = elapsedTime * 0.2
+        shape.rotation.y = elapsedTime * 0.3
+        shape.position.y = Math.sin(elapsedTime + index) * 0.5
+      })
+
+      // Animate lines
+      lines.rotation.z = elapsedTime * 0.1
+
+      renderer.render(scene, camera)
+    }
+
+    animate()
+
+    // Handle window resize
+    const handleResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight
+      camera.updateProjectionMatrix()
+      renderer.setSize(window.innerWidth, window.innerHeight)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      renderer.dispose()
+    }
+  }, [isPlaying])
+
+  // Scroll listener
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY)
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8 },
+    },
+  }
+
+  const floatingVariants = {
+    animate: {
+      y: [0, -25, 0],
+      x: [0, 10, 0],
+      rotate: [0, 5, 0],
+      transition: {
+        duration: 6,
+        repeat: Number.POSITIVE_INFINITY,
+      },
+    },
+  }
+
+  const pulseVariants = {
+    animate: {
+      scale: [1, 1.05, 1],
+      opacity: [0.7, 1, 0.7],
+      transition: {
+        duration: 3,
+        repeat: Number.POSITIVE_INFINITY,
+      },
+    },
+  }
+
 
   useEffect(() => {
     const fetchLabDetails = async () => {
@@ -351,60 +576,162 @@ export default function LabsPage() {
   const [newLink, setNewLink] = useState("")
   const PASSCODE = 'letmein123'
 
-  // Subtle Three.js background (toned down from landing page)
+  // Full Three.js background (same as landing page)
   useEffect(() => {
     if (!canvasRef.current) return
 
     const canvas = canvasRef.current
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000)
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true })
-    renderer.setSize(window.innerWidth, window.innerHeight)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    renderer.setClearColor(0x000000, 0)
-    camera.position.z = 30
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      alpha: true,
+      antialias: true,
+    })
 
-    // small, muted particle field
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setClearColor(0x000000, 0)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    camera.position.z = 15
+
+    // Enhanced particle system
     const createParticles = (count: number, color: number, size: number) => {
       const geometry = new THREE.BufferGeometry()
       const positions = new Float32Array(count * 3)
       const colors = new Float32Array(count * 3)
-      for (let i = 0; i < count * 3; i += 3) {
-        positions[i] = (Math.random() - 0.5) * 60
-        positions[i + 1] = (Math.random() - 0.5) * 40
-        positions[i + 2] = (Math.random() - 0.5) * 40
 
+      for (let i = 0; i < count * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 50
+        positions[i + 1] = (Math.random() - 0.5) * 50
+        positions[i + 2] = (Math.random() - 0.5) * 50
+
+        // Color variations
         colors[i] = (color >> 16 & 255) / 255
         colors[i + 1] = (color >> 8 & 255) / 255
         colors[i + 2] = (color & 255) / 255
       }
+
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
-      const material = new THREE.PointsMaterial({ size, vertexColors: true, transparent: true, opacity: 0.12 })
+
+      const material = new THREE.PointsMaterial({
+        size: size,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.8,
+        sizeAttenuation: true
+      })
+
       return new THREE.Points(geometry, material)
     }
 
-    const p1 = createParticles(700, 0x6366f1, 0.12)
-    const p2 = createParticles(500, 0x06b6d4, 0.08)
-    scene.add(p1)
-    scene.add(p2)
+    // Create multiple particle systems
+    const particles1 = createParticles(2000, 0x6366f1, 0.1)
+    const particles2 = createParticles(1500, 0x8b5cf6, 0.08)
+    const particles3 = createParticles(1000, 0x06b6d4, 0.12)
 
-    const ambient = new THREE.AmbientLight(0xffffff, 0.5)
-    scene.add(ambient)
+    scene.add(particles1)
+    scene.add(particles2)
+    scene.add(particles3)
 
+    // Create geometric shapes for database visualization
+    const createDatabaseShape = (type: string, position: [number, number, number]) => {
+      let geometry
+      switch (type) {
+        case 'cylinder':
+          geometry = new THREE.CylinderGeometry(1, 1, 2, 8)
+          break
+        case 'cube':
+          geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5)
+          break
+        case 'sphere':
+          geometry = new THREE.SphereGeometry(1, 8, 6)
+          break
+        default:
+          geometry = new THREE.ConeGeometry(1, 2, 6)
+      }
+
+      const material = new THREE.MeshPhongMaterial({
+        color: Math.random() * 0xffffff,
+        transparent: true,
+        opacity: 0.7,
+        shininess: 100
+      })
+
+      const mesh = new THREE.Mesh(geometry, material)
+      mesh.position.set(...position)
+      return mesh
+    }
+
+    // Add database shapes
+    const shapes = [
+      createDatabaseShape('cylinder', [-4, 0, 0]),
+      createDatabaseShape('cube', [0, 0, 0]),
+      createDatabaseShape('sphere', [4, 0, 0]),
+    ]
+
+    shapes.forEach(shape => scene.add(shape))
+
+    // Create connection lines
+    const lineGeometry = new THREE.BufferGeometry()
+    const linePositions = new Float32Array([
+      -4, 0, 0,  0, 0, 0,
+      0, 0, 0,    4, 0, 0,
+      -4, 0, 0,   4, 0, 0
+    ])
+    lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3))
+
+    const lineMaterial = new THREE.LineBasicMaterial({
+      color: 0x6366f1,
+      transparent: true,
+      opacity: 0.5,
+      linewidth: 2
+    })
+
+    const lines = new THREE.LineSegments(lineGeometry, lineMaterial)
+    scene.add(lines)
+
+    // Add ambient and directional light
+    const ambientLight = new THREE.AmbientLight(0x404040, 2)
+    scene.add(ambientLight)
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
+    directionalLight.position.set(5, 5, 5)
+    scene.add(directionalLight)
+
+    // Animation loop
     const clock = new THREE.Clock()
 
     const animate = () => {
+      if (!isPlaying) return
+
       requestAnimationFrame(animate)
-      const t = clock.getElapsedTime()
-      p1.rotation.y = t * 0.02
-      p1.rotation.x = Math.sin(t * 0.1) * 0.02
-      p2.rotation.y = -t * 0.015
+      const elapsedTime = clock.getElapsedTime()
+
+      // Animate particles
+      particles1.rotation.x = elapsedTime * 0.1
+      particles1.rotation.y = elapsedTime * 0.15
+      particles2.rotation.x = -elapsedTime * 0.08
+      particles2.rotation.y = -elapsedTime * 0.12
+      particles3.rotation.x = elapsedTime * 0.05
+      particles3.rotation.y = elapsedTime * 0.1
+
+      // Animate shapes
+      shapes.forEach((shape, index) => {
+        shape.rotation.x = elapsedTime * 0.2
+        shape.rotation.y = elapsedTime * 0.3
+        shape.position.y = Math.sin(elapsedTime + index) * 0.5
+      })
+
+      // Animate lines
+      lines.rotation.z = elapsedTime * 0.1
+
       renderer.render(scene, camera)
     }
 
     animate()
 
+    // Handle window resize
     const handleResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight
       camera.updateProjectionMatrix()
@@ -417,7 +744,7 @@ export default function LabsPage() {
       window.removeEventListener('resize', handleResize)
       renderer.dispose()
     }
-  }, [])
+  }, [isPlaying])
 
   const tags = useMemo(() => {
     const set = new Set()
@@ -620,8 +947,7 @@ export default function LabsPage() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white pt-24 pb-24 relative overflow-hidden">
-      {/* subtle three.js background canvas */}
-       {/* Advanced Background Canvas */}
+      {/* Advanced Background Canvas */}
       <canvas 
         ref={canvasRef} 
         className="fixed inset-0 pointer-events-none opacity-60 z-0"
