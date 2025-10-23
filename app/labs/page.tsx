@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Database, Search, FolderPlus, ArrowUpRight, X, Rocket, Sparkles, Plus, Filter, Pause, Play, Menu } from "lucide-react"
+import { Database, Search, FolderPlus, ArrowUpRight, X, Rocket, Sparkles, Plus, Filter, Pause, Play, Menu, Trash, ExternalLink, Calendar, User } from "lucide-react"
 import * as THREE from 'three'
 
 type Lab = {
@@ -11,81 +11,313 @@ type Lab = {
   description: string
   tags: string[]
   link?: string
+  createdAt?: string
+  author?: string
 }
 
-function LabCard({ lab, onRequestEdit }: { lab: Lab; onRequestEdit: (lab: Lab) => void }) {
+function LabCard({ lab, onRequestEdit, onRequestDelete, onOpenDetail }: { lab: Lab; onRequestEdit: (lab: Lab) => void; onRequestDelete?: (lab: Lab) => void; onOpenDetail: (lab: Lab) => void }) {
   return (
     <motion.article
       whileHover={{ y: -8, scale: 1.02 }}
-      className="relative p-6 rounded-3xl bg-slate-900/30 backdrop-blur-sm border border-slate-700 hover:border-purple-500/50 transition-all duration-300 group overflow-hidden"
+      className="relative p-6 rounded-3xl bg-slate-900/30 backdrop-blur-sm border border-slate-700 hover:border-purple-500/50 transition-all duration-300 group overflow-hidden flex flex-col cursor-pointer"
+      onClick={() => onOpenDetail(lab)}
     >
       {/* Animated background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl" />
       {/* Glow effect */}
       <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-      <div className="relative z-10">
+      <div className="relative z-10 flex flex-col h-full">
         <div className="flex items-start justify-between gap-4 mb-4">
-          <div className="flex-1">
-            <h3 className="text-xl font-bold text-white mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all">
+          <div className="flex-1 pr-4">
+            <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all">
               {lab.title}
             </h3>
-            <p className="text-sm text-slate-400 leading-relaxed">{lab.description}</p>
+            <p className="text-sm text-slate-400 mb-3 max-h-14 overflow-hidden">{lab.description}</p>
+
+            <div className="flex gap-2 flex-wrap">
+              {(lab.tags || []).slice(0, 6).map((tag) => (
+                <span key={tag} className="text-xs px-2 py-1 bg-slate-800/50 border border-slate-700 rounded-full text-slate-300">
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
 
           <div className="flex-shrink-0">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/25 group-hover:shadow-purple-500/40 transition-all">
-              <Database className="w-5 h-5 text-white" />
+            <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/25 transition-transform group-hover:scale-105">
+              <Database className="w-6 h-6 text-white" />
             </div>
           </div>
         </div>
 
-        {/* Tags */}
-        <div className="flex gap-2 flex-wrap mb-6">
-          {(lab.tags || []).map((tag) => (
-            <span 
-              key={tag} 
-              className="text-xs px-3 py-1 bg-slate-800/40 border border-slate-700 rounded-full text-slate-300 hover:bg-purple-500/20 hover:border-purple-500/30 hover:text-purple-300 transition-colors"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        {/* Actions */}
-        <div className="flex items-center justify-between pt-4 border-t border-slate-700/50">
+        <div className="mt-auto flex items-center justify-between pt-4 border-t border-slate-700/50">
           <div className="flex items-center gap-3">
-            <motion.a 
-              href={lab.link || '#'}
-              whileHover={{ scale: 1.05 }}
+            <button 
+              onClick={(e) => {
+                e.stopPropagation()
+                if (lab.link) window.open(lab.link, '_blank')
+              }}
               className="inline-flex items-center gap-2 text-sm text-purple-300 hover:text-white transition-colors"
             >
-              Open Lab
+              Open
               <ArrowUpRight className="w-4 h-4" />
-            </motion.a>
-            <motion.button 
-              onClick={() => onRequestEdit(lab)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-3 py-2 bg-slate-800/40 hover:bg-slate-700/40 rounded-lg text-sm text-slate-300 hover:text-white transition-colors border border-slate-700 hover:border-slate-600"
+            </button>
+            <button 
+              onClick={(e) => {
+                e.stopPropagation()
+                onRequestEdit(lab)
+              }} 
+              className="px-3 py-1 bg-slate-800/40 hover:bg-slate-700/40 rounded-md text-sm text-slate-300 hover:text-white transition-colors border border-slate-700"
             >
-              Edit Resources
-            </motion.button>
+              Edit
+            </button>
           </div>
 
-          <motion.button 
-            onClick={() => alert(`Launching ${lab.title}`)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg text-sm text-white shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/40 transition-all flex items-center gap-2"
-          >
-            <Rocket className="w-4 h-4" />
-            Launch
-          </motion.button>
+          <div className="flex items-center gap-2">
+            {onRequestDelete && (
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onRequestDelete(lab)
+                }} 
+                title="Delete lab" 
+                className="p-2 rounded-md bg-red-600/10 hover:bg-red-600/20 text-red-300 border border-red-700/20"
+              >
+                <Trash className="w-4 h-4" />
+              </button>
+            )}
+
+            <button 
+              onClick={(e) => {
+                e.stopPropagation()
+                alert(`Launching ${lab.title}`)
+              }} 
+              className="px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-md text-sm text-white shadow-md"
+            >
+              Launch
+            </button>
+          </div>
         </div>
       </div>
     </motion.article>
+  )
+}
+
+function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab: Lab; onClose: () => void; onRequestEdit: (lab: Lab) => void; onRequestDelete?: (lab: Lab) => void }) {
+  const [sqlSchema, setSqlSchema] = useState("")
+  const [erDiagram, setErDiagram] = useState<string | null>(null)
+  const [relationshipDiagram, setRelationshipDiagram] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchLabDetails = async () => {
+      try {
+        setLoading(true)
+        const res = await fetch(`/api/labs?labId=${encodeURIComponent(lab.id)}`)
+        const data = await res.json()
+        if (res.ok && data?.doc) {
+          setSqlSchema(data.doc.sqlSchema || '')
+          // In a real app, you'd fetch the actual diagram files here
+          // For now, we'll just set placeholder states
+          setErDiagram(data.doc.erDiagram || null)
+          setRelationshipDiagram(data.doc.relationshipDiagram || null)
+        }
+      } catch (e) {
+        console.error('Failed to fetch lab details:', e)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchLabDetails()
+  }, [lab.id])
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        className="relative bg-slate-900/95 backdrop-blur-xl border border-slate-800 rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-slate-800">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
+              <Database className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-white">{lab.title}</h2>
+              <p className="text-slate-400">{lab.description}</p>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => onRequestEdit(lab)}
+              className="px-4 py-2 bg-slate-800/40 hover:bg-slate-700/40 rounded-xl text-slate-300 hover:text-white transition-colors border border-slate-700"
+            >
+              Edit
+            </button>
+            <motion.button 
+              onClick={onClose}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="p-2 rounded-xl bg-slate-800/40 hover:bg-slate-700/40 transition-colors"
+            >
+              <X className="w-5 h-5 text-slate-400" />
+            </motion.button>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="overflow-y-auto max-h-[calc(90vh-120px)]">
+          <div className="p-6 space-y-6">
+            {/* Metadata */}
+            <div className="flex items-center gap-6 text-sm text-slate-400">
+              {lab.author && (
+                <div className="flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  <span>{lab.author}</span>
+                </div>
+              )}
+              {lab.createdAt && (
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  <span>{new Date(lab.createdAt).toLocaleDateString()}</span>
+                </div>
+              )}
+              {lab.link && (
+                <a 
+                  href={lab.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  <span>External Link</span>
+                </a>
+              )}
+            </div>
+
+            {/* Tags */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-3">Tags</h3>
+              <div className="flex gap-2 flex-wrap">
+                {(lab.tags || []).map((tag) => (
+                  <span key={tag} className="px-3 py-1 bg-slate-800/50 border border-slate-700 rounded-full text-slate-300">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* SQL Schema */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-3">SQL Schema</h3>
+              {loading ? (
+                <div className="p-8 text-center">
+                  <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                  <p className="text-slate-400">Loading schema...</p>
+                </div>
+              ) : sqlSchema ? (
+                <pre className="p-4 bg-slate-800/40 border border-slate-700 rounded-xl text-sm text-slate-300 overflow-x-auto">
+                  {sqlSchema}
+                </pre>
+              ) : (
+                <div className="p-8 text-center bg-slate-800/20 border border-slate-700 rounded-xl">
+                  <p className="text-slate-400">No SQL schema available</p>
+                </div>
+              )}
+            </div>
+
+            {/* Diagrams */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* ER Diagram */}
+              <div>
+                <h3 className="text-lg font-semibold text-white mb-3">ER Diagram</h3>
+                {loading ? (
+                  <div className="h-48 bg-slate-800/20 border border-slate-700 rounded-xl flex items-center justify-center">
+                    <div className="w-6 h-6 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                ) : erDiagram ? (
+                  <div className="bg-slate-800/20 border border-slate-700 rounded-xl p-4">
+                    <img 
+                      src={erDiagram} 
+                      alt="ER Diagram" 
+                      className="w-full h-48 object-contain rounded-lg"
+                    />
+                  </div>
+                ) : (
+                  <div className="h-48 bg-slate-800/20 border border-slate-700 rounded-xl flex items-center justify-center">
+                    <p className="text-slate-400">No ER diagram available</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Relationship Diagram */}
+              <div>
+                <h3 className="text-lg font-semibold text-white mb-3">Relationship Model</h3>
+                {loading ? (
+                  <div className="h-48 bg-slate-800/20 border border-slate-700 rounded-xl flex items-center justify-center">
+                    <div className="w-6 h-6 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                ) : relationshipDiagram ? (
+                  <div className="bg-slate-800/20 border border-slate-700 rounded-xl p-4">
+                    <img 
+                      src={relationshipDiagram} 
+                      alt="Relationship Model" 
+                      className="w-full h-48 object-contain rounded-lg"
+                    />
+                  </div>
+                ) : (
+                  <div className="h-48 bg-slate-800/20 border border-slate-700 rounded-xl flex items-center justify-center">
+                    <p className="text-slate-400">No relationship model available</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex items-center justify-between pt-6 border-t border-slate-800">
+              <div className="flex items-center gap-3">
+                <button 
+                  onClick={() => onRequestEdit(lab)}
+                  className="px-6 py-3 bg-slate-800/40 hover:bg-slate-700/40 rounded-xl text-slate-300 hover:text-white transition-colors border border-slate-700"
+                >
+                  Edit Lab
+                </button>
+                {onRequestDelete && (
+                  <button 
+                    onClick={() => onRequestDelete(lab)}
+                    className="px-6 py-3 bg-red-600/10 hover:bg-red-600/20 text-red-300 border border-red-700/20 rounded-xl transition-colors"
+                  >
+                    Delete Lab
+                  </button>
+                )}
+              </div>
+              
+              <button 
+                onClick={() => alert(`Launching ${lab.title}`)}
+                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/40 transition-all"
+              >
+                Launch Lab
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   )
 }
 
@@ -102,8 +334,11 @@ export default function LabsPage() {
   const [passcodeInput, setPasscodeInput] = useState("")
   const [passcodeVerified, setPasscodeVerified] = useState(false)
   const [showPassPrompt, setShowPassPrompt] = useState(false)
-  const [pendingAction, setPendingAction] = useState<null | 'openCreate' | 'openEdit'>(null)
+  const [pendingAction, setPendingAction] = useState<null | 'openCreate' | 'openEdit' | 'delete'>(null)
   const [editingLab, setEditingLab] = useState<Lab | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<Lab | null>(null)
+  const [selectedLab, setSelectedLab] = useState<Lab | null>(null) // New state for detail modal
+  
   // resource fields for sidebar
   const [erFile, setErFile] = useState<File | null>(null)
   const [relFile, setRelFile] = useState<File | null>(null)
@@ -229,6 +464,14 @@ export default function LabsPage() {
     }
   }, [showAdd])
 
+  const handleOpenDetail = (lab: Lab) => {
+    setSelectedLab(lab)
+  }
+
+  const handleCloseDetail = () => {
+    setSelectedLab(null)
+  }
+
   const handleRequestOpenCreate = () => {
     if (passcodeVerified) {
       setEditingLab(null)
@@ -263,6 +506,41 @@ export default function LabsPage() {
     }
   }
 
+  const handleRequestDelete = (lab: Lab) => {
+    if (passcodeVerified) {
+      if (!confirm(`Delete lab "${lab.title}"? This cannot be undone.`)) return
+      void handleDeleteConfirmed(lab)
+    } else {
+      setPendingAction('delete')
+      setDeleteTarget(lab)
+      setShowPassPrompt(true)
+    }
+  }
+
+  const handleDeleteConfirmed = async (lab: Lab) => {
+    try {
+      const res = await fetch(`/api/labs/meta?labId=${encodeURIComponent(lab.id)}`, { method: 'DELETE' })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        alert(data?.error || 'Failed to delete lab')
+        return
+      }
+      setLabs((s) => s.filter((l) => l.id !== lab.id))
+      if (editingLab && editingLab.id === lab.id) {
+        setShowAdd(false)
+        setEditingLab(null)
+      }
+      if (selectedLab && selectedLab.id === lab.id) {
+        setSelectedLab(null)
+      }
+    } catch (err: any) {
+      alert(err?.message || 'Error deleting lab')
+    } finally {
+      setPendingAction(null)
+      setDeleteTarget(null)
+    }
+  }
+
   const handleVerifyPasscode = () => {
     if (passcodeInput === PASSCODE) {
       setPasscodeVerified(true)
@@ -286,6 +564,9 @@ export default function LabsPage() {
           } catch (e) {}
         })()
         setShowAdd(true)
+      } else if (pendingAction === 'delete' && deleteTarget) {
+        // proceed with deletion after passcode verification
+        void handleDeleteConfirmed(deleteTarget)
       }
       setPendingAction(null)
     } else {
@@ -526,7 +807,13 @@ export default function LabsPage() {
             </div>
           ) : (
             filtered.map((lab) => (
-              <LabCard key={lab.id} lab={lab} onRequestEdit={handleRequestEdit} />
+              <LabCard 
+                key={lab.id} 
+                lab={lab} 
+                onRequestEdit={handleRequestEdit} 
+                onRequestDelete={handleRequestDelete} 
+                onOpenDetail={handleOpenDetail}
+              />
             ))
           )}
         </motion.div>
@@ -541,6 +828,18 @@ export default function LabsPage() {
           <Plus className="w-6 h-6 text-white" />
         </motion.button>
       </div>
+
+      {/* Lab Detail Modal */}
+      <AnimatePresence>
+        {selectedLab && (
+          <LabDetailModal 
+            lab={selectedLab}
+            onClose={handleCloseDetail}
+            onRequestEdit={handleRequestEdit}
+            onRequestDelete={handleRequestDelete}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Add/Edit Lab Sidebar */}
       <AnimatePresence>
