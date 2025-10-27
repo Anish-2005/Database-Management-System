@@ -496,14 +496,22 @@ export default function AdvancedDBMSLandingPage() {
 
           {/* Desktop Menu */}
           <div className="hidden lg:flex gap-8 items-center">
-            {["Features", "Architecture", "Benchmarks", "Docs", "Pricing"].map((item) => (
+            {[
+              { name: "Home", href: "/" },
+              { name: "Tutorials", href: "/tutorials" },
+              { name: "Labs", href: "/labs" },
+              { name: "Practice", href: "/practice" },
+              { name: "Resources", href: "/resources" },
+              { name: "Progress", href: "/progress" },
+              { name: "About", href: "/about" }
+            ].map((item) => (
               <motion.a
-                key={item}
-                href={`#${item.toLowerCase()}`}
+                key={item.name}
+                href={item.href}
                 className="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group"
                 whileHover={{ y: -2 }}
               >
-                {item}
+                {item.name}
                 <motion.div
                   className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 group-hover:w-full transition-all duration-300"
                   layoutId="navIndicator"
@@ -553,15 +561,23 @@ export default function AdvancedDBMSLandingPage() {
               className="lg:hidden border-t border-slate-700 bg-slate-900/95 backdrop-blur-xl"
             >
               <div className="px-4 py-6 space-y-4">
-                {["Features", "Architecture", "Benchmarks", "Docs", "Pricing"].map((item) => (
+                {[
+                  { name: "Home", href: "/" },
+                  { name: "Tutorials", href: "/tutorials" },
+                  { name: "Labs", href: "/labs" },
+                  { name: "Practice", href: "/practice" },
+                  { name: "Resources", href: "/resources" },
+                  { name: "Progress", href: "/progress" },
+                  { name: "About", href: "/about" }
+                ].map((item) => (
                   <motion.a
-                    key={item}
-                    href={`#${item.toLowerCase()}`}
+                    key={item.name}
+                    href={item.href}
                     className="block text-sm font-medium text-slate-300 hover:text-white transition-colors py-2"
                     whileHover={{ x: 4 }}
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    {item}
+                    {item.name}
                   </motion.a>
                 ))}
                 <div className="pt-4 border-t border-slate-700">
