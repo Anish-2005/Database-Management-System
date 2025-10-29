@@ -1,4 +1,4 @@
-<div align="center">
+﻿<div align="center">
 
 <!-- Animated Title Banner -->
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,14,18,20,24&height=300&section=header&text=QuantumDB&fontSize=90&fontAlignY=38&desc=Next-Generation%20Database%20Management%20System&descAlignY=55&descAlign=50&animation=twinkling" width="100%"/>
