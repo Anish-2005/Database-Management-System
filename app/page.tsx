@@ -81,13 +81,15 @@ export default function AdvancedDBMSLandingPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrollY, setScrollY] = useState(0)
   const [activeFeature, setActiveFeature] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('animation-playing')
-      return saved !== null ? JSON.parse(saved) : true
+  const [isPlaying, setIsPlaying] = useState(true)
+
+  // Load animation state from localStorage after hydration
+  useEffect(() => {
+    const saved = localStorage.getItem('animation-playing')
+    if (saved !== null) {
+      setIsPlaying(JSON.parse(saved))
     }
-    return true
-  })
+  }, [])
 
   // Save animation state to localStorage
   useEffect(() => {

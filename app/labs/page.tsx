@@ -112,13 +112,21 @@ function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab:
   const [erDiagram, setErDiagram] = useState<string | null>(null)
   const [relationshipDiagram, setRelationshipDiagram] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
-  const [isPlaying, setIsPlaying] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('animation-playing')
-      return saved !== null ? JSON.parse(saved) : true
+  const [isPlaying, setIsPlaying] = useState(true)
+
+  // Load animation state from localStorage after hydration
+  useEffect(() => {
+    const saved = localStorage.getItem('animation-playing')
+    if (saved !== null) {
+      setIsPlaying(JSON.parse(saved))
     }
-    return true
-  })
+  }, [])
+
+  // Save animation state to localStorage
+  useEffect(() => {
+    localStorage.setItem('animation-playing', JSON.stringify(isPlaying))
+  }, [isPlaying])
+
   const [scrollY, setScrollY] = useState(0)
 
   // Save animation state to localStorage
@@ -389,19 +397,21 @@ export default function LabsPage() {
   const [loadingLabs, setLoadingLabs] = useState(true)
   const [creating, setCreating] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isPlaying, setIsPlaying] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('animation-playing')
-      return saved !== null ? JSON.parse(saved) : true
+  const [isPlaying, setIsPlaying] = useState(true)
+
+  // Load animation state from localStorage after mount
+  useEffect(() => {
+    const saved = localStorage.getItem('animation-playing')
+    if (saved !== null) {
+      setIsPlaying(JSON.parse(saved))
     }
-    return true
-  })
-  const [showAdd, setShowAdd] = useState(false)
+  }, [])
 
   // Save animation state to localStorage
   useEffect(() => {
     localStorage.setItem('animation-playing', JSON.stringify(isPlaying))
   }, [isPlaying])
+  const [showAdd, setShowAdd] = useState(false)
   const [passcodeInput, setPasscodeInput] = useState("")
   const [passcodeVerified, setPasscodeVerified] = useState(false)
   const [showPassPrompt, setShowPassPrompt] = useState(false)

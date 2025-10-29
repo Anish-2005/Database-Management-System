@@ -34,14 +34,16 @@ import Background from "../../components/Background"
 
 export default function PracticePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isPlaying, setIsPlaying] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('animation-playing')
-      return saved !== null ? JSON.parse(saved) : true
-    }
-    return true
-  })
+  const [isPlaying, setIsPlaying] = useState(true)
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
+
+  // Load animation state from localStorage after hydration
+  useEffect(() => {
+    const saved = localStorage.getItem('animation-playing')
+    if (saved !== null) {
+      setIsPlaying(JSON.parse(saved))
+    }
+  }, [])
 
   // Save animation state to localStorage
   useEffect(() => {
