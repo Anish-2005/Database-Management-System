@@ -900,38 +900,7 @@ Route (app)                    Size     First Load JS
 
 </div>
 
-### � Animation Showcase
 
-<div align="center">
-
-```mermaid
-gantt
-    title � User Interaction Timeline
-    dateFormat X
-    axisFormat %L
-    
-    section Page Load
-    Hero Animation          :0, 500
-    Particle System         :0, 2000
-    Navigation Fade In      :200, 600
-    
-    section User Scroll
-    Section Reveal          :1000, 1500
-    Counter Animation       :1200, 2000
-    Card Stagger           :1300, 2100
-    
-    section Interaction
-    Hover Effects          :2000, 2100
-    Click Ripple           :2500, 2700
-    Modal Slide            :3000, 3500
-    
-    section Data Load
-    Skeleton Loading       :3500, 4000
-    Content Fade          :4000, 4300
-    Chart Animation       :4100, 5000
-```
-
-</div>
 
 ### 🎨 Design System
 
