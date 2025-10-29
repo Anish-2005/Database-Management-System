@@ -38,8 +38,19 @@ import Background from "../../components/Background"
 
 export default function AboutPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isPlaying, setIsPlaying] = useState(true)
+  const [isPlaying, setIsPlaying] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('animation-playing')
+      return saved !== null ? JSON.parse(saved) : true
+    }
+    return true
+  })
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null)
+
+  // Save animation state to localStorage
+  useEffect(() => {
+    localStorage.setItem('animation-playing', JSON.stringify(isPlaying))
+  }, [isPlaying])
 
   const features = [
     {

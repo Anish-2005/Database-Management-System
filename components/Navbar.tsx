@@ -162,17 +162,40 @@ export default function Navbar({
         {/* Control Buttons */}
         <div className="ml-8 hidden lg:flex items-center gap-3">
           {setIsPlaying && (
-            <button
+            <motion.button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="relative p-3 rounded-lg bg-slate-800/50 backdrop-blur-sm border border-slate-700 hover:border-purple-500/50 transition-all group overflow-hidden hover:scale-105 active:scale-95 transform duration-200"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`relative p-3 rounded-lg backdrop-blur-sm border transition-all group overflow-hidden transform duration-200 ${
+                isPlaying
+                  ? 'bg-slate-800/50 border-slate-700 hover:border-purple-500/50 hover:bg-slate-700/60'
+                  : 'bg-purple-500/20 border-purple-500/50 hover:border-purple-400/70 hover:bg-purple-500/30'
+              }`}
+              title={isPlaying ? 'Pause background animations' : 'Resume background animations'}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/10 to-purple-500/0 animate-shimmer" />
-              {isPlaying ? (
-                <Pause className="w-4 h-4 relative z-10 text-slate-300 group-hover:text-white transition-colors" />
-              ) : (
-                <Play className="w-4 h-4 relative z-10 text-slate-300 group-hover:text-white transition-colors" />
-              )}
-            </button>
+              <div className={`absolute inset-0 transition-all duration-300 ${
+                isPlaying
+                  ? 'bg-gradient-to-r from-purple-500/0 via-purple-500/10 to-purple-500/0 animate-shimmer'
+                  : 'bg-gradient-to-r from-purple-500/20 to-pink-500/20'
+              }`} />
+              
+              <motion.div
+                animate={{ rotate: isPlaying ? 0 : 180 }}
+                transition={{ duration: 0.3 }}
+                className="relative z-10"
+              >
+                {isPlaying ? (
+                  <Pause className="w-4 h-4 text-slate-300 group-hover:text-white transition-colors" />
+                ) : (
+                  <Play className="w-4 h-4 text-purple-300 group-hover:text-white transition-colors" />
+                )}
+              </motion.div>
+              
+              {/* Status indicator */}
+              <div className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 rounded-full transition-all duration-300 ${
+                isPlaying ? 'bg-green-400 shadow-green-400/50 shadow-lg' : 'bg-purple-400 shadow-purple-400/50 shadow-lg'
+              }`} />
+            </motion.button>
           )}
 
           {showLaunchDemo && (

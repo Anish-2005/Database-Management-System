@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useCallback } from "react"
 import { motion } from "framer-motion"
 import * as THREE from "three"
 
@@ -10,8 +10,54 @@ interface BackgroundProps {
 
 export default function Background({ isPlaying = true }: BackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const sceneRef = useRef<THREE.Scene | null>(null)
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null)
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null)
+  const animationIdRef = useRef<number | null>(null)
+  const clockRef = useRef<THREE.Clock | null>(null)
+  const particlesRef = useRef<THREE.Points[]>([])
+  const shapesRef = useRef<THREE.Mesh[]>([])
+  const linesRef = useRef<THREE.LineSegments | null>(null)
+  const isPlayingRef = useRef<boolean>(isPlaying)
 
-  // Three.js Background Setup
+  // Animation loop function
+  const animate = useCallback(() => {
+    if (!isPlayingRef.current || !sceneRef.current || !rendererRef.current || !cameraRef.current || !clockRef.current) {
+      animationIdRef.current = null
+      return
+    }
+
+    animationIdRef.current = requestAnimationFrame(animate)
+    const elapsedTime = clockRef.current.getElapsedTime()
+
+    // Animate particles
+    particlesRef.current.forEach((particles, index) => {
+      const speeds = [
+        { x: 0.1, y: 0.15 },   // particles1
+        { x: -0.08, y: -0.12 }, // particles2
+        { x: 0.05, y: 0.1 }    // particles3
+      ]
+      const speed = speeds[index] || { x: 0.1, y: 0.15 }
+      particles.rotation.x = elapsedTime * speed.x
+      particles.rotation.y = elapsedTime * speed.y
+    })
+
+    // Animate shapes
+    shapesRef.current.forEach((shape, index) => {
+      shape.rotation.x = elapsedTime * 0.2
+      shape.rotation.y = elapsedTime * 0.3
+      shape.position.y = Math.sin(elapsedTime + index) * 0.5
+    })
+
+    // Animate lines
+    if (linesRef.current) {
+      linesRef.current.rotation.z = elapsedTime * 0.1
+    }
+
+    rendererRef.current.render(sceneRef.current, cameraRef.current)
+  }, [])
+
+  // Initialize Three.js scene
   useEffect(() => {
     if (!canvasRef.current) return
 
@@ -28,6 +74,12 @@ export default function Background({ isPlaying = true }: BackgroundProps) {
     renderer.setClearColor(0x000000, 0)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     camera.position.z = 15
+
+    // Store references
+    sceneRef.current = scene
+    rendererRef.current = renderer
+    cameraRef.current = camera
+    clockRef.current = new THREE.Clock()
 
     // Enhanced particle system
     const createParticles = (count: number, color: number, size: number) => {
@@ -63,6 +115,7 @@ export default function Background({ isPlaying = true }: BackgroundProps) {
     const particles2 = createParticles(1500, 0x8b5cf6, 0.08)
     const particles3 = createParticles(1000, 0x06b6d4, 0.12)
 
+    particlesRef.current = [particles1, particles2, particles3]
     scene.add(particles1)
     scene.add(particles2)
     scene.add(particles3)
@@ -102,6 +155,7 @@ export default function Background({ isPlaying = true }: BackgroundProps) {
       createDatabaseShape('sphere', [4, 0, 0]),
     ]
 
+    shapesRef.current = shapes
     shapes.forEach(shape => scene.add(shape))
 
     // Connection lines
@@ -121,6 +175,7 @@ export default function Background({ isPlaying = true }: BackgroundProps) {
     })
 
     const lines = new THREE.LineSegments(lineGeometry, lineMaterial)
+    linesRef.current = lines
     scene.add(lines)
 
     // Lighting
@@ -131,48 +186,39 @@ export default function Background({ isPlaying = true }: BackgroundProps) {
     directionalLight.position.set(5, 5, 5)
     scene.add(directionalLight)
 
-    // Animation loop
-    const clock = new THREE.Clock()
-
-    const animate = () => {
-      if (!isPlaying) return
-
-      requestAnimationFrame(animate)
-      const elapsedTime = clock.getElapsedTime()
-
-      particles1.rotation.x = elapsedTime * 0.1
-      particles1.rotation.y = elapsedTime * 0.15
-      particles2.rotation.x = -elapsedTime * 0.08
-      particles2.rotation.y = -elapsedTime * 0.12
-      particles3.rotation.x = elapsedTime * 0.05
-      particles3.rotation.y = elapsedTime * 0.1
-
-      shapes.forEach((shape, index) => {
-        shape.rotation.x = elapsedTime * 0.2
-        shape.rotation.y = elapsedTime * 0.3
-        shape.position.y = Math.sin(elapsedTime + index) * 0.5
-      })
-
-      lines.rotation.z = elapsedTime * 0.1
-
-      renderer.render(scene, camera)
-    }
-
-    animate()
-
     const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight
-      camera.updateProjectionMatrix()
-      renderer.setSize(window.innerWidth, window.innerHeight)
+      if (camera && renderer) {
+        camera.aspect = window.innerWidth / window.innerHeight
+        camera.updateProjectionMatrix()
+        renderer.setSize(window.innerWidth, window.innerHeight)
+      }
     }
 
     window.addEventListener('resize', handleResize)
 
     return () => {
       window.removeEventListener('resize', handleResize)
+      if (animationIdRef.current) {
+        cancelAnimationFrame(animationIdRef.current)
+      }
       renderer.dispose()
     }
+  }, [])
+
+  // Update isPlaying ref when prop changes
+  useEffect(() => {
+    isPlayingRef.current = isPlaying
   }, [isPlaying])
+
+  // Handle animation start/stop when isPlaying changes
+  useEffect(() => {
+    if (isPlaying && !animationIdRef.current) {
+      animate()
+    } else if (!isPlaying && animationIdRef.current) {
+      cancelAnimationFrame(animationIdRef.current)
+      animationIdRef.current = null
+    }
+  }, [isPlaying, animate])
 
   return (
     <>
@@ -186,38 +232,38 @@ export default function Background({ isPlaying = true }: BackgroundProps) {
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <motion.div
           className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-[100px]"
-          animate={{
+          animate={isPlaying ? {
             x: [0, 100, 0],
             y: [0, -50, 0],
             scale: [1, 1.2, 1],
-          }}
+          } : {}}
           transition={{
             duration: 8,
-            repeat: Number.POSITIVE_INFINITY,
+            repeat: isPlaying ? Number.POSITIVE_INFINITY : 0,
           }}
         />
         <motion.div
           className="absolute top-1/2 right-1/4 w-80 h-80 bg-cyan-500/20 rounded-full blur-[100px]"
-          animate={{
+          animate={isPlaying ? {
             x: [0, -80, 0],
             y: [0, 60, 0],
             scale: [1.2, 1, 1.2],
-          }}
+          } : {}}
           transition={{
             duration: 10,
-            repeat: Number.POSITIVE_INFINITY,
+            repeat: isPlaying ? Number.POSITIVE_INFINITY : 0,
           }}
         />
         <motion.div
           className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-pink-500/15 rounded-full blur-[100px]"
-          animate={{
+          animate={isPlaying ? {
             x: [0, 60, 0],
             y: [0, -80, 0],
             scale: [1, 1.1, 1],
-          }}
+          } : {}}
           transition={{
             duration: 12,
-            repeat: Number.POSITIVE_INFINITY,
+            repeat: isPlaying ? Number.POSITIVE_INFINITY : 0,
           }}
         />
       </div>

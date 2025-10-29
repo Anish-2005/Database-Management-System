@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   Code,
@@ -34,8 +34,19 @@ import Background from "../../components/Background"
 
 export default function PracticePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isPlaying, setIsPlaying] = useState(true)
+  const [isPlaying, setIsPlaying] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('animation-playing')
+      return saved !== null ? JSON.parse(saved) : true
+    }
+    return true
+  })
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
+
+  // Save animation state to localStorage
+  useEffect(() => {
+    localStorage.setItem('animation-playing', JSON.stringify(isPlaying))
+  }, [isPlaying])
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedChallenge, setSelectedChallenge] = useState<any>(null)
   const [currentQuestion, setCurrentQuestion] = useState(0)
