@@ -1146,7 +1146,7 @@ function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab:
                 <div className="bg-slate-800/20 rounded-xl p-4">
                   <h3 className="text-lg font-semibold text-white mb-3">Prerequisites</h3>
                   <div className="flex flex-wrap gap-2">
-                    {lab.prerequisites.map((prereq, index) => (
+                    {(lab.prerequisites || []).map((prereq, index) => (
                       <span key={index} className="px-3 py-1 bg-slate-700/50 rounded-full text-sm text-slate-300">
                         {prereq}
                       </span>
@@ -1158,7 +1158,7 @@ function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab:
                 <div className="bg-slate-800/20 rounded-xl p-4">
                   <h3 className="text-lg font-semibold text-white mb-3">Learning Objectives</h3>
                   <ul className="space-y-2">
-                    {lab.learningObjectives.map((objective, index) => (
+                    {(lab.learningObjectives || []).map((objective, index) => (
                       <li key={index} className="flex items-start gap-2 text-slate-300">
                         <div className="w-1.5 h-1.5 bg-purple-400 rounded-full mt-2 flex-shrink-0" />
                         {objective}
@@ -1175,7 +1175,7 @@ function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab:
                 <div className="bg-slate-800/20 rounded-xl p-4">
                   <h3 className="text-lg font-semibold text-white mb-3">Topics Covered</h3>
                   <div className="grid md:grid-cols-2 gap-2">
-                    {lab.topics.map((topic, index) => (
+                    {(lab.topics || []).map((topic, index) => (
                       <div key={index} className="flex items-center gap-2 text-slate-300">
                         <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full" />
                         {topic}
@@ -1204,7 +1204,7 @@ function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab:
                 <div className="bg-slate-800/20 rounded-xl p-4">
                   <h3 className="text-lg font-semibold text-white mb-3">Technologies & Tools</h3>
                   <div className="flex flex-wrap gap-2">
-                    {lab.technologies.map((tech, index) => (
+                    {(lab.technologies || []).map((tech, index) => (
                       <span key={index} className="px-3 py-1 bg-slate-700/50 rounded-full text-sm text-slate-300">
                         {tech}
                       </span>
@@ -1216,7 +1216,7 @@ function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab:
 
             {activeTab === 'code' && (
               <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6">
-                {lab.codeExamples.map((example, index) => (
+                {(lab.codeExamples || []).map((example, index) => (
                   <div key={index} className="bg-slate-800/20 rounded-xl p-4">
                     <h3 className="text-lg font-semibold text-white mb-3">{example.title}</h3>
                     <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
