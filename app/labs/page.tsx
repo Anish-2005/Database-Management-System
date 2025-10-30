@@ -764,19 +764,32 @@ type Lab = {
   technologies: string[]
 }
 
-function LabCard({ lab, onRequestEdit, onRequestDelete, onOpenDetail }: { lab: Lab; onRequestEdit: (lab: Lab) => void; onRequestDelete?: (lab: Lab) => void; onOpenDetail: (lab: Lab) => void }) {
+function LabCard({ lab, onRequestEdit, onRequestDelete, onOpenDetail, isDefault = false }: { lab: Lab; onRequestEdit: (lab: Lab) => void; onRequestDelete?: (lab: Lab) => void; onOpenDetail: (lab: Lab) => void; isDefault?: boolean }) {
   const IconComponent = lab.icon || Database
 
   return (
     <motion.article
       whileHover={{ y: -8, scale: 1.02 }}
-      className="relative p-6 rounded-3xl bg-slate-900/30 backdrop-blur-sm border border-slate-700 hover:border-purple-500/50 transition-all duration-300 group overflow-hidden flex flex-col cursor-pointer"
+      className={`relative p-6 rounded-3xl backdrop-blur-sm border transition-all duration-300 group overflow-hidden flex flex-col cursor-pointer ${
+        isDefault
+          ? 'bg-gradient-to-br from-slate-900/40 to-slate-800/40 border-emerald-500/30 hover:border-emerald-400/50 shadow-lg shadow-emerald-500/10'
+          : 'bg-slate-900/30 border-slate-700 hover:border-purple-500/50'
+      }`}
       onClick={() => onOpenDetail(lab)}
     >
       {/* Animated background gradient */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${lab.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300 rounded-3xl`} />
+      <div className={`absolute inset-0 bg-gradient-to-br opacity-5 group-hover:opacity-10 transition-opacity duration-300 rounded-3xl ${lab.gradient}`} />
       {/* Glow effect */}
-      <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${lab.gradient} blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+      <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${lab.gradient}`} />
+
+      {/* Default Lab Badge */}
+      {isDefault && (
+        <div className="absolute top-4 right-4 z-20">
+          <div className="px-2 py-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full text-xs font-medium text-white shadow-lg">
+            Featured
+          </div>
+        </div>
+      )}
 
       <div className="relative z-10 flex flex-col h-full">
         {/* Header with icon and metadata */}
@@ -1350,6 +1363,11 @@ export default function LabsPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isPlaying, setIsPlaying] = useState(true)
 
+  // Separate labs into default and real labs
+  const defaultLabIds = new Set(defaultLabs.map(lab => lab.id))
+  const defaultLabsList = labs.filter(lab => defaultLabIds.has(lab.id))
+  const realLabsList = labs.filter(lab => !defaultLabIds.has(lab.id))
+
   // Load animation state from localStorage after mount
   useEffect(() => {
     const saved = localStorage.getItem('animation-playing')
@@ -1389,8 +1407,8 @@ export default function LabsPage() {
     return Array.from(set) as string[]
   }, [labs])
 
-  const filtered = useMemo(() => {
-    return (labs || []).filter((lab) => {
+  const filteredDefaultLabs = useMemo(() => {
+    return defaultLabsList.filter((lab) => {
       const hay = (lab.title + " " + lab.description + " " + (lab.tags || []).join(" ") + " " + lab.instructor + " " + lab.category + " " + lab.environment).toLowerCase()
       const matchesQuery = query.trim() ? hay.includes(query.toLowerCase()) : true
       const matchesTag = activeTag ? (lab.tags || []).includes(activeTag) : true
@@ -1399,7 +1417,19 @@ export default function LabsPage() {
       const matchesInstructor = instructorFilter ? lab.instructor === instructorFilter : true
       return matchesQuery && matchesTag && matchesDifficulty && matchesCategory && matchesInstructor
     })
-  }, [labs, query, activeTag, difficultyFilter, categoryFilter, instructorFilter])
+  }, [defaultLabsList, query, activeTag, difficultyFilter, categoryFilter, instructorFilter])
+
+  const filteredRealLabs = useMemo(() => {
+    return realLabsList.filter((lab) => {
+      const hay = (lab.title + " " + lab.description + " " + (lab.tags || []).join(" ") + " " + lab.instructor + " " + lab.category + " " + lab.environment).toLowerCase()
+      const matchesQuery = query.trim() ? hay.includes(query.toLowerCase()) : true
+      const matchesTag = activeTag ? (lab.tags || []).includes(activeTag) : true
+      const matchesDifficulty = difficultyFilter ? lab.difficulty === difficultyFilter : true
+      const matchesCategory = categoryFilter ? lab.category === categoryFilter : true
+      const matchesInstructor = instructorFilter ? lab.instructor === instructorFilter : true
+      return matchesQuery && matchesTag && matchesDifficulty && matchesCategory && matchesInstructor
+    })
+  }, [realLabsList, query, activeTag, difficultyFilter, categoryFilter, instructorFilter])
 
   useEffect(() => {
     let mounted = true
@@ -1417,7 +1447,31 @@ export default function LabsPage() {
             return apiLab ? { ...defaultLab, ...apiLab } : defaultLab
           })
           // Add any new labs from API that aren't in defaults
-          const newLabs = apiLabs.filter((al: any) => !defaultLabs.some(dl => dl.id === al.id))
+          const newLabs = apiLabs.filter((al: any) => !defaultLabs.some(dl => dl.id === al.id)).map(apiLab => ({
+            ...apiLab,
+            category: 'General',
+            difficulty: 'Beginner' as const,
+            duration: '60 min',
+            completed: false,
+            rating: 0,
+            students: 0,
+            instructor: 'Community',
+            instructorAvatar: 'C',
+            icon: Database,
+            gradient: 'from-gray-500 to-slate-500',
+            topics: [],
+            prerequisites: [],
+            learningObjectives: [],
+            codeExamples: [],
+            quizQuestions: 0,
+            handsOnExercises: 0,
+            estimatedTime: '1 hour',
+            collaborators: 1,
+            lastUpdated: new Date().toISOString().split('T')[0],
+            version: '1.0',
+            environment: 'General',
+            technologies: []
+          }))
           setLabs([...mergedLabs, ...newLabs])
         } else {
           // Use default labs if API fails
@@ -1810,7 +1864,7 @@ export default function LabsPage() {
                 >
                   All Instructors
                 </motion.button>
-                {Array.from(new Set(labs.map(lab => lab.instructor))).slice(0, 2).map((instructor) => (
+                {Array.from(new Set(labs.map(lab => lab.instructor).filter(Boolean))).slice(0, 2).map((instructor) => (
                   <motion.button
                     key={instructor}
                     whileHover={{ scale: 1.05 }}
@@ -1850,15 +1904,84 @@ export default function LabsPage() {
           )}
         </motion.div>
 
-        {/* Labs Grid */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 mb-12"
-        >
-          {filtered.length === 0 ? (
-            <div className="col-span-full p-12 text-center bg-slate-900/30 backdrop-blur-sm border border-slate-700 rounded-3xl">
+        {/* Labs Sections */}
+        <div className="space-y-12">
+          {/* Default Labs Section */}
+          {filteredDefaultLabs.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/25">
+                  <Sparkles className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+                    Featured Labs
+                  </h2>
+                  <p className="text-slate-400">Curated database experiments and learning modules</p>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {filteredDefaultLabs.map((lab) => (
+                  <LabCard
+                    key={lab.id}
+                    lab={lab}
+                    onRequestEdit={handleRequestEdit}
+                    onRequestDelete={handleRequestDelete}
+                    onOpenDetail={handleOpenDetail}
+                    isDefault={true}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Real Labs Section */}
+          {filteredRealLabs.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/25">
+                  <Users className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
+                    Community Labs
+                  </h2>
+                  <p className="text-slate-400">User-created database experiments and custom projects</p>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {filteredRealLabs.map((lab) => (
+                  <LabCard
+                    key={lab.id}
+                    lab={lab}
+                    onRequestEdit={handleRequestEdit}
+                    onRequestDelete={handleRequestDelete}
+                    onOpenDetail={handleOpenDetail}
+                    isDefault={false}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* No Labs Found */}
+          {filteredDefaultLabs.length === 0 && filteredRealLabs.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="p-12 text-center bg-slate-900/30 backdrop-blur-sm border border-slate-700 rounded-3xl"
+            >
               <div className="w-16 h-16 bg-slate-800/40 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Search className="w-8 h-8 text-slate-400" />
               </div>
@@ -1872,19 +1995,9 @@ export default function LabsPage() {
               >
                 Clear Filters
               </motion.button>
-            </div>
-          ) : (
-            filtered.map((lab) => (
-              <LabCard 
-                key={lab.id} 
-                lab={lab} 
-                onRequestEdit={handleRequestEdit} 
-                onRequestDelete={handleRequestDelete} 
-                onOpenDetail={handleOpenDetail}
-              />
-            ))
+            </motion.div>
           )}
-        </motion.div>
+        </div>
 
         {/* Mobile Floating Action Button */}
         <motion.button 
