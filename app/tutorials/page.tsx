@@ -1374,7 +1374,7 @@ ORDER BY churn_probability DESC;`
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative p-8 bg-slate-900/30 backdrop-blur-sm border border-slate-700 rounded-3xl overflow-hidden"
+            className="mt-12 relative p-8 bg-slate-900/30 backdrop-blur-sm border border-slate-700 rounded-3xl overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 to-cyan-500/5 rounded-3xl" />
 
