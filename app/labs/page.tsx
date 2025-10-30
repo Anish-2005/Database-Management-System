@@ -1441,13 +1441,14 @@ export default function LabsPage() {
         if (!mounted) return
         if (res.ok && data?.labs) {
           // Merge API labs with default labs, keeping default data for existing labs
-          const apiLabs = data.labs.map((d: any) => ({ id: d.id, title: d.title, description: d.description, tags: d.tags || [], link: d.link || '#' }))
+          type ApiLab = { id: string; title: string; description: string; tags: string[]; link: string }
+          const apiLabs: ApiLab[] = data.labs.map((d: any) => ({ id: d.id, title: d.title, description: d.description, tags: d.tags || [], link: d.link || '#' }))
           const mergedLabs = defaultLabs.map(defaultLab => {
-            const apiLab = apiLabs.find((al: any) => al.id === defaultLab.id)
+            const apiLab = apiLabs.find((al) => al.id === defaultLab.id)
             return apiLab ? { ...defaultLab, ...apiLab } : defaultLab
           })
           // Add any new labs from API that aren't in defaults
-          const newLabs = apiLabs.filter((al: any) => !defaultLabs.some(dl => dl.id === al.id)).map(apiLab => ({
+          const newLabs = apiLabs.filter((al) => !defaultLabs.some(dl => dl.id === al.id)).map((apiLab: ApiLab) => ({
             ...apiLab,
             category: 'General',
             difficulty: 'Beginner' as const,
@@ -1913,7 +1914,7 @@ export default function LabsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <div className="flex items-center gap-4 mb-8">
+              <div className="flex items-center gap-4 my-8">
                 <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/25">
                   <Sparkles className="w-6 h-6 text-white" />
                 </div>
