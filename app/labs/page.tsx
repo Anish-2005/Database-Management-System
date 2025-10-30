@@ -1399,6 +1399,22 @@ export default function LabsPage() {
   const [newDescription, setNewDescription] = useState("")
   const [newTags, setNewTags] = useState("")
   const [newLink, setNewLink] = useState("")
+  const [newCategory, setNewCategory] = useState("")
+  const [newDifficulty, setNewDifficulty] = useState<'Beginner' | 'Intermediate' | 'Advanced'>('Beginner')
+  const [newDuration, setNewDuration] = useState("")
+  const [newInstructor, setNewInstructor] = useState("")
+  const [newInstructorAvatar, setNewInstructorAvatar] = useState("")
+  const [newTopics, setNewTopics] = useState("")
+  const [newPrerequisites, setNewPrerequisites] = useState("")
+  const [newLearningObjectives, setNewLearningObjectives] = useState("")
+  const [newCodeExamples, setNewCodeExamples] = useState("")
+  const [newQuizQuestions, setNewQuizQuestions] = useState("")
+  const [newHandsOnExercises, setNewHandsOnExercises] = useState("")
+  const [newEstimatedTime, setNewEstimatedTime] = useState("")
+  const [newEnvironment, setNewEnvironment] = useState("")
+  const [newTechnologies, setNewTechnologies] = useState("")
+  const [newVersion, setNewVersion] = useState("")
+  const [newCollaborators, setNewCollaborators] = useState("")
   const PASSCODE = 'letmein123'
 
   const tags = useMemo(() => {
@@ -1521,6 +1537,22 @@ export default function LabsPage() {
       setNewDescription(lab.description)
       setNewTags((lab.tags || []).join(','))
       setNewLink(lab.link || '')
+      setNewCategory(lab.category)
+      setNewDifficulty(lab.difficulty)
+      setNewDuration(lab.duration)
+      setNewInstructor(lab.instructor)
+      setNewInstructorAvatar(lab.instructorAvatar)
+      setNewTopics((lab.topics || []).join(', '))
+      setNewPrerequisites((lab.prerequisites || []).join(', '))
+      setNewLearningObjectives((lab.learningObjectives || []).join('\n'))
+      setNewCodeExamples(lab.codeExamples ? lab.codeExamples.map(ex => `${ex.title}|${ex.language}|${ex.code}`).join('\n---\n') : '')
+      setNewQuizQuestions(String(lab.quizQuestions))
+      setNewHandsOnExercises(String(lab.handsOnExercises))
+      setNewEstimatedTime(lab.estimatedTime)
+      setNewEnvironment(lab.environment)
+      setNewTechnologies((lab.technologies || []).join(', '))
+      setNewVersion(lab.version || '')
+      setNewCollaborators(String(lab.collaborators || 0))
       ;(async () => {
         try {
           const res = await fetch(`/api/labs?labId=${encodeURIComponent(lab.id)}`)
@@ -1610,7 +1642,48 @@ export default function LabsPage() {
     try {
       setCreating(true)
       const tagsArr = newTags.split(',').map(t => t.trim()).filter(Boolean)
-      const payload: any = { title: newTitle || 'Untitled Lab', description: newDescription || '', tags: tagsArr, link: newLink || '#' }
+      const topicsArr = newTopics.split(',').map(t => t.trim()).filter(Boolean)
+      const prerequisitesArr = newPrerequisites.split(',').map(p => p.trim()).filter(Boolean)
+      const learningObjectivesArr = newLearningObjectives.split('\n').map(l => l.trim()).filter(Boolean)
+      const technologiesArr = newTechnologies.split(',').map(t => t.trim()).filter(Boolean)
+      
+      // Parse code examples
+      const codeExamplesArr = newCodeExamples.split('\n---\n').map(block => {
+        const lines = block.trim().split('\n')
+        if (lines.length >= 2) {
+          const [title, language, ...codeLines] = lines
+          return {
+            title: title.replace('Title:', '').trim(),
+            language: language.replace('Language:', '').trim(),
+            code: codeLines.join('\n').trim()
+          }
+        }
+        return null
+      }).filter(Boolean)
+
+      const payload: any = {
+        title: newTitle || 'Untitled Lab',
+        description: newDescription || '',
+        tags: tagsArr,
+        link: newLink || '#',
+        category: newCategory || 'General',
+        difficulty: newDifficulty,
+        duration: newDuration || '60 min',
+        instructor: newInstructor || 'Community',
+        instructorAvatar: newInstructorAvatar || 'C',
+        topics: topicsArr,
+        prerequisites: prerequisitesArr,
+        learningObjectives: learningObjectivesArr,
+        codeExamples: codeExamplesArr,
+        quizQuestions: parseInt(newQuizQuestions) || 0,
+        handsOnExercises: parseInt(newHandsOnExercises) || 0,
+        estimatedTime: newEstimatedTime || '1 hour',
+        environment: newEnvironment || 'General',
+        technologies: technologiesArr,
+        version: newVersion || '1.0',
+        collaborators: parseInt(newCollaborators) || 0
+      }
+      
       if (editingLab) payload.id = editingLab.id
 
       const res = await fetch('/api/labs/meta', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
@@ -1636,6 +1709,22 @@ export default function LabsPage() {
       setNewDescription('')
       setNewTags('')
       setNewLink('')
+      setNewCategory('')
+      setNewDifficulty('Beginner')
+      setNewDuration('')
+      setNewInstructor('')
+      setNewInstructorAvatar('')
+      setNewTopics('')
+      setNewPrerequisites('')
+      setNewLearningObjectives('')
+      setNewCodeExamples('')
+      setNewQuizQuestions('')
+      setNewHandsOnExercises('')
+      setNewEstimatedTime('')
+      setNewEnvironment('')
+      setNewTechnologies('')
+      setNewVersion('')
+      setNewCollaborators('')
       setErFile(null)
       setRelFile(null)
       setErPreview(null)
@@ -2065,23 +2154,81 @@ export default function LabsPage() {
                   {/* Basic Info */}
                   <div className="space-y-4">
                     <div>
-                      <label className="text-sm font-medium text-slate-300 mb-2 block">Lab Title</label>
+                      <label className="text-sm font-medium text-slate-300 mb-2 block">Lab Title *</label>
                       <input 
                         value={newTitle} 
                         onChange={(e) => setNewTitle(e.target.value)} 
                         placeholder="Enter lab title"
                         className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                        required
                       />
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium text-slate-300 mb-2 block">Description</label>
-                      <input 
+                      <label className="text-sm font-medium text-slate-300 mb-2 block">Description *</label>
+                      <textarea 
                         value={newDescription} 
                         onChange={(e) => setNewDescription(e.target.value)} 
                         placeholder="Brief description of the lab"
-                        className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                        rows={3}
+                        className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors resize-none"
+                        required
                       />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm font-medium text-slate-300 mb-2 block">Category *</label>
+                        <select 
+                          value={newCategory} 
+                          onChange={(e) => setNewCategory(e.target.value)} 
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                        >
+                          <option value="">Select Category</option>
+                          <option value="Design">Design</option>
+                          <option value="Analytics">Analytics</option>
+                          <option value="Architecture">Architecture</option>
+                          <option value="DevOps">DevOps</option>
+                          <option value="Graph Databases">Graph Databases</option>
+                          <option value="IoT">IoT</option>
+                          <option value="General">General</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-slate-300 mb-2 block">Difficulty *</label>
+                        <select 
+                          value={newDifficulty} 
+                          onChange={(e) => setNewDifficulty(e.target.value as 'Beginner' | 'Intermediate' | 'Advanced')} 
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                        >
+                          <option value="Beginner">Beginner</option>
+                          <option value="Intermediate">Intermediate</option>
+                          <option value="Advanced">Advanced</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm font-medium text-slate-300 mb-2 block">Duration</label>
+                        <input 
+                          value={newDuration} 
+                          onChange={(e) => setNewDuration(e.target.value)} 
+                          placeholder="e.g., 180 min"
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-slate-300 mb-2 block">Estimated Time</label>
+                        <input 
+                          value={newEstimatedTime} 
+                          onChange={(e) => setNewEstimatedTime(e.target.value)} 
+                          placeholder="e.g., 3 hours"
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                        />
+                      </div>
                     </div>
 
                     <div>
@@ -2102,6 +2249,164 @@ export default function LabsPage() {
                         placeholder="https://..."
                         className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
                       />
+                    </div>
+                  </div>
+
+                  {/* Instructor Info */}
+                  <div className="border-t border-slate-800 pt-6">
+                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                      <User className="w-5 h-5 text-purple-400" />
+                      Instructor Information
+                    </h3>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-sm font-medium text-slate-300 mb-2 block">Instructor Name</label>
+                          <input 
+                            value={newInstructor} 
+                            onChange={(e) => setNewInstructor(e.target.value)} 
+                            placeholder="e.g., Dr. Sarah Chen"
+                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-sm font-medium text-slate-300 mb-2 block">Instructor Avatar</label>
+                          <input 
+                            value={newInstructorAvatar} 
+                            onChange={(e) => setNewInstructorAvatar(e.target.value)} 
+                            placeholder="e.g., SC"
+                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Learning Content */}
+                  <div className="border-t border-slate-800 pt-6">
+                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                      <BookOpen className="w-5 h-5 text-purple-400" />
+                      Learning Content
+                    </h3>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="text-sm font-medium text-slate-300 mb-2 block">Topics Covered</label>
+                        <input 
+                          value={newTopics} 
+                          onChange={(e) => setNewTopics(e.target.value)} 
+                          placeholder="comma,separated,topics"
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-slate-300 mb-2 block">Prerequisites</label>
+                        <input 
+                          value={newPrerequisites} 
+                          onChange={(e) => setNewPrerequisites(e.target.value)} 
+                          placeholder="comma,separated,prerequisites"
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-slate-300 mb-2 block">Learning Objectives</label>
+                        <textarea 
+                          value={newLearningObjectives} 
+                          onChange={(e) => setNewLearningObjectives(e.target.value)} 
+                          placeholder="One objective per line"
+                          rows={4}
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors resize-none"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-slate-300 mb-2 block">Code Examples</label>
+                        <textarea 
+                          value={newCodeExamples} 
+                          onChange={(e) => setNewCodeExamples(e.target.value)} 
+                          placeholder="Format: Title|Language|Code&#10;---&#10;Another Title|Language|Code"
+                          rows={6}
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors font-mono text-sm resize-none"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-sm font-medium text-slate-300 mb-2 block">Quiz Questions</label>
+                          <input 
+                            type="number"
+                            value={newQuizQuestions} 
+                            onChange={(e) => setNewQuizQuestions(e.target.value)} 
+                            placeholder="0"
+                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-sm font-medium text-slate-300 mb-2 block">Hands-on Exercises</label>
+                          <input 
+                            type="number"
+                            value={newHandsOnExercises} 
+                            onChange={(e) => setNewHandsOnExercises(e.target.value)} 
+                            placeholder="0"
+                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Technical Details */}
+                  <div className="border-t border-slate-800 pt-6">
+                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                      <Code className="w-5 h-5 text-purple-400" />
+                      Technical Details
+                    </h3>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="text-sm font-medium text-slate-300 mb-2 block">Environment</label>
+                        <input 
+                          value={newEnvironment} 
+                          onChange={(e) => setNewEnvironment(e.target.value)} 
+                          placeholder="e.g., MySQL 8.0, PostgreSQL 15"
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-slate-300 mb-2 block">Technologies & Tools</label>
+                        <input 
+                          value={newTechnologies} 
+                          onChange={(e) => setNewTechnologies(e.target.value)} 
+                          placeholder="comma,separated,technologies"
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-sm font-medium text-slate-300 mb-2 block">Version</label>
+                          <input 
+                            value={newVersion} 
+                            onChange={(e) => setNewVersion(e.target.value)} 
+                            placeholder="e.g., 1.0"
+                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-sm font-medium text-slate-300 mb-2 block">Collaborators</label>
+                          <input 
+                            type="number"
+                            value={newCollaborators} 
+                            onChange={(e) => setNewCollaborators(e.target.value)} 
+                            placeholder="0"
+                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
 
