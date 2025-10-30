@@ -1410,12 +1410,22 @@ export default function LabsPage() {
         const data = await res.json()
         if (!mounted) return
         if (res.ok && data?.labs) {
-          setLabs(data.labs.map((d: any) => ({ id: d.id, title: d.title, description: d.description, tags: d.tags || [], link: d.link || '#' })))
+          // Merge API labs with default labs, keeping default data for existing labs
+          const apiLabs = data.labs.map((d: any) => ({ id: d.id, title: d.title, description: d.description, tags: d.tags || [], link: d.link || '#' }))
+          const mergedLabs = defaultLabs.map(defaultLab => {
+            const apiLab = apiLabs.find((al: any) => al.id === defaultLab.id)
+            return apiLab ? { ...defaultLab, ...apiLab } : defaultLab
+          })
+          // Add any new labs from API that aren't in defaults
+          const newLabs = apiLabs.filter((al: any) => !defaultLabs.some(dl => dl.id === al.id))
+          setLabs([...mergedLabs, ...newLabs])
         } else {
-          // keep empty
+          // Use default labs if API fails
+          setLabs(defaultLabs)
         }
       } catch (err) {
-        // ignore for now
+        // Use default labs if API fails
+        setLabs(defaultLabs)
       } finally {
         if (mounted) setLoadingLabs(false)
       }
@@ -1812,7 +1822,7 @@ export default function LabsPage() {
                         : 'bg-slate-800/40 text-slate-300 hover:bg-slate-700/40 border border-slate-700'
                     }`}
                   >
-                    {instructor.split(' ')[0]}
+                    {instructor?.split(' ')[0] || 'Unknown'}
                   </motion.button>
                 ))}
               </div>
