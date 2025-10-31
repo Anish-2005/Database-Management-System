@@ -1020,25 +1020,25 @@ function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab:
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
-        className="relative bg-slate-900/95 backdrop-blur-xl border border-slate-800 rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-hidden shadow-2xl"
+        className="relative bg-slate-900/95 backdrop-blur-xl border border-slate-800 rounded-2xl sm:rounded-3xl w-full max-w-4xl mx-4 sm:mx-auto max-h-[95vh] sm:max-h-[90vh] overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-800">
-          <div className="flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${lab.gradient} flex items-center justify-center shadow-lg`}>
-              <IconComponent className="w-6 h-6 text-white" />
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-slate-800">
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+            <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-br ${lab.gradient} flex items-center justify-center shadow-lg flex-shrink-0`}>
+              <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
-            <div>
-              <h2 className="text-2xl font-bold text-white">{lab.title}</h2>
-              <p className="text-slate-400">{lab.description}</p>
+            <div className="min-w-0 flex-1">
+              <h2 className="text-lg sm:text-2xl font-bold text-white truncate">{lab.title}</h2>
+              <p className="text-slate-400 text-sm sm:text-base line-clamp-2">{lab.description}</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 ml-2 flex-shrink-0">
             <button
               onClick={() => onRequestEdit(lab)}
-              className="px-4 py-2 bg-slate-800/40 hover:bg-slate-700/40 rounded-xl text-slate-300 hover:text-white transition-colors border border-slate-700"
+              className="px-3 sm:px-4 py-2 bg-slate-800/40 hover:bg-slate-700/40 rounded-lg sm:rounded-xl text-slate-300 hover:text-white transition-colors text-sm sm:text-base"
             >
               Edit
             </button>
@@ -1046,22 +1046,22 @@ function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab:
               onClick={onClose}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="p-2 rounded-xl bg-slate-800/40 hover:bg-slate-700/40 transition-colors"
+              className="p-2 rounded-lg sm:rounded-xl bg-slate-800/40 hover:bg-slate-700/40 transition-colors"
             >
-              <X className="w-5 h-5 text-slate-400" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
             </motion.button>
           </div>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center gap-1 p-6 border-b border-slate-800">
+        <div className="flex items-center gap-1 p-4 sm:p-6 border-b border-slate-800 overflow-x-auto">
           {tabs.map((tab) => {
             const TabIcon = tab.icon
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap flex-shrink-0 ${
                   activeTab === tab.id
                     ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg'
                     : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
@@ -1075,62 +1075,62 @@ function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab:
         </div>
 
         {/* Content */}
-        <div className="overflow-y-auto max-h-[calc(90vh-160px)]">
-          <div className="p-6">
+        <div className="overflow-y-auto max-h-[calc(95vh-200px)] sm:max-h-[calc(90vh-160px)]">
+          <div className="p-4 sm:p-6">
             {activeTab === 'overview' && (
-              <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6">
+              <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-4 sm:space-y-6">
                 {/* Key Stats */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="bg-slate-800/40 rounded-xl p-4 text-center">
-                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${lab.gradient} flex items-center justify-center mx-auto mb-2`}>
-                      <Clock className="w-5 h-5 text-white" />
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+                  <div className="bg-slate-800/40 rounded-xl p-3 sm:p-4 text-center">
+                    <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br ${lab.gradient} flex items-center justify-center mx-auto mb-2`}>
+                      <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                     </div>
-                    <div className="text-2xl font-bold text-white">{lab.duration}</div>
+                    <div className="text-lg sm:text-2xl font-bold text-white">{lab.duration}</div>
                     <div className="text-xs text-slate-400">Duration</div>
                   </div>
-                  <div className="bg-slate-800/40 rounded-xl p-4 text-center">
-                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${lab.gradient} flex items-center justify-center mx-auto mb-2`}>
-                      <Star className="w-5 h-5 text-white" />
+                  <div className="bg-slate-800/40 rounded-xl p-3 sm:p-4 text-center">
+                    <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br ${lab.gradient} flex items-center justify-center mx-auto mb-2`}>
+                      <Star className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                     </div>
-                    <div className="text-2xl font-bold text-white">{lab.rating}</div>
+                    <div className="text-lg sm:text-2xl font-bold text-white">{lab.rating}</div>
                     <div className="text-xs text-slate-400">Rating</div>
                   </div>
-                  <div className="bg-slate-800/40 rounded-xl p-4 text-center">
-                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${lab.gradient} flex items-center justify-center mx-auto mb-2`}>
-                      <Users className="w-5 h-5 text-white" />
+                  <div className="bg-slate-800/40 rounded-xl p-3 sm:p-4 text-center">
+                    <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br ${lab.gradient} flex items-center justify-center mx-auto mb-2`}>
+                      <Users className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                     </div>
-                    <div className="text-2xl font-bold text-white">{lab.students}</div>
+                    <div className="text-lg sm:text-2xl font-bold text-white">{lab.students}</div>
                     <div className="text-xs text-slate-400">Students</div>
                   </div>
-                  <div className="bg-slate-800/40 rounded-xl p-4 text-center">
-                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${lab.gradient} flex items-center justify-center mx-auto mb-2`}>
-                      <Target className="w-5 h-5 text-white" />
+                  <div className="bg-slate-800/40 rounded-xl p-3 sm:p-4 text-center">
+                    <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br ${lab.gradient} flex items-center justify-center mx-auto mb-2`}>
+                      <Target className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                     </div>
-                    <div className="text-2xl font-bold text-white">{lab.quizQuestions}</div>
+                    <div className="text-lg sm:text-2xl font-bold text-white">{lab.quizQuestions}</div>
                     <div className="text-xs text-slate-400">Questions</div>
                   </div>
                 </div>
 
                 {/* Instructor & Difficulty */}
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   <div className="bg-slate-800/20 rounded-xl p-4">
-                    <h3 className="text-lg font-semibold text-white mb-3">Instructor</h3>
+                    <h3 className="text-base sm:text-lg font-semibold text-white mb-3">Instructor</h3>
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center text-lg font-medium text-slate-300">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-slate-700 rounded-full flex items-center justify-center text-base sm:text-lg font-medium text-slate-300">
                         {lab.instructorAvatar}
                       </div>
                       <div>
-                        <div className="font-medium text-white">{lab.instructor}</div>
-                        <div className="text-sm text-slate-400">Database Expert</div>
+                        <div className="font-medium text-white text-sm sm:text-base">{lab.instructor}</div>
+                        <div className="text-xs sm:text-sm text-slate-400">Database Expert</div>
                       </div>
                     </div>
                   </div>
 
                   <div className="bg-slate-800/20 rounded-xl p-4">
-                    <h3 className="text-lg font-semibold text-white mb-3">Lab Details</h3>
+                    <h3 className="text-base sm:text-lg font-semibold text-white mb-3">Lab Details</h3>
                     <div className="space-y-2">
                       <div className="flex justify-between">
-                        <span className="text-slate-400">Difficulty:</span>
+                        <span className="text-slate-400 text-sm">Difficulty:</span>
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                           lab.difficulty === 'Beginner' ? 'bg-green-500/20 text-green-300' :
                           lab.difficulty === 'Intermediate' ? 'bg-yellow-500/20 text-yellow-300' :
@@ -1140,16 +1140,16 @@ function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab:
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-slate-400">Category:</span>
-                        <span className="text-white">{lab.category}</span>
+                        <span className="text-slate-400 text-sm">Category:</span>
+                        <span className="text-white text-sm">{lab.category}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-slate-400">Environment:</span>
-                        <span className="text-white">{lab.environment}</span>
+                        <span className="text-slate-400 text-sm">Environment:</span>
+                        <span className="text-white text-sm">{lab.environment}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-slate-400">Version:</span>
-                        <span className="text-white">{lab.version}</span>
+                        <span className="text-slate-400 text-sm">Version:</span>
+                        <span className="text-white text-sm">{lab.version}</span>
                       </div>
                     </div>
                   </div>
@@ -1157,10 +1157,10 @@ function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab:
 
                 {/* Prerequisites */}
                 <div className="bg-slate-800/20 rounded-xl p-4">
-                  <h3 className="text-lg font-semibold text-white mb-3">Prerequisites</h3>
+                  <h3 className="text-base sm:text-lg font-semibold text-white mb-3">Prerequisites</h3>
                   <div className="flex flex-wrap gap-2">
                     {(lab.prerequisites || []).map((prereq, index) => (
-                      <span key={index} className="px-3 py-1 bg-slate-700/50 rounded-full text-sm text-slate-300">
+                      <span key={index} className="px-2 sm:px-3 py-1 bg-slate-700/50 rounded-full text-xs sm:text-sm text-slate-300">
                         {prereq}
                       </span>
                     ))}
@@ -1169,10 +1169,10 @@ function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab:
 
                 {/* Learning Objectives */}
                 <div className="bg-slate-800/20 rounded-xl p-4">
-                  <h3 className="text-lg font-semibold text-white mb-3">Learning Objectives</h3>
+                  <h3 className="text-base sm:text-lg font-semibold text-white mb-3">Learning Objectives</h3>
                   <ul className="space-y-2">
                     {(lab.learningObjectives || []).map((objective, index) => (
-                      <li key={index} className="flex items-start gap-2 text-slate-300">
+                      <li key={index} className="flex items-start gap-2 text-slate-300 text-sm sm:text-base">
                         <div className="w-1.5 h-1.5 bg-purple-400 rounded-full mt-2 flex-shrink-0" />
                         {objective}
                       </li>
@@ -1227,13 +1227,14 @@ function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab:
               </motion.div>
             )}
 
+            {/* Code Tab */}
             {activeTab === 'code' && (
-              <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6">
+              <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-4 sm:space-y-6">
                 {(lab.codeExamples || []).map((example, index) => (
-                  <div key={index} className="bg-slate-800/20 rounded-xl p-4">
-                    <h3 className="text-lg font-semibold text-white mb-3">{example.title}</h3>
-                    <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
-                      <pre className="text-sm text-slate-300 overflow-x-auto">
+                  <div key={index} className="bg-slate-800/20 rounded-xl p-4 sm:p-6">
+                    <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">{example.title}</h3>
+                    <div className="bg-slate-900/50 rounded-lg p-3 sm:p-4 border border-slate-700">
+                      <pre className="text-xs sm:text-sm text-slate-300 overflow-x-auto">
                         <code className={`language-${example.language}`}>{example.code}</code>
                       </pre>
                     </div>
@@ -1242,69 +1243,70 @@ function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab:
               </motion.div>
             )}
 
+            {/* Resources Tab */}
             {activeTab === 'resources' && (
-              <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6">
+              <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-4 sm:space-y-6">
                 {/* SQL Schema */}
-                <div className="bg-slate-800/20 rounded-xl p-4">
-                  <h3 className="text-lg font-semibold text-white mb-3">SQL Schema</h3>
+                <div className="bg-slate-800/20 rounded-xl p-4 sm:p-6">
+                  <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">SQL Schema</h3>
                   {loading ? (
-                    <div className="p-8 text-center">
-                      <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                      <p className="text-slate-400">Loading schema...</p>
+                    <div className="p-6 sm:p-8 text-center">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                      <p className="text-slate-400 text-sm sm:text-base">Loading schema...</p>
                     </div>
                   ) : sqlSchema ? (
-                    <pre className="p-4 bg-slate-900/50 border border-slate-700 rounded-lg text-sm text-slate-300 overflow-x-auto">
+                    <pre className="p-3 sm:p-4 bg-slate-900/50 border border-slate-700 rounded-lg text-xs sm:text-sm text-slate-300 overflow-x-auto">
                       {sqlSchema}
                     </pre>
                   ) : (
-                    <div className="p-8 text-center bg-slate-900/20 border border-slate-700 rounded-lg">
-                      <p className="text-slate-400">No SQL schema available</p>
+                    <div className="p-6 sm:p-8 text-center bg-slate-900/20 border border-slate-700 rounded-lg">
+                      <p className="text-slate-400 text-sm sm:text-base">No SQL schema available</p>
                     </div>
                   )}
                 </div>
 
                 {/* Diagrams */}
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   {/* ER Diagram */}
-                  <div className="bg-slate-800/20 rounded-xl p-4">
-                    <h3 className="text-lg font-semibold text-white mb-3">ER Diagram</h3>
+                  <div className="bg-slate-800/20 rounded-xl p-4 sm:p-6">
+                    <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">ER Diagram</h3>
                     {loading ? (
-                      <div className="h-48 bg-slate-900/20 border border-slate-700 rounded-lg flex items-center justify-center">
-                        <div className="w-6 h-6 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+                      <div className="h-32 sm:h-48 bg-slate-900/20 border border-slate-700 rounded-lg flex items-center justify-center">
+                        <div className="w-4 h-4 sm:w-6 sm:h-6 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
                       </div>
                     ) : erDiagram ? (
-                      <div className="bg-slate-900/20 border border-slate-700 rounded-lg p-4">
+                      <div className="bg-slate-900/20 border border-slate-700 rounded-lg p-3 sm:p-4">
                         <img
                           src={erDiagram}
                           alt="ER Diagram"
-                          className="w-full h-48 object-contain rounded-lg"
+                          className="w-full h-32 sm:h-48 object-contain rounded-lg"
                         />
                       </div>
                     ) : (
-                      <div className="h-48 bg-slate-900/20 border border-slate-700 rounded-lg flex items-center justify-center">
-                        <p className="text-slate-400">No ER diagram available</p>
+                      <div className="h-32 sm:h-48 bg-slate-900/20 border border-slate-700 rounded-lg flex items-center justify-center">
+                        <p className="text-slate-400 text-sm sm:text-base">No ER diagram available</p>
                       </div>
                     )}
                   </div>
 
                   {/* Relationship Diagram */}
-                  <div className="bg-slate-800/20 rounded-xl p-4">
-                    <h3 className="text-lg font-semibold text-white mb-3">Relationship Model</h3>
+                  <div className="bg-slate-800/20 rounded-xl p-4 sm:p-6">
+                    <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Relationship Model</h3>
                     {loading ? (
-                      <div className="h-48 bg-slate-900/20 border border-slate-700 rounded-lg flex items-center justify-center">
-                        <div className="w-6 h-6 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+                      <div className="h-32 sm:h-48 bg-slate-900/20 border border-slate-700 rounded-lg flex items-center justify-center">
+                        <div className="w-4 h-4 sm:w-6 sm:h-6 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
                       </div>
                     ) : relationshipDiagram ? (
-                      <div className="bg-slate-900/20 border border-slate-700 rounded-lg p-4">
+                      <div className="bg-slate-900/20 border border-slate-700 rounded-lg p-3 sm:p-4">
                         <img
                           src={relationshipDiagram}
                           alt="Relationship Model"
-                          className="w-full h-48 object-contain rounded-lg"
+                          className="w-full h-32 sm:h-48 object-contain rounded-lg"
                         />
                       </div>
                     ) : (
-                      <div className="h-48 bg-slate-900/20 border border-slate-700 rounded-lg flex items-center justify-center">
-                        <p className="text-slate-400">No relationship model available</p>
+                      <div className="h-32 sm:h-48 bg-slate-900/20 border border-slate-700 rounded-lg flex items-center justify-center">
+                        <p className="text-slate-400 text-sm sm:text-base">No relationship model available</p>
                       </div>
                     )}
                   </div>
@@ -1315,31 +1317,31 @@ function LabDetailModal({ lab, onClose, onRequestEdit, onRequestDelete }: { lab:
         </div>
 
         {/* Footer Actions */}
-        <div className="flex items-center justify-between p-6 border-t border-slate-800">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between p-4 sm:p-6 border-t border-slate-800 gap-3 sm:gap-0">
+          <div className="flex items-center gap-3 order-2 sm:order-1">
             <button
               onClick={() => onRequestEdit(lab)}
-              className="px-6 py-3 bg-slate-800/40 hover:bg-slate-700/40 rounded-xl text-slate-300 hover:text-white transition-colors border border-slate-700"
+              className="flex-1 sm:flex-none px-4 sm:px-6 py-3 bg-slate-800/40 hover:bg-slate-700/40 rounded-xl text-slate-300 hover:text-white transition-colors border border-slate-700 text-sm sm:text-base"
             >
               Edit Lab
             </button>
             {onRequestDelete && (
               <button
                 onClick={() => onRequestDelete(lab)}
-                className="px-6 py-3 bg-red-600/10 hover:bg-red-600/20 text-red-300 border border-red-700/20 rounded-xl transition-colors"
+                className="flex-1 sm:flex-none px-4 sm:px-6 py-3 bg-red-600/10 hover:bg-red-600/20 text-red-300 border border-red-700/20 rounded-xl transition-colors text-sm sm:text-base"
               >
                 Delete Lab
               </button>
             )}
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="text-sm text-slate-400">
+          <div className="flex items-center justify-between sm:justify-end gap-3 order-1 sm:order-2">
+            <div className="text-xs sm:text-sm text-slate-400">
               Last updated: {lab.lastUpdated}
             </div>
             <button
               onClick={() => alert(`Launching ${lab.title}`)}
-              className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/40 transition-all"
+              className="px-4 sm:px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/40 transition-all text-sm sm:text-base"
             >
               Launch Lab
             </button>
@@ -2129,13 +2131,13 @@ export default function LabsPage() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="absolute right-0 top-0 h-full w-full lg:w-[480px] bg-slate-900/95 backdrop-blur-xl border-l border-slate-800 shadow-2xl overflow-y-auto"
+              className="absolute right-0 top-0 h-full w-full max-w-sm sm:max-w-md md:max-w-lg lg:w-[480px] bg-slate-900/95 backdrop-blur-xl border-l border-slate-800 shadow-2xl overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
+              <div className="p-4 sm:p-6">
+                <div className="flex items-center justify-between mb-4 sm:mb-6">
                   <div>
-                    <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                       {editingLab ? 'Edit Lab' : 'Create Lab'}
                     </h2>
                     <p className="text-slate-400 text-sm">Configure your database experiment</p>
@@ -2150,16 +2152,16 @@ export default function LabsPage() {
                   </motion.button>
                 </div>
 
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   {/* Basic Info */}
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     <div>
                       <label className="text-sm font-medium text-slate-300 mb-2 block">Lab Title *</label>
                       <input 
                         value={newTitle} 
                         onChange={(e) => setNewTitle(e.target.value)} 
                         placeholder="Enter lab title"
-                        className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                        className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                         required
                       />
                     </div>
@@ -2171,18 +2173,18 @@ export default function LabsPage() {
                         onChange={(e) => setNewDescription(e.target.value)} 
                         placeholder="Brief description of the lab"
                         rows={3}
-                        className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors resize-none"
+                        className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors resize-none text-base"
                         required
                       />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                       <div>
                         <label className="text-sm font-medium text-slate-300 mb-2 block">Category *</label>
                         <select 
                           value={newCategory} 
                           onChange={(e) => setNewCategory(e.target.value)} 
-                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                         >
                           <option value="">Select Category</option>
                           <option value="Design">Design</option>
@@ -2200,7 +2202,7 @@ export default function LabsPage() {
                         <select 
                           value={newDifficulty} 
                           onChange={(e) => setNewDifficulty(e.target.value as 'Beginner' | 'Intermediate' | 'Advanced')} 
-                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                         >
                           <option value="Beginner">Beginner</option>
                           <option value="Intermediate">Intermediate</option>
@@ -2209,14 +2211,14 @@ export default function LabsPage() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                       <div>
                         <label className="text-sm font-medium text-slate-300 mb-2 block">Duration</label>
                         <input 
                           value={newDuration} 
                           onChange={(e) => setNewDuration(e.target.value)} 
                           placeholder="e.g., 180 min"
-                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                         />
                       </div>
 
@@ -2226,7 +2228,7 @@ export default function LabsPage() {
                           value={newEstimatedTime} 
                           onChange={(e) => setNewEstimatedTime(e.target.value)} 
                           placeholder="e.g., 3 hours"
-                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                         />
                       </div>
                     </div>
@@ -2237,7 +2239,7 @@ export default function LabsPage() {
                         value={newTags} 
                         onChange={(e) => setNewTags(e.target.value)} 
                         placeholder="comma,separated,tags"
-                        className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                        className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                       />
                     </div>
 
@@ -2247,26 +2249,26 @@ export default function LabsPage() {
                         value={newLink} 
                         onChange={(e) => setNewLink(e.target.value)} 
                         placeholder="https://..."
-                        className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                        className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                       />
                     </div>
                   </div>
 
                   {/* Instructor Info */}
-                  <div className="border-t border-slate-800 pt-6">
-                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                      <User className="w-5 h-5 text-purple-400" />
+                  <div className="border-t border-slate-800 pt-4 sm:pt-6">
+                    <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 flex items-center gap-2">
+                      <User className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
                       Instructor Information
                     </h3>
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-3 sm:space-y-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <div>
                           <label className="text-sm font-medium text-slate-300 mb-2 block">Instructor Name</label>
                           <input 
                             value={newInstructor} 
                             onChange={(e) => setNewInstructor(e.target.value)} 
                             placeholder="e.g., Dr. Sarah Chen"
-                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                           />
                         </div>
 
@@ -2276,7 +2278,7 @@ export default function LabsPage() {
                             value={newInstructorAvatar} 
                             onChange={(e) => setNewInstructorAvatar(e.target.value)} 
                             placeholder="e.g., SC"
-                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                           />
                         </div>
                       </div>
@@ -2284,19 +2286,19 @@ export default function LabsPage() {
                   </div>
 
                   {/* Learning Content */}
-                  <div className="border-t border-slate-800 pt-6">
-                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                      <BookOpen className="w-5 h-5 text-purple-400" />
+                  <div className="border-t border-slate-800 pt-4 sm:pt-6">
+                    <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 flex items-center gap-2">
+                      <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
                       Learning Content
                     </h3>
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       <div>
                         <label className="text-sm font-medium text-slate-300 mb-2 block">Topics Covered</label>
                         <input 
                           value={newTopics} 
                           onChange={(e) => setNewTopics(e.target.value)} 
                           placeholder="comma,separated,topics"
-                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                         />
                       </div>
 
@@ -2306,7 +2308,7 @@ export default function LabsPage() {
                           value={newPrerequisites} 
                           onChange={(e) => setNewPrerequisites(e.target.value)} 
                           placeholder="comma,separated,prerequisites"
-                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                         />
                       </div>
 
@@ -2317,7 +2319,7 @@ export default function LabsPage() {
                           onChange={(e) => setNewLearningObjectives(e.target.value)} 
                           placeholder="One objective per line"
                           rows={4}
-                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors resize-none"
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors resize-none text-base"
                         />
                       </div>
 
@@ -2332,7 +2334,7 @@ export default function LabsPage() {
                         />
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <div>
                           <label className="text-sm font-medium text-slate-300 mb-2 block">Quiz Questions</label>
                           <input 
@@ -2340,7 +2342,7 @@ export default function LabsPage() {
                             value={newQuizQuestions} 
                             onChange={(e) => setNewQuizQuestions(e.target.value)} 
                             placeholder="0"
-                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                           />
                         </div>
 
@@ -2351,7 +2353,7 @@ export default function LabsPage() {
                             value={newHandsOnExercises} 
                             onChange={(e) => setNewHandsOnExercises(e.target.value)} 
                             placeholder="0"
-                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                           />
                         </div>
                       </div>
@@ -2359,19 +2361,19 @@ export default function LabsPage() {
                   </div>
 
                   {/* Technical Details */}
-                  <div className="border-t border-slate-800 pt-6">
-                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                      <Code className="w-5 h-5 text-purple-400" />
+                  <div className="border-t border-slate-800 pt-4 sm:pt-6">
+                    <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 flex items-center gap-2">
+                      <Code className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
                       Technical Details
                     </h3>
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       <div>
                         <label className="text-sm font-medium text-slate-300 mb-2 block">Environment</label>
                         <input 
                           value={newEnvironment} 
                           onChange={(e) => setNewEnvironment(e.target.value)} 
                           placeholder="e.g., MySQL 8.0, PostgreSQL 15"
-                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                         />
                       </div>
 
@@ -2381,18 +2383,18 @@ export default function LabsPage() {
                           value={newTechnologies} 
                           onChange={(e) => setNewTechnologies(e.target.value)} 
                           placeholder="comma,separated,technologies"
-                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                          className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                         />
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <div>
                           <label className="text-sm font-medium text-slate-300 mb-2 block">Version</label>
                           <input 
                             value={newVersion} 
                             onChange={(e) => setNewVersion(e.target.value)} 
                             placeholder="e.g., 1.0"
-                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                           />
                         </div>
 
@@ -2403,23 +2405,23 @@ export default function LabsPage() {
                             value={newCollaborators} 
                             onChange={(e) => setNewCollaborators(e.target.value)} 
                             placeholder="0"
-                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors"
+                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-base"
                           />
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="border-t border-slate-800 pt-6">
-                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                      <Sparkles className="w-5 h-5 text-purple-400" />
+                  <div className="border-t border-slate-800 pt-4 sm:pt-6">
+                    <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
                       Lab Resources
                     </h3>
 
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       {/* ER Diagram */}
                       <div>
-                        <label className="text-sm font-medium text-slate-300 mb-3 block">ER Diagram</label>
+                        <label className="text-sm font-medium text-slate-300 mb-2 sm:mb-3 block">ER Diagram</label>
                         <div className="space-y-3">
                           <input 
                             id="er-input" 
@@ -2436,7 +2438,7 @@ export default function LabsPage() {
                                 setErPreview(null)
                               }
                             }} 
-                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-purple-500 file:text-white hover:file:bg-purple-600 transition-colors"
+                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 file:mr-4 file:py-2 file:px-3 sm:file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-purple-500 file:text-white hover:file:bg-purple-600 transition-colors text-base"
                           />
                           {erFile && (
                             <div className="text-sm text-slate-400 bg-slate-800/20 rounded-lg p-3">
@@ -2445,7 +2447,7 @@ export default function LabsPage() {
                           )}
                           {erPreview && (
                             <div className="mt-2">
-                              <img src={erPreview} alt="ER preview" className="rounded-lg border border-slate-700 max-h-48 w-full object-contain" />
+                              <img src={erPreview} alt="ER preview" className="rounded-lg border border-slate-700 max-h-32 sm:max-h-48 w-full object-contain" />
                             </div>
                           )}
                         </div>
@@ -2453,7 +2455,7 @@ export default function LabsPage() {
 
                       {/* Relationship Model */}
                       <div>
-                        <label className="text-sm font-medium text-slate-300 mb-3 block">Relationship Model</label>
+                        <label className="text-sm font-medium text-slate-300 mb-2 sm:mb-3 block">Relationship Model</label>
                         <div className="space-y-3">
                           <input 
                             id="rel-input" 
@@ -2470,7 +2472,7 @@ export default function LabsPage() {
                                 setRelPreview(null)
                               }
                             }} 
-                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-cyan-500 file:text-white hover:file:bg-cyan-600 transition-colors"
+                            className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 file:mr-4 file:py-2 file:px-3 sm:file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-cyan-500 file:text-white hover:file:bg-cyan-600 transition-colors text-base"
                           />
                           {relFile && (
                             <div className="text-sm text-slate-400 bg-slate-800/20 rounded-lg p-3">
@@ -2479,7 +2481,7 @@ export default function LabsPage() {
                           )}
                           {relPreview && (
                             <div className="mt-2">
-                              <img src={relPreview} alt="Relationship preview" className="rounded-lg border border-slate-700 max-h-48 w-full object-contain" />
+                              <img src={relPreview} alt="Relationship preview" className="rounded-lg border border-slate-700 max-h-32 sm:max-h-48 w-full object-contain" />
                             </div>
                           )}
                         </div>
@@ -2487,11 +2489,11 @@ export default function LabsPage() {
 
                       {/* SQL Schema */}
                       <div>
-                        <label className="text-sm font-medium text-slate-300 mb-3 block">SQL Schema</label>
+                        <label className="text-sm font-medium text-slate-300 mb-2 sm:mb-3 block">SQL Schema</label>
                         <textarea 
                           value={sqlSchema} 
                           onChange={(e) => setSqlSchema(e.target.value)} 
-                          rows={8} 
+                          rows={6}
                           placeholder="CREATE TABLE users (...);"
                           className="w-full p-3 rounded-xl bg-slate-800/40 border border-slate-700 focus:border-purple-500/50 focus:outline-none transition-colors text-sm font-mono resize-none"
                         />
@@ -2500,16 +2502,16 @@ export default function LabsPage() {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex items-center justify-between gap-4 pt-6 border-t border-slate-800">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 pt-4 sm:pt-6 border-t border-slate-800">
                     <div className="text-xs text-slate-500 flex-1">
                       Supported: .dia files, images. Image files show previews.
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
                       <motion.button 
                         onClick={() => { setShowAdd(false); setEditingLab(null); }}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="px-6 py-3 rounded-xl bg-slate-800/40 hover:bg-slate-700/40 transition-colors border border-slate-700"
+                        className="px-4 sm:px-6 py-3 rounded-xl bg-slate-800/40 hover:bg-slate-700/40 transition-colors border border-slate-700 text-sm sm:text-base"
                       >
                         Cancel
                       </motion.button>
@@ -2518,10 +2520,10 @@ export default function LabsPage() {
                         disabled={creating}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                        className="px-4 sm:px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm sm:text-base"
                       >
                         {creating ? (
-                          <span className="flex items-center gap-2">
+                          <span className="flex items-center justify-center gap-2">
                             <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                             {editingLab ? 'Updating...' : 'Creating...'}
                           </span>
