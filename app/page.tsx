@@ -1,68 +1,15 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import {
-  Database,
-  Server,
-  Shield,
-  Zap,
-  BarChart3,
-  Lock,
-  GitBranch,
-  Cpu,
-  Network,
-  Code,
-  Layers,
-  ArrowRight,
-  ChevronDown,
-  Menu,
-  X,
-  Cloud,
-  CpuIcon,
-  Binary,
-  CircuitBoard,
-  Sparkles,
-  Rocket,
-  Brain,
-  Globe,
-  Workflow,
-  Infinity as InfinityIcon,
-  Gauge,
-  Key,
-  Users,
-  Eye,
-  Clock,
-  Search,
-  Filter,
-  GitCompare,
-  Terminal,
-  Container,
-  DatabaseZap,
-  Cctv,
-  ShieldCheck,
-  ArrowUpRight,
-  Play,
-  Pause,
-  RotateCcw,
-  Scan,
-  Radar,
-  Satellite,
-  Orbit,
-  Atom,
-  Cuboid,
-  Pyramid,
-  Cylinder,
-  Sparkle,
-  Waves,
-  FishSymbol,
-  TreePine,
-  Mountain,
-  Cloudy,
-} from "lucide-react"
-import * as THREE from "three"
+import { useEffect, useState } from "react"
 import Navbar from "../components/Navbar"
 import Background from "../components/Background"
+import HeroSection from "../components/home/HeroSection"
+import FeaturesSection from "../components/home/FeaturesSection"
+import ArchitectureSection from "../components/home/ArchitectureSection"
+import CapabilitiesSection from "../components/home/CapabilitiesSection"
+import PerformanceSection from "../components/home/PerformanceSection"
+import CTASection from "../components/home/CTASection"
+import Footer from "../components/Footer"
 
 // Color palette for vibrant theme
 const COLORS = {
