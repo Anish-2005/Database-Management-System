@@ -1,3 +1,5 @@
+import { BookOpen, Code, Zap, Shield, Layers, Terminal } from 'lucide-react'
+
 export interface DocumentationSection {
   title: string
   content: string
@@ -38,7 +40,7 @@ export const documentationData: DocumentationItem[] = [
     id: 1,
     title: "Getting Started with QuantumDB",
     category: "Getting Started",
-    icon: "BookOpen",
+    icon: BookOpen,
     gradient: "from-green-500 to-emerald-500",
     description: "Learn the basics of QuantumDB and set up your first database",
     content: {
@@ -76,7 +78,7 @@ pip install quantumdb`
     id: 2,
     title: "SQL Query Reference",
     category: "SQL Reference",
-    icon: "Code",
+    icon: Code,
     gradient: "from-blue-500 to-cyan-500",
     description: "Complete reference for SQL queries and syntax",
     content: {
@@ -118,7 +120,7 @@ INSERT INTO users (name, email) VALUES
     id: 3,
     title: "Performance Optimization Guide",
     category: "Performance",
-    icon: "Zap",
+    icon: Zap,
     gradient: "from-yellow-500 to-orange-500",
     description: "Optimize your database for maximum performance",
     content: {
@@ -156,7 +158,7 @@ WHERE user_id = 123
     id: 4,
     title: "Security Best Practices",
     category: "Security",
-    icon: "Shield",
+    icon: Shield,
     gradient: "from-red-500 to-pink-500",
     description: "Secure your database against threats",
     content: {
@@ -193,7 +195,7 @@ db.query(query, [userInput]);`
     id: 5,
     title: "Database Architecture",
     category: "Architecture",
-    icon: "Layers",
+    icon: Layers,
     gradient: "from-purple-500 to-pink-500",
     description: "Design scalable database architectures",
     content: {
@@ -226,7 +228,7 @@ CREATE TABLE orders (
     id: 6,
     title: "API Reference",
     category: "API Reference",
-    icon: "Terminal",
+    icon: Terminal,
     gradient: "from-cyan-500 to-blue-500",
     description: "Complete API documentation and examples",
     content: {
