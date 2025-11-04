@@ -42,7 +42,7 @@
 
 <div align="center">
 
-**QuantumDB** is a revolutionary database management system that combines the power of **AI-driven optimization**, **real-time analytics**, and **stunning visualizations** into one seamless platform. Built with cutting-edge technologies, it offers an unparalleled experience for developers, data scientists, and database administrators.
+**QuantumDB** is a comprehensive database learning and management platform featuring interactive tutorials, hands-on labs, practice challenges, and real-time progress tracking. Built with modern web technologies and a modular component architecture, it provides an engaging educational experience for database enthusiasts at all skill levels.
 
 ### 🎯 Why Choose QuantumDB?
 
@@ -51,54 +51,54 @@
 <table align="center">
 <tr>
 <td align="center" width="33%">
-<img src="https://img.icons8.com/fluency/96/artificial-intelligence.png" width="80"/>
+<img src="https://img.icons8.com/fluency/96/learning.png" width="80"/>
 
-### 🤖 AI-Powered
-**Intelligent Query Optimization**
+### 📚 Interactive Learning
+**Comprehensive Tutorials**
 
-Machine learning algorithms automatically optimize your queries for peak performance
-</td>
-<td align="center" width="33%">
-<img src="https://img.icons8.com/fluency/96/speed.png" width="80"/>
-
-### ⚡ Lightning Fast
-**Sub-Millisecond Latency**
-
-Distributed architecture with edge computing for blazing-fast response times
+Step-by-step tutorials covering SQL fundamentals, advanced queries, and database design patterns
 </td>
 <td align="center" width="33%">
 <img src="https://img.icons8.com/fluency/96/3d-design.png" width="80"/>
 
 ### 🎨 Beautiful UI/UX
-**Stunning Visualizations**
+**Stunning Animations**
 
-3D data representations with smooth 60fps animations powered by Three.js
+Smooth 60fps animations with Framer Motion, particle effects, and responsive design
+</td>
+<td align="center" width="33%">
+<img src="https://img.icons8.com/fluency/96/speed.png" width="80"/>
+
+### ⚡ Modern Stack
+**Next.js & React**
+
+Built with Next.js 16, React 19, TypeScript 5, and Tailwind CSS 4 for optimal performance
 </td>
 </tr>
 <tr>
 <td align="center" width="33%">
-<img src="https://img.icons8.com/fluency/96/security-lock.png" width="80"/>
+<img src="https://img.icons8.com/fluency/96/test-tube.png" width="80"/>
 
-### 🛡️ Enterprise Security
-**Military-Grade Protection**
+### � Hands-on Labs
+**Practical Experiments**
 
-AES-256 encryption with zero-trust architecture and comprehensive audit trails
+Real-world database scenarios with code examples, exercises, and interactive challenges
 </td>
 <td align="center" width="33%">
-<img src="https://img.icons8.com/fluency/96/infinity.png" width="80"/>
+<img src="https://img.icons8.com/fluency/96/trophy.png" width="80"/>
 
-### ♾️ Infinite Scale
-**Horizontal Scaling**
+### 🏆 Progress Tracking
+**Gamified Learning**
 
-Seamlessly scale from thousands to millions of users with zero downtime
+Track your progress, earn achievements, maintain streaks, and compete on leaderboards
 </td>
 <td align="center" width="33%">
-<img src="https://img.icons8.com/fluency/96/learning.png" width="80"/>
+<img src="https://img.icons8.com/fluency/96/module.png" width="80"/>
 
-### 📚 Interactive Learning
-**Gamified Education**
+### 🧩 Modular Architecture
+**Reusable Components**
 
-Master database concepts through hands-on challenges and real-time feedback
+Clean, maintainable code with custom hooks, common components, and separation of concerns
 </td>
 </tr>
 </table>
@@ -108,174 +108,154 @@ Master database concepts through hands-on challenges and real-time feedback
 
 ## 🌟 Key Features
 
-<!-- Divider -->
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%"/>
-
 ## 🌟 Key Features
 
 <div align="center">
 
-### 🎨 Immersive User Experience
-
-<img src="https://skillicons.dev/icons?i=react,nextjs,tailwind,threejs" />
+### 📚 Comprehensive Learning Platform
 
 </div>
 
 <details open>
-<summary><b>🎭 Advanced Animation System</b></summary>
+<summary><b>📖 Interactive Tutorials</b></summary>
 <br/>
 
 ```typescript
-// Particle System with 1000+ Interactive Elements
-const particleAnimation = {
-  count: 1000,
-  colors: ['#8b5cf6', '#06b6d4', '#f59e0b'],
-  physics: {
-    velocity: { min: 0.1, max: 2.5 },
-    gravity: 0.05,
-    bounce: 0.8
-  },
-  interactions: {
-    mouse: { range: 150, force: 5 },
-    collision: true,
-    connect: { distance: 120, opacity: 0.5 }
+// Modular Tutorial System
+const tutorialFeatures = {
+  categories: ['Fundamentals', 'SQL', 'Design', 'Performance', 'Security', 'Analytics', 'NoSQL', 'DevOps', 'AI/ML'],
+  totalTutorials: 50+,
+  features: {
+    codeExamples: 'Syntax-highlighted code blocks',
+    quizzes: 'Interactive assessments with explanations',
+    progress: 'Real-time progress tracking',
+    bookmarks: 'Save favorites for later',
+    filtering: 'Advanced search and filters'
   }
 }
 ```
 
 **Features:**
-- ✨ **Framer Motion** - 60fps smooth animations
-- 🎯 **Gesture Recognition** - Touch & mouse interactions
-- 🌊 **Fluid Transitions** - Morphing shapes & colors
-- 🎪 **Micro-interactions** - Delightful hover effects
-- 🎵 **Sound Design** - Optional audio feedback
+- ✨ **Step-by-Step Lessons** - Progressive learning path
+- 🎯 **Hands-on Exercises** - Practice with real SQL
+- 📊 **Progress Tracking** - Monitor your advancement
+- 🔖 **Bookmark System** - Save tutorials for later
+- � **Quiz System** - Test your knowledge
 
 </details>
 
 <details>
-<summary><b>🎮 3D Data Visualization</b></summary>
+<summary><b>🔬 Database Labs</b></summary>
 <br/>
 
 ```typescript
-// Three.js Integration for Database Schema Visualization
-scene.add(createDatabaseVisualization({
-  tables: {
-    geometry: 'BoxGeometry(2, 1, 0.5)',
-    material: 'PhongMaterial({ color: 0x8b5cf6, transparent: true })',
-    animation: 'rotate360'
-  },
-  relationships: {
-    geometry: 'CylinderGeometry(0.05, 0.05, 5)',
-    material: 'BasicMaterial({ color: 0x06b6d4 })',
-    animation: 'pulseGlow'
+// Comprehensive Lab Environment
+const labFeatures = {
+  categories: ['Design', 'Analytics', 'Architecture', 'DevOps', 'Graph Databases', 'IoT'],
+  realWorldScenarios: true,
+  features: {
+    codeEditor: 'Multi-language support (SQL, Python, Cypher)',
+    environments: ['MySQL', 'PostgreSQL', 'MongoDB', 'Neo4j', 'TimescaleDB'],
+    difficulty: ['Beginner', 'Intermediate', 'Advanced'],
+    duration: '180-330 minutes per lab'
   }
-}))
+}
 ```
 
 **Capabilities:**
-- 🧊 **3D Schema Explorer** - Interactive table relationships
-- 📊 **Real-time Graphs** - Animated data flow visualization
-- 🌐 **360° Navigation** - Full camera controls
-- 🎨 **Custom Shaders** - GPU-accelerated rendering
-- 📱 **WebGL** - Cross-platform 3D support
+- � **Practical Experiments** - Real-world database scenarios
+- � **Code Examples** - Working code snippets
+- � **Learning Objectives** - Clear goals for each lab
+- 🔐 **Passcode Protection** - Secure lab management
+- � **Progress Monitoring** - Track completion status
 
 </details>
 
 <details>
-<summary><b>🤖 AI-Powered Intelligence</b></summary>
+<summary><b>💪 Practice Challenges</b></summary>
+<br/>
+
+```typescript
+// Gamified Practice System
+const practiceFeatures = {
+  challengeTypes: ['SQL Queries', 'Schema Design', 'Optimization', 'Debugging'],
+  difficulty: ['Easy', 'Medium', 'Hard', 'Expert'],
+  features: {
+    realTimeExecution: true,
+    hints: 'Progressive hint system',
+    solutions: 'Detailed explanations',
+    scoring: 'Performance-based rating',
+    leaderboards: 'Global rankings'
+  }
+}
+```
+
+**Features:**
+- 🎮 **Interactive Challenges** - Solve real problems
+- ⚡ **Instant Feedback** - Real-time validation
+- � **Hint System** - Get help when needed
+- 🏅 **Achievement System** - Unlock badges
+- � **Performance Analytics** - Track your skills
+
+</details>
+
+<details>
+<summary><b>🎨 Modern UI/UX</b></summary>
+<br/>
+
+```typescript
+// Component Architecture
+const uiFeatures = {
+  framework: 'Next.js 16 + React 19',
+  styling: 'Tailwind CSS 4',
+  animations: 'Framer Motion 12.23',
+  components: {
+    common: ['PageHeader', 'StatsGrid', 'SectionWrapper', 'SectionHeader', 'CardGrid'],
+    modular: 'All pages componentized',
+    customHooks: 'Data management, filters, interactions',
+    typeScript: 'Full type safety'
+  }
+}
+```
+
+**Design Features:**
+- ✨ **Smooth Animations** - 60fps with Framer Motion
+- 🎨 **Dark Theme** - Eye-friendly interface
+- � **Responsive Design** - Mobile-first approach
+- 🧩 **Modular Components** - Reusable UI elements
+- 🎯 **Consistent Styling** - Unified design system
+
+</details>
+
+<details>
+<summary><b>� Progress Tracking</b></summary>
 <br/>
 
 <div align="center">
 
 ```mermaid
 flowchart LR
-    A[📝 User Query] --> B{🤖 AI Engine}
-    B --> C[🔍 Analyze Syntax]
-    B --> D[⚡ Optimize Structure]
-    B --> E[📊 Predict Performance]
-    C --> F[💡 Suggestions]
-    D --> F
-    E --> F
-    F --> G[✅ Optimized Query]
+    A[👤 User] --> B[� Start Tutorial]
+    B --> C[💻 Practice Code]
+    C --> D{✅ Complete?}
+    D -->|Yes| E[🏆 Earn Points]
+    D -->|No| C
+    E --> F[� Update Progress]
+    F --> G[🎖️ Unlock Achievements]
     
     style A fill:#8b5cf6,stroke:#6d28d9,color:#fff
-    style B fill:#06b6d4,stroke:#0891b2,color:#fff
-    style G fill:#10b981,stroke:#059669,color:#fff
+    style E fill:#10b981,stroke:#059669,color:#fff
+    style G fill:#f59e0b,stroke:#d97706,color:#fff
 ```
 
 </div>
 
-**Intelligence Features:**
-- 🧠 **Smart Completion** - Context-aware suggestions
-- 🎯 **Query Optimization** - ML-driven performance tuning
-- 📈 **Predictive Analysis** - Forecasting & trends
-- 🚨 **Anomaly Detection** - Real-time monitoring
-- 💬 **Natural Language** - SQL generation from plain English
-
-</details>
-
-<details>
-<summary><b>🚀 Performance & Scalability</b></summary>
-<br/>
-
-<div align="center">
-
-| Metric | Performance | Technology |
-|:------:|:-----------:|:----------:|
-| **Query Latency** | `12.5ms` | Edge Computing |
-| **Throughput** | `2.1 GB/s` | Distributed Cache |
-| **Concurrent Users** | `100K+` | Load Balancing |
-| **Data Compression** | `85%` | Advanced Algorithms |
-| **Uptime** | `99.99%` | Multi-Region HA |
-
-</div>
-
-**Architecture:**
-- 🌍 **Multi-Region** - Global data replication
-- ⚡ **Edge Nodes** - CDN with 200+ locations
-- 🔄 **Auto-Scaling** - Dynamic resource allocation
-- 💾 **Smart Caching** - Redis + Elasticsearch
-- 🛡️ **Failover** - Automatic recovery < 30s
-
-</details>
-
-<details>
-<summary><b>🔐 Enterprise Security</b></summary>
-<br/>
-
-```mermaid
-graph TB
-    subgraph "🛡️ Security Layers"
-        A[👤 User Request] --> B[🔑 Authentication]
-        B --> C[🎫 Authorization]
-        C --> D[🔒 Encryption AES-256]
-        D --> E[🚨 Threat Detection]
-        E --> F[📝 Audit Logging]
-        F --> G[💾 Secure Database]
-    end
-    
-    subgraph "🔐 Protection Mechanisms"
-        H[DDoS Protection]
-        I[SQL Injection Guard]
-        J[XSS Prevention]
-        K[CSRF Tokens]
-    end
-    
-    B -.-> H
-    C -.-> I
-    D -.-> J
-    E -.-> K
-    
-    style A fill:#8b5cf6,stroke:#6d28d9,color:#fff
-    style G fill:#10b981,stroke:#059669,color:#fff
-```
-
-**Security Features:**
-- 🔐 **Zero-Trust** - Continuous verification
-- 🛡️ **WAF** - Web Application Firewall
-- 📋 **Compliance** - SOC2, GDPR, HIPAA
-- 🔍 **Penetration Testing** - Regular audits
-- 🚨 **Real-time Alerts** - Instant notifications
+**Tracking Features:**
+- � **Dashboard** - Visual progress overview
+- � **Streak System** - Maintain daily learning
+- 🎯 **Goals & Milestones** - Set personal targets
+- � **Analytics** - Detailed performance metrics
+- 🏆 **Achievements** - Unlock badges and rewards
 
 </details>
 
