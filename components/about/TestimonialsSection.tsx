@@ -1,6 +1,8 @@
-import { motion } from "framer-motion"
 import { AboutTestimonial } from "../../lib/aboutData"
 import { TestimonialCard } from "./TestimonialCard"
+import { SectionWrapper } from "../common/SectionWrapper"
+import { SectionHeader } from "../common/SectionHeader"
+import { CardGrid } from "../common/CardGrid"
 
 interface TestimonialsSectionProps {
   testimonials: AboutTestimonial[]
@@ -8,20 +10,13 @@ interface TestimonialsSectionProps {
 
 export const TestimonialsSection = ({ testimonials }: TestimonialsSectionProps) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="mb-16"
-    >
-      <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold text-white mb-4">What Our Learners Say</h2>
-        <p className="text-slate-400 max-w-2xl mx-auto">
-          Real feedback from real learners who have transformed their careers with QuantumDB
-        </p>
-      </div>
+    <SectionWrapper className="mb-16">
+      <SectionHeader
+        title="What Our Learners Say"
+        description="Real feedback from real learners who have transformed their careers with QuantumDB"
+      />
 
-      <div className="grid md:grid-cols-3 gap-6">
+      <CardGrid columns={3}>
         {testimonials.map((testimonial, index) => (
           <TestimonialCard
             key={index}
@@ -29,7 +24,7 @@ export const TestimonialsSection = ({ testimonials }: TestimonialsSectionProps) 
             index={index}
           />
         ))}
-      </div>
-    </motion.div>
+      </CardGrid>
+    </SectionWrapper>
   )
 }
