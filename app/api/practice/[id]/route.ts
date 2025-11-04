@@ -39,7 +39,7 @@ export async function GET(
 // PUT - Update practice (requires passcode)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     if (!verifyPasscode(request)) {
@@ -51,9 +51,10 @@ export async function PUT(
 
     await mongoosePromise
     const body = await request.json()
+    const { id } = await params
     
     const practice = await Practice.findOneAndUpdate(
-      { id: parseInt(params.id) },
+      { id: parseInt(id) },
       { $set: body },
       { new: true, runValidators: true }
     )
@@ -78,7 +79,7 @@ export async function PUT(
 // DELETE practice (requires passcode)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     if (!verifyPasscode(request)) {
@@ -89,8 +90,9 @@ export async function DELETE(
     }
 
     await mongoosePromise
+    const { id } = await params
     
-    const practice = await Practice.findOneAndDelete({ id: parseInt(params.id) })
+    const practice = await Practice.findOneAndDelete({ id: parseInt(id) })
 
     if (!practice) {
       return NextResponse.json(
