@@ -18,7 +18,7 @@ export const PageHeader = ({
   badge,
   title,
   description,
-  className = "text-center mb-16"
+  className = "text-center my-16"
 }: PageHeaderProps) => {
   const IconComponent = badge.icon
 

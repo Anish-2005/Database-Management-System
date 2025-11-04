@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Search, Clock, Users, Star, CheckCircle, Bookmark, Heart, Code, Database } from "lucide-react"
+import { Search, Clock, Users, Star, CheckCircle, Bookmark, Heart, Code, Database, BarChart3, Layers, Zap, Target, Brain, TrendingUp } from "lucide-react"
 import { Lab } from '../../lib/labsData'
 
 interface LabsGridProps {
@@ -27,6 +27,19 @@ export default function LabsGrid({
   onLabClick,
   getDifficultyColor
 }: LabsGridProps) {
+  // Icon mapping function
+  const getIconComponent = (iconName: string) => {
+    const iconMap: Record<string, any> = {
+      Database,
+      BarChart3,
+      Layers,
+      Zap,
+      Target,
+      Brain,
+      TrendingUp
+    }
+    return iconMap[iconName] || Database
+  }
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -76,7 +89,7 @@ export default function LabsGrid({
       ) : (
         // Lab cards
         filteredLabs.map((lab, index) => {
-          const Icon = lab.icon
+          const IconComponent = getIconComponent(lab.icon)
           return (
             <motion.div
               key={lab.id}
@@ -121,7 +134,7 @@ export default function LabsGrid({
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <div className="flex-1">
                     <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${lab.gradient} flex items-center justify-center shadow-lg mb-4`}>
-                      <Icon className="w-6 h-6 text-white" />
+                      <IconComponent className="w-6 h-6 text-white" />
                     </div>
                     <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all">
                       {lab.title}
