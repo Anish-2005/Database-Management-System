@@ -94,23 +94,7 @@ function TutorialsContainer() {
         setInstructorFilter={filters.setInstructorFilter}
       />
 
-      {/* Toggle Advanced Filters */}
-      <div className="flex justify-center my-12">
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => filters.setShowAdvancedFilters(!filters.showAdvancedFilters)}
-          className="px-6 py-3 bg-slate-800/40 hover:bg-slate-700/40 border border-slate-700 rounded-xl text-slate-300 hover:text-white transition-all flex items-center gap-2"
-        >
-          <motion.div
-            animate={{ rotate: filters.showAdvancedFilters ? 180 : 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            ▼
-          </motion.div>
-          {filters.showAdvancedFilters ? 'Hide' : 'Show'} Advanced Filters
-        </motion.button>
-      </div>
+     
 
       {/* Tutorials Grid Section */}
       <TutorialsGridSection
