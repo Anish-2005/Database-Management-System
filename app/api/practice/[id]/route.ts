@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDB } from '@/lib/mongoose'
+import mongoosePromise from '@/lib/mongoose'
 import Practice from '@/lib/models/Practice'
 
 const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || 'admin123'
@@ -12,11 +12,12 @@ function verifyPasscode(request: NextRequest): boolean {
 // GET single practice
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await connectDB()
-    const practice = await Practice.findOne({ id: parseInt(params.id) })
+    await mongoosePromise
+    const { id } = await params
+    const practice = await Practice.findOne({ id: parseInt(id) })
     
     if (!practice) {
       return NextResponse.json(
@@ -48,7 +49,7 @@ export async function PUT(
       )
     }
 
-    await connectDB()
+    await mongoosePromise
     const body = await request.json()
     
     const practice = await Practice.findOneAndUpdate(
@@ -87,7 +88,7 @@ export async function DELETE(
       )
     }
 
-    await connectDB()
+    await mongoosePromise
     
     const practice = await Practice.findOneAndDelete({ id: parseInt(params.id) })
 

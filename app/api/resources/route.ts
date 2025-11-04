@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDB } from '@/lib/mongoose'
+import mongoosePromise from '@/lib/mongoose'
 import Resource from '@/lib/models/Resource'
 
 const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || 'admin123'
@@ -12,7 +12,7 @@ function verifyPasscode(request: NextRequest): boolean {
 // GET all resources
 export async function GET() {
   try {
-    await connectDB()
+    await mongoosePromise
     const resources = await Resource.find({}).sort({ id: 1 })
     return NextResponse.json({ success: true, data: resources })
   } catch (error: any) {
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    await connectDB()
+    await mongoosePromise
     const body = await request.json()
 
     const lastResource = await Resource.findOne().sort({ id: -1 })

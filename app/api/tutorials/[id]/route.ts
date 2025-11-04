@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDB } from '@/lib/mongoose'
+import mongoosePromise from '@/lib/mongoose'
 import Tutorial from '@/lib/models/Tutorial'
 
 // Passcode verification helper
@@ -13,11 +13,12 @@ function verifyPasscode(request: NextRequest): boolean {
 // GET single tutorial
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await connectDB()
-    const tutorial = await Tutorial.findOne({ id: parseInt(params.id) })
+    await mongoosePromise
+    const { id } = await params
+    const tutorial = await Tutorial.findOne({ id: parseInt(id) })
     
     if (!tutorial) {
       return NextResponse.json(
@@ -39,7 +40,7 @@ export async function GET(
 // PUT - Update tutorial (requires passcode)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Verify passcode
@@ -50,11 +51,12 @@ export async function PUT(
       )
     }
 
-    await connectDB()
+    await mongoosePromise
     const body = await request.json()
+    const { id } = await params
     
     const tutorial = await Tutorial.findOneAndUpdate(
-      { id: parseInt(params.id) },
+      { id: parseInt(id) },
       { $set: body },
       { new: true, runValidators: true }
     )
@@ -79,7 +81,7 @@ export async function PUT(
 // DELETE tutorial (requires passcode)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Verify passcode
@@ -90,9 +92,10 @@ export async function DELETE(
       )
     }
 
-    await connectDB()
+    await mongoosePromise
+    const { id } = await params
     
-    const tutorial = await Tutorial.findOneAndDelete({ id: parseInt(params.id) })
+    const tutorial = await Tutorial.findOneAndDelete({ id: parseInt(id) })
 
     if (!tutorial) {
       return NextResponse.json(

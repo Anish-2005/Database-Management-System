@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDB } from '@/lib/mongoose'
+import mongoosePromise from '@/lib/mongoose'
 import { CommunityEvent } from '@/lib/models/Community'
 
 const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || 'admin123'
@@ -12,7 +12,7 @@ function verifyPasscode(request: NextRequest): boolean {
 // GET all events
 export async function GET() {
   try {
-    await connectDB()
+    await mongoosePromise
     const events = await CommunityEvent.find({}).sort({ id: 1 })
     return NextResponse.json({ success: true, data: events })
   } catch (error: any) {
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    await connectDB()
+    await mongoosePromise
     const body = await request.json()
 
     const lastEvent = await CommunityEvent.findOne().sort({ id: -1 })

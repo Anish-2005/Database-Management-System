@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDB } from '@/lib/mongoose'
+import mongoosePromise from '@/lib/mongoose'
 import Resource from '@/lib/models/Resource'
 
 const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || 'admin123'
@@ -12,11 +12,12 @@ function verifyPasscode(request: NextRequest): boolean {
 // GET single resource
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await connectDB()
-    const resource = await Resource.findOne({ id: parseInt(params.id) })
+    await mongoosePromise
+    const { id } = await params
+    const resource = await Resource.findOne({ id: parseInt(id) })
     
     if (!resource) {
       return NextResponse.json(
@@ -38,7 +39,7 @@ export async function GET(
 // PUT - Update resource (requires passcode)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     if (!verifyPasscode(request)) {
@@ -48,11 +49,12 @@ export async function PUT(
       )
     }
 
-    await connectDB()
+    await mongoosePromise
     const body = await request.json()
+    const { id } = await params
     
     const resource = await Resource.findOneAndUpdate(
-      { id: parseInt(params.id) },
+      { id: parseInt(id) },
       { $set: body },
       { new: true, runValidators: true }
     )
@@ -77,7 +79,7 @@ export async function PUT(
 // DELETE resource (requires passcode)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     if (!verifyPasscode(request)) {
@@ -87,9 +89,10 @@ export async function DELETE(
       )
     }
 
-    await connectDB()
+    await mongoosePromise
+    const { id } = await params
     
-    const resource = await Resource.findOneAndDelete({ id: parseInt(params.id) })
+    const resource = await Resource.findOneAndDelete({ id: parseInt(id) })
 
     if (!resource) {
       return NextResponse.json(

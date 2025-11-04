@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDB } from '@/lib/mongoose'
+import mongoosePromise from '@/lib/mongoose'
 import Tutorial from '@/lib/models/Tutorial'
 
 // Passcode verification helper
@@ -13,7 +13,7 @@ function verifyPasscode(request: NextRequest): boolean {
 // GET all tutorials
 export async function GET() {
   try {
-    await connectDB()
+    await mongoosePromise
     const tutorials = await Tutorial.find({}).sort({ id: 1 })
     return NextResponse.json({ success: true, data: tutorials })
   } catch (error: any) {
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    await connectDB()
+    await mongoosePromise
     const body = await request.json()
 
     // Generate new ID
