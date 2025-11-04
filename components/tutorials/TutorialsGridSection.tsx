@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Search, Clock, Users, Star, CheckCircle, Bookmark, Heart, Code } from "lucide-react"
+import { Search, Clock, Users, Star, CheckCircle, Bookmark, Heart, Code, Database, Layers, Zap, Shield, BarChart3, Sparkles } from "lucide-react"
 
 interface Tutorial {
   id: number
@@ -33,6 +33,18 @@ interface TutorialsGridSectionProps {
   getDifficultyColor: (difficulty: string) => string
 }
 
+interface TutorialsGridSectionProps {
+  isLoading: boolean
+  filteredTutorials: Tutorial[]
+  tutorialProgress: Record<number, number>
+  bookmarkedTutorials: Set<number>
+  favoriteTutorials: Set<number>
+  toggleBookmark: (id: number) => void
+  toggleFavorite: (id: number) => void
+  setSelectedTutorial: (tutorial: Tutorial) => void
+  getDifficultyColor: (difficulty: string) => string
+}
+
 export default function TutorialsGridSection({
   isLoading,
   filteredTutorials,
@@ -44,6 +56,19 @@ export default function TutorialsGridSection({
   setSelectedTutorial,
   getDifficultyColor
 }: TutorialsGridSectionProps) {
+  // Icon mapping function
+  const getIconComponent = (iconName: string) => {
+    const iconMap: Record<string, any> = {
+      Database,
+      Layers,
+      Zap,
+      Shield,
+      BarChart3,
+      Sparkles,
+      Code
+    }
+    return iconMap[iconName] || Database
+  }
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -93,7 +118,7 @@ export default function TutorialsGridSection({
       ) : (
         // Tutorial cards
         filteredTutorials.map((tutorial, index) => {
-          const Icon = tutorial.icon
+          const IconComponent = getIconComponent(tutorial.icon)
           return (
             <motion.div
               key={tutorial.id}
@@ -138,7 +163,7 @@ export default function TutorialsGridSection({
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <div className="flex-1">
                     <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${tutorial.gradient} flex items-center justify-center shadow-lg mb-4`}>
-                      <Icon className="w-6 h-6 text-white" />
+                      <IconComponent className="w-6 h-6 text-white" />
                     </div>
                     <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all">
                       {tutorial.title}
