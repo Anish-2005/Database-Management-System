@@ -10,6 +10,9 @@ import {
   Sparkles,
 } from "lucide-react"
 import { motion } from "framer-motion"
+import { useAuth } from "../lib/contexts/AuthContext"
+import AuthModal from "./auth/AuthModal"
+import UserProfile from "./auth/UserProfile"
 interface NavbarProps {
   currentPage?: string
   subtitle?: string
@@ -31,6 +34,9 @@ export default function Navbar({
 }: NavbarProps) {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
   const [scrolled, setScrolled] = useState(false)
+  const [authModalOpen, setAuthModalOpen] = useState(false)
+
+  const { user, loading } = useAuth()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -198,7 +204,7 @@ export default function Navbar({
             </motion.button>
           )}
 
-          {showLaunchDemo && (
+          {showLaunchDemo && !user && !loading && (
             <button className="relative px-6  bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500 rounded-lg font-medium text-white overflow-hidden group hover:scale-105 active:scale-95 transform transition-all duration-200">
               {/* Shine effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shine" />
@@ -211,6 +217,22 @@ export default function Navbar({
                 <Rocket className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
               </span>
             </button>
+          )}
+
+          {/* Authentication */}
+          {!loading && (
+            user ? (
+              <UserProfile />
+            ) : (
+              <motion.button
+                onClick={() => setAuthModalOpen(true)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-2 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700 rounded-lg text-slate-300 hover:text-white transition-colors"
+              >
+                Sign In
+              </motion.button>
+            )
           )}
         </div>
 
@@ -255,7 +277,7 @@ export default function Navbar({
               )
             })}
             
-            {showLaunchDemo && (
+            {showLaunchDemo && !user && !loading && (
               <div className="pt-4 border-t border-slate-700/50 animate-fade-in" style={{ animationDelay: `${navItems.length * 50}ms` }}>
                 <button className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 rounded-lg font-medium text-white flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition-transform">
                   Launch Demo
@@ -263,9 +285,55 @@ export default function Navbar({
                 </button>
               </div>
             )}
+
+            {/* Mobile Authentication */}
+            {!loading && (
+              <div className="pt-4 border-t border-slate-700/50 animate-fade-in" style={{ animationDelay: `${(navItems.length + 1) * 50}ms` }}>
+                {user ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3 px-4 py-2">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-semibold text-sm">
+                        {user.displayName?.charAt(0) || user.email?.charAt(0) || 'U'}
+                      </div>
+                      <div>
+                        <div className="text-white font-medium text-sm">
+                          {user.displayName || user.email?.split('@')[0]}
+                        </div>
+                        <div className="text-slate-400 text-xs">Signed in</div>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        // Handle logout
+                        setIsMenuOpen(false)
+                      }}
+                      className="w-full px-4 py-2 text-left text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setAuthModalOpen(true)
+                      setIsMenuOpen(false)
+                    }}
+                    className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 rounded-lg font-medium text-white flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition-transform"
+                  >
+                    Sign In
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+      />
 
       <style jsx>{`
         @keyframes fade-in {

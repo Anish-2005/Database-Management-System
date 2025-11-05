@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import CursorAnimation from "@/components/CursorAnimation";
+import { AuthProvider } from "@/lib/contexts/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,14 +29,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased cursor-none`}
       >
-        {/* Cursor Animation Component */}
-        <CursorAnimation 
-          color="#8b5cf6"
-          size={24}
-          blendMode="screen"
-        />
-        
-        {children}
+        <AuthProvider>
+          {/* Cursor Animation Component */}
+          <CursorAnimation 
+            color="#8b5cf6"
+            size={24}
+            blendMode="screen"
+          />
+          
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
