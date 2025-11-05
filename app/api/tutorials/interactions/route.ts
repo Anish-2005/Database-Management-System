@@ -13,7 +13,13 @@ export async function GET(request: NextRequest) {
 
     await clientPromise
 
-    const interactions = await UserTutorialInteraction.find({ userId })
+    // Ensure the collection exists
+    const db = (await clientPromise).db()
+    await db.createCollection('usertutorialinteractions').catch(() => {
+      // Collection might already exist, ignore error
+    })
+
+    const interactions = await UserTutorialInteraction.find({ userId }).catch(() => [])
 
     // Transform data for frontend
     const result = {
