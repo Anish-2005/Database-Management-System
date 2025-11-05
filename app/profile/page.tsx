@@ -53,7 +53,12 @@ export default function ProfilePage() {
   // Fetch user's saved items
   useEffect(() => {
     const fetchUserData = async () => {
-      if (!user?.uid) return
+      if (!user?.uid) {
+        console.log('No user UID found:', user)
+        return
+      }
+
+      console.log('Fetching data for user:', user.uid)
 
       try {
         setIsLoading(true)
@@ -62,11 +67,14 @@ export default function ProfilePage() {
         const tutorialResponse = await fetch(`/api/tutorials/interactions?userId=${user.uid}`)
         if (tutorialResponse.ok) {
           const tutorialData = await tutorialResponse.json()
+          console.log('Tutorial data:', tutorialData)
 
           // Get tutorial details for saved items
           const tutorialDetailsResponse = await fetch('/api/tutorials')
           if (tutorialDetailsResponse.ok) {
-            const allTutorials = await tutorialDetailsResponse.json()
+            const tutorialResponseData = await tutorialDetailsResponse.json()
+            const allTutorials = tutorialResponseData.data || []
+            console.log('All tutorials:', allTutorials)
 
             const savedTutorialItems = tutorialData.bookmarks.map((id: number) =>
               allTutorials.find((t: any) => t.id === id)
@@ -75,6 +83,9 @@ export default function ProfilePage() {
             const favoritedTutorialItems = tutorialData.favorites.map((id: number) =>
               allTutorials.find((t: any) => t.id === id)
             ).filter(Boolean)
+
+            console.log('Saved tutorial items:', savedTutorialItems)
+            console.log('Favorited tutorial items:', favoritedTutorialItems)
 
             setSavedTutorials(savedTutorialItems.map((t: any) => ({ ...t, type: 'tutorial' })))
             setFavoritedTutorials(favoritedTutorialItems.map((t: any) => ({ ...t, type: 'tutorial' })))
@@ -85,11 +96,14 @@ export default function ProfilePage() {
         const labResponse = await fetch(`/api/labs/interactions?userId=${user.uid}`)
         if (labResponse.ok) {
           const labData = await labResponse.json()
+          console.log('Lab data:', labData)
 
           // Get lab details for saved items
           const labDetailsResponse = await fetch('/api/labs/data')
           if (labDetailsResponse.ok) {
-            const allLabs = await labDetailsResponse.json()
+            const labResponseData = await labDetailsResponse.json()
+            const allLabs = labResponseData.data || []
+            console.log('All labs:', allLabs)
 
             const savedLabItems = labData.bookmarks.map((id: string) =>
               allLabs.find((l: any) => l.id === id)
@@ -98,6 +112,9 @@ export default function ProfilePage() {
             const favoritedLabItems = labData.favorites.map((id: string) =>
               allLabs.find((l: any) => l.id === id)
             ).filter(Boolean)
+
+            console.log('Saved lab items:', savedLabItems)
+            console.log('Favorited lab items:', favoritedLabItems)
 
             setSavedLabs(savedLabItems.map((l: any) => ({ ...l, type: 'lab' })))
             setFavoritedLabs(favoritedLabItems.map((l: any) => ({ ...l, type: 'lab' })))
