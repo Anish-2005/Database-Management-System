@@ -11,7 +11,6 @@ import {
 } from "lucide-react"
 import { motion } from "framer-motion"
 import { useAuth } from "../lib/contexts/AuthContext"
-import AuthModal from "./auth/AuthModal"
 import UserProfile from "./auth/UserProfile"
 interface NavbarProps {
   currentPage?: string
@@ -34,7 +33,6 @@ export default function Navbar({
 }: NavbarProps) {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
   const [scrolled, setScrolled] = useState(false)
-  const [authModalOpen, setAuthModalOpen] = useState(false)
 
   const { user, loading } = useAuth()
 
@@ -326,10 +324,7 @@ export default function Navbar({
       )}
 
       {/* Auth Modal */}
-      <AuthModal
-        isOpen={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-      />
+      {/* Removed - now using dedicated login page */}
 
       <style jsx>{`
         @keyframes fade-in {

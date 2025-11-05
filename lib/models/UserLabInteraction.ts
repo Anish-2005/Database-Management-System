@@ -21,13 +21,11 @@ const UserLabInteractionSchema: Schema = new Schema({
   completed: { type: Boolean, default: false },
   lastAccessedAt: { type: Date, default: Date.now }
 }, {
-  timestamps: true,
-  // Compound index to ensure one interaction per user per lab
-  indexes: [
-    { userId: 1, labId: 1 },
-    { unique: true, partialFilterExpression: { userId: { $exists: true }, labId: { $exists: true } } }
-  ]
+  timestamps: true
 })
+
+// Create compound index for unique user-lab interactions
+UserLabInteractionSchema.index({ userId: 1, labId: 1 }, { unique: true })
 
 const UserLabInteraction = mongoose.models.UserLabInteraction ||
   mongoose.model<IUserLabInteraction>('UserLabInteraction', UserLabInteractionSchema)

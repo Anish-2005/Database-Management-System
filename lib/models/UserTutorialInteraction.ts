@@ -21,13 +21,11 @@ const UserTutorialInteractionSchema: Schema = new Schema({
   completed: { type: Boolean, default: false },
   lastAccessedAt: { type: Date, default: Date.now }
 }, {
-  timestamps: true,
-  // Compound index to ensure one interaction per user per tutorial
-  indexes: [
-    { userId: 1, tutorialId: 1 },
-    { unique: true, partialFilterExpression: { userId: { $exists: true }, tutorialId: { $exists: true } } }
-  ]
+  timestamps: true
 })
+
+// Create compound index for unique user-tutorial interactions
+UserTutorialInteractionSchema.index({ userId: 1, tutorialId: 1 }, { unique: true })
 
 const UserTutorialInteraction = mongoose.models.UserTutorialInteraction ||
   mongoose.model<IUserTutorialInteraction>('UserTutorialInteraction', UserTutorialInteractionSchema)
