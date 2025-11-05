@@ -9,6 +9,7 @@ import { Achievements } from "../../components/progress/Achievements"
 import { RecentActivity } from "../../components/progress/RecentActivity"
 import { LearningInsights } from "../../components/progress/LearningInsights"
 import { useProgressData } from "../../lib/hooks/useProgressData"
+import { useProgressFilters } from "../../lib/hooks/useProgressFilters"
 import { AlertTriangle, LogIn } from "lucide-react"
 
 export default function ProgressPage() {

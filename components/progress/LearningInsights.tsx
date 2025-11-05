@@ -1,5 +1,13 @@
 import { motion } from "framer-motion"
+import { TrendingUp, Target, Flame } from "lucide-react"
 import { learningInsights, type LearningInsight } from "../../lib/progressData"
+
+// Icon mapping for dynamic icon names
+const iconMap: Record<string, any> = {
+  TrendingUp,
+  Target,
+  Flame
+}
 
 interface LearningInsightsProps {
   insights: LearningInsight[]
@@ -22,29 +30,32 @@ export function LearningInsights({ insights }: LearningInsightsProps) {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {insights.map((insight, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="p-6 bg-slate-800/40 rounded-2xl border border-slate-700 hover:border-slate-600 transition-colors"
-            >
-              <div className={`w-12 h-12 bg-gradient-to-br ${insight.color} rounded-2xl flex items-center justify-center mb-4`}>
-                <insight.icon className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">{insight.title}</h3>
-              <p className="text-sm text-slate-400 mb-4">{insight.description}</p>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`w-full py-2 px-4 bg-gradient-to-r ${insight.color} text-white rounded-xl font-medium shadow-lg`}
+          {insights.map((insight, index) => {
+            const Icon = typeof insight.icon === 'string' ? iconMap[insight.icon] : insight.icon
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="p-6 bg-slate-800/40 rounded-2xl border border-slate-700 hover:border-slate-600 transition-colors"
               >
-                {insight.action}
-              </motion.button>
-            </motion.div>
-          ))}
+                <div className={`w-12 h-12 bg-gradient-to-br ${insight.color} rounded-2xl flex items-center justify-center mb-4`}>
+                  {Icon && <Icon className="w-6 h-6 text-white" />}
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">{insight.title}</h3>
+                <p className="text-sm text-slate-400 mb-4">{insight.description}</p>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`w-full py-2 px-4 bg-gradient-to-r ${insight.color} text-white rounded-xl font-medium shadow-lg`}
+                >
+                  {insight.action}
+                </motion.button>
+              </motion.div>
+            )
+          })}
         </div>
       </div>
     </motion.div>

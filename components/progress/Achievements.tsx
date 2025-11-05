@@ -1,6 +1,15 @@
 import { motion } from "framer-motion"
-import { Check } from "lucide-react"
+import { Check, Crown, Trophy, Flame, Zap, Database } from "lucide-react"
 import { achievements, progressStats, getRarityColor, type Achievement as AchievementType } from "../../lib/progressData"
+
+// Icon mapping for dynamic icon names
+const iconMap: Record<string, any> = {
+  Crown,
+  Trophy,
+  Flame,
+  Zap,
+  Database
+}
 
 interface AchievementsProps {
   achievementsList: AchievementType[]
@@ -24,7 +33,7 @@ export function Achievements({ achievementsList, stats }: AchievementsProps) {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {achievementsList.map((achievement, index) => {
-          const Icon = achievement.icon
+          const Icon = typeof achievement.icon === 'string' ? iconMap[achievement.icon] : achievement.icon
           return (
             <motion.div
               key={achievement.id}
@@ -50,7 +59,7 @@ export function Achievements({ achievementsList, stats }: AchievementsProps) {
                     ? `bg-gradient-to-br ${getRarityColor(achievement.rarity)}`
                     : 'bg-slate-700'
                 }`}>
-                  <Icon className={`w-6 h-6 ${achievement.earned ? 'text-white' : 'text-slate-400'}`} />
+                  {Icon && <Icon className={`w-6 h-6 ${achievement.earned ? 'text-white' : 'text-slate-400'}`} />}
                 </div>
 
                 <div className="flex-1">
