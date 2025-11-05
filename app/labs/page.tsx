@@ -15,10 +15,12 @@ import PasscodePrompt from '../../components/labs/PasscodePrompt'
 import { useLabsData } from '../../lib/hooks/useLabsData'
 import { useLabsFilters } from '../../lib/hooks/useLabsFilters'
 import { useLabsManagement } from '../../lib/hooks/useLabsManagement'
+import { useAuth } from '../../lib/contexts/AuthContext'
 
 export default function LabsPage() {
   const [isPlaying, setIsPlaying] = useState(true)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [authError, setAuthError] = useState<string | null>(null)
 
   // Load animation state from localStorage after hydration
   useEffect(() => {
@@ -32,6 +34,26 @@ export default function LabsPage() {
   useEffect(() => {
     localStorage.setItem('animation-playing', JSON.stringify(isPlaying))
   }, [isPlaying])
+
+  const { user } = useAuth()
+
+  const authenticatedToggleBookmark = async (labId: string) => {
+    if (!user) {
+      setAuthError('Please sign in to bookmark labs')
+      setTimeout(() => setAuthError(null), 3000)
+      return
+    }
+    await toggleBookmark(labId)
+  }
+
+  const authenticatedToggleFavorite = async (labId: string) => {
+    if (!user) {
+      setAuthError('Please sign in to favorite labs')
+      setTimeout(() => setAuthError(null), 3000)
+      return
+    }
+    await toggleFavorite(labId)
+  }
 
   const {
     labs,
@@ -81,7 +103,7 @@ export default function LabsPage() {
     getProgress,
     isBookmarked,
     isFavorite
-  } = useLabsManagement()
+  } = useLabsManagement(user)
 
   const handleLabClick = (lab: any) => {
     openDetailModal(lab)
@@ -149,6 +171,18 @@ export default function LabsPage() {
         setIsMenuOpen={setIsMenuOpen}
       />
 
+      {/* Authentication Error Message */}
+      {authError && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="fixed top-28 left-1/2 transform -translate-x-1/2 z-50 bg-red-500/20 border border-red-500/30 rounded-lg px-4 py-2 text-red-400 text-sm font-medium shadow-lg"
+        >
+          {authError}
+        </motion.div>
+      )}
+
       <div className="relative z-10 pt-20 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
@@ -194,8 +228,8 @@ export default function LabsPage() {
                 labProgress={Object.fromEntries(labs.map(lab => [lab.id, getProgress(lab.id)]))}
                 bookmarkedLabs={new Set(labs.filter(lab => isBookmarked(lab.id)).map(lab => lab.id))}
                 favoriteLabs={new Set(labs.filter(lab => isFavorite(lab.id)).map(lab => lab.id))}
-                toggleBookmark={toggleBookmark}
-                toggleFavorite={toggleFavorite}
+                toggleBookmark={authenticatedToggleBookmark}
+                toggleFavorite={authenticatedToggleFavorite}
                 onLabClick={handleLabClick}
                 getDifficultyColor={getDifficultyColor}
               />
@@ -228,8 +262,8 @@ export default function LabsPage() {
                 labProgress={Object.fromEntries(labs.map(lab => [lab.id, getProgress(lab.id)]))}
                 bookmarkedLabs={new Set(labs.filter(lab => isBookmarked(lab.id)).map(lab => lab.id))}
                 favoriteLabs={new Set(labs.filter(lab => isFavorite(lab.id)).map(lab => lab.id))}
-                toggleBookmark={toggleBookmark}
-                toggleFavorite={toggleFavorite}
+                toggleBookmark={authenticatedToggleBookmark}
+                toggleFavorite={authenticatedToggleFavorite}
                 onLabClick={handleLabClick}
                 getDifficultyColor={getDifficultyColor}
               />

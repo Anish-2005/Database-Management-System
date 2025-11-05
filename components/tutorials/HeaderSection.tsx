@@ -8,7 +8,7 @@ export default function HeaderSection() {
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      className="text-center mb-16"
+      className="text-center my-16"
     >
       <motion.span
         className="inline-flex items-center gap-2 px-4 py-2 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-full text-sm font-medium text-cyan-400 mb-6"
