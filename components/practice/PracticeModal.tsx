@@ -14,6 +14,7 @@ interface PracticeModalProps {
   onSubmitAnswer: () => void
   onCloseChallenge: () => void
   onStartChallenge: (challenge: PracticeChallenge) => void
+  isSubmitting?: boolean
 }
 
 export const PracticeModal = ({
@@ -25,7 +26,8 @@ export const PracticeModal = ({
   score,
   onSubmitAnswer,
   onCloseChallenge,
-  onStartChallenge
+  onStartChallenge,
+  isSubmitting = false
 }: PracticeModalProps) => {
   if (!selectedChallenge) return null
 
@@ -192,10 +194,10 @@ export const PracticeModal = ({
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={onSubmitAnswer}
-                    disabled={!selectedAnswer}
+                    disabled={!selectedAnswer || isSubmitting}
                     className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Submit Answer
+                    {isSubmitting ? "Submitting..." : "Submit Answer"}
                   </motion.button>
                 </div>
               )}
