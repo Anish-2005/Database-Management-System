@@ -39,6 +39,7 @@ export interface Lab {
   version?: string
   environment: string
   technologies: string[]
+  isPreExisting?: boolean
 }
 
 export const defaultLabs: Lab[] = [
@@ -118,7 +119,8 @@ CREATE TABLE orders (
     version: "2.1",
     environment: "MySQL 8.0",
     technologies: ["MySQL", "phpMyAdmin", "SQL Workbench"],
-    tags: ["E-commerce", "Schema Design", "Order Management", "Inventory"]
+    tags: ["E-commerce", "Schema Design", "Order Management", "Inventory"],
+    isPreExisting: true
   },
   {
     id: "2",
@@ -206,7 +208,8 @@ CREATE TABLE trending_topics (
     version: "3.0",
     environment: "PostgreSQL 15",
     technologies: ["PostgreSQL", "TimescaleDB", "Apache Kafka", "Grafana"],
-    tags: ["Analytics", "Real-time", "Streaming", "Materialized Views"]
+    tags: ["Analytics", "Real-time", "Streaming", "Materialized Views"],
+    isPreExisting: true
   },
   {
     id: "3",
@@ -298,7 +301,8 @@ CREATE POLICY tenant_data_isolation ON tenant_data
     version: "2.5",
     environment: "PostgreSQL 15",
     technologies: ["PostgreSQL", "Node.js", "Express", "JWT", "Redis"],
-    tags: ["Multi-tenant", "SaaS", "Architecture", "Security"]
+    tags: ["Multi-tenant", "SaaS", "Architecture", "Security"],
+    isPreExisting: true
   },
   {
     id: "4",
@@ -439,7 +443,8 @@ def migrate_user_profiles():
     version: "1.8",
     environment: "PostgreSQL 15",
     technologies: ["Python", "PostgreSQL", "Docker", "Git", "CI/CD"],
-    tags: ["Migration", "ETL", "DevOps", "Data Transformation"]
+    tags: ["Migration", "ETL", "DevOps", "Data Transformation"],
+    isPreExisting: true
   },
   {
     id: "5",
@@ -561,7 +566,8 @@ LIMIT 20`
     version: "2.2",
     environment: "Neo4j 5.0",
     technologies: ["Neo4j", "Cypher", "Graph Algorithms", "Python", "NetworkX"],
-    tags: ["Graph Database", "Social Network", "Cypher", "Network Analysis"]
+    tags: ["Graph Database", "Social Network", "Cypher", "Network Analysis"],
+    isPreExisting: true
   },
   {
     id: "6",
@@ -758,7 +764,8 @@ HAVING COUNT(*) > 10;`
     version: "3.1",
     environment: "TimescaleDB",
     technologies: ["TimescaleDB", "PostgreSQL", "Python", "MQTT", "Grafana", "InfluxDB"],
-    tags: ["Time-Series", "IoT", "Analytics", "Sensor Data"]
+    tags: ["Time-Series", "IoT", "Analytics", "Sensor Data"],
+    isPreExisting: true
   }
 ]
 

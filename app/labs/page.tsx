@@ -41,6 +41,10 @@ export default function LabsPage() {
     filteredLabs
   } = useLabsFilters(labs, userPreferences)
 
+  // Separate pre-existing and manually added labs
+  const preExistingLabs = filteredLabs.filter(lab => lab.isPreExisting !== false)
+  const manuallyAddedLabs = filteredLabs.filter(lab => lab.isPreExisting === false)
+
   const {
     selectedLab,
     isCreateModalOpen,
@@ -84,11 +88,12 @@ export default function LabsPage() {
       // Editing existing lab
       updateLab(selectedLab.id, labData)
     } else {
-      // Creating new lab
+      // Creating new lab - mark as manually added
       const newLab = {
         ...labData,
         id: Date.now().toString(),
-        completed: false
+        completed: false,
+        isPreExisting: false
       }
       addLab(newLab)
     }
@@ -141,17 +146,87 @@ export default function LabsPage() {
           />
 
           {/* Labs Grid */}
-          <LabsGrid
-            isLoading={isLoading}
-            filteredLabs={filteredLabs}
-            labProgress={Object.fromEntries(labs.map(lab => [lab.id, getProgress(lab.id)]))}
-            bookmarkedLabs={new Set(labs.filter(lab => isBookmarked(lab.id)).map(lab => lab.id))}
-            favoriteLabs={new Set(labs.filter(lab => isFavorite(lab.id)).map(lab => lab.id))}
-            toggleBookmark={toggleBookmark}
-            toggleFavorite={toggleFavorite}
-            onLabClick={handleLabClick}
-            getDifficultyColor={getDifficultyColor}
-          />
+          {manuallyAddedLabs.length > 0 && (
+            <>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="mb-8"
+              >
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent flex-1"></div>
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/30">
+                    <Sparkles className="w-4 h-4 text-purple-400" />
+                    <h2 className="text-lg font-semibold text-purple-400">
+                      Manually Added Labs ({manuallyAddedLabs.length})
+                    </h2>
+                  </div>
+                  <div className="h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent flex-1"></div>
+                </div>
+              </motion.div>
+              
+              <LabsGrid
+                isLoading={isLoading}
+                filteredLabs={manuallyAddedLabs}
+                labProgress={Object.fromEntries(labs.map(lab => [lab.id, getProgress(lab.id)]))}
+                bookmarkedLabs={new Set(labs.filter(lab => isBookmarked(lab.id)).map(lab => lab.id))}
+                favoriteLabs={new Set(labs.filter(lab => isFavorite(lab.id)).map(lab => lab.id))}
+                toggleBookmark={toggleBookmark}
+                toggleFavorite={toggleFavorite}
+                onLabClick={handleLabClick}
+                getDifficultyColor={getDifficultyColor}
+              />
+            </>
+          )}
+
+          {preExistingLabs.length > 0 && (
+            <>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className={manuallyAddedLabs.length > 0 ? "mt-12 mb-8" : "mb-8"}
+              >
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent flex-1"></div>
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30">
+                    <Database className="w-4 h-4 text-cyan-400" />
+                    <h2 className="text-lg font-semibold text-cyan-400">
+                      Course Labs ({preExistingLabs.length})
+                    </h2>
+                  </div>
+                  <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent flex-1"></div>
+                </div>
+              </motion.div>
+
+              <LabsGrid
+                isLoading={isLoading}
+                filteredLabs={preExistingLabs}
+                labProgress={Object.fromEntries(labs.map(lab => [lab.id, getProgress(lab.id)]))}
+                bookmarkedLabs={new Set(labs.filter(lab => isBookmarked(lab.id)).map(lab => lab.id))}
+                favoriteLabs={new Set(labs.filter(lab => isFavorite(lab.id)).map(lab => lab.id))}
+                toggleBookmark={toggleBookmark}
+                toggleFavorite={toggleFavorite}
+                onLabClick={handleLabClick}
+                getDifficultyColor={getDifficultyColor}
+              />
+            </>
+          )}
+
+          {filteredLabs.length === 0 && !isLoading && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="col-span-full text-center py-20"
+            >
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-slate-800/50 mb-6">
+                <Search className="w-10 h-10 text-slate-600" />
+              </div>
+              <h3 className="text-2xl font-bold mb-2 text-slate-300">No labs found</h3>
+              <p className="text-slate-500">Try adjusting your search or filters</p>
+            </motion.div>
+          )}
         </div>
       </div>
 

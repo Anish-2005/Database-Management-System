@@ -6,6 +6,7 @@ export interface ILab extends Document {
   description: string
   tags: string[]
   link?: string
+  isPreExisting?: boolean
   createdAt: Date
   updatedAt: Date
 }
@@ -15,7 +16,8 @@ const LabSchema: Schema = new Schema({
   title: { type: String, required: true },
   description: { type: String, default: '' },
   tags: { type: [String], default: [] },
-  link: { type: String, default: '#' }
+  link: { type: String, default: '#' },
+  isPreExisting: { type: Boolean, default: false }
 }, { timestamps: true })
 
 const Lab = mongoose.models.Lab || mongoose.model<ILab>('Lab', LabSchema)

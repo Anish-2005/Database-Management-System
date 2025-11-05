@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, AnimatePresence } from "framer-motion"
-import { X, Clock, Users, Star, CheckCircle, Target, Copy, Check, PlayCircle, ArrowRight, Database, Code, BookOpen, Award, Calendar, GitBranch } from "lucide-react"
+import { X, Clock, Users, Star, CheckCircle, Target, Copy, Check, PlayCircle, ArrowRight, Database, Code, BookOpen, Award, Calendar, GitBranch, BarChart3, Layers, Zap, Brain, TrendingUp } from "lucide-react"
 import { Lab } from '../../lib/labsData'
 
 interface LabDetailModalProps {
@@ -23,7 +23,28 @@ export default function LabDetailModal({
   onEditLab,
   onDeleteLab
 }: LabDetailModalProps) {
+  // Icon mapping function to convert string icon names to components
+  const getIconComponent = (iconName: string | any) => {
+    // If it's already a component, return it
+    if (typeof iconName === 'function') return iconName
+    
+    // Map string names to icon components
+    const iconMap: Record<string, any> = {
+      Database,
+      BarChart3,
+      Layers,
+      Zap,
+      Target,
+      Brain,
+      TrendingUp,
+      Code
+    }
+    return iconMap[iconName] || Database
+  }
+
   if (!selectedLab) return null
+
+  const IconComponent = getIconComponent(selectedLab.icon)
 
   return (
     <AnimatePresence>
@@ -47,7 +68,7 @@ export default function LabDetailModal({
           <div className="flex items-center justify-between p-6 border-b border-slate-800">
             <div className="flex items-center gap-4">
               <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${selectedLab.gradient} flex items-center justify-center`}>
-                <selectedLab.icon className="w-6 h-6 text-white" />
+                <IconComponent className="w-6 h-6 text-white" />
               </div>
               <div>
                 <h2 className="text-2xl font-bold text-white">{selectedLab.title}</h2>
