@@ -17,6 +17,22 @@ import { useLabsFilters } from '../../lib/hooks/useLabsFilters'
 import { useLabsManagement } from '../../lib/hooks/useLabsManagement'
 
 export default function LabsPage() {
+  const [isPlaying, setIsPlaying] = useState(true)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  // Load animation state from localStorage after hydration
+  useEffect(() => {
+    const saved = localStorage.getItem('animation-playing')
+    if (saved !== null) {
+      setIsPlaying(JSON.parse(saved))
+    }
+  }, [])
+
+  // Save animation state to localStorage
+  useEffect(() => {
+    localStorage.setItem('animation-playing', JSON.stringify(isPlaying))
+  }, [isPlaying])
+
   const {
     labs,
     isLoading,
@@ -123,9 +139,15 @@ export default function LabsPage() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white relative overflow-x-hidden">
-      <Background />
+      <Background isPlaying={isPlaying} />
       <CursorAnimation />
-      <Navbar />
+      <Navbar 
+        currentPage="labs" 
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+        isMenuOpen={isMenuOpen}
+        setIsMenuOpen={setIsMenuOpen}
+      />
 
       <div className="relative z-10 pt-20 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

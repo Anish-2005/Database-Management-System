@@ -67,10 +67,16 @@ export default function LabDetailModal({
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-slate-800">
             <div className="flex items-center gap-4">
-              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${selectedLab.gradient} flex items-center justify-center`}>
-                <IconComponent className="w-6 h-6 text-white" />
-              </div>
-              <div>
+              <motion.div 
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                className={`relative w-20 h-20 rounded-2xl bg-gradient-to-br ${selectedLab.gradient} flex items-center justify-center shadow-lg flex-shrink-0`}
+              >
+                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${selectedLab.gradient} opacity-50 blur-xl`}></div>
+                <IconComponent className="w-10 h-10 text-white relative z-10 drop-shadow-lg" />
+              </motion.div>
+              <div className="flex-1 min-w-0">
                 <h2 className="text-2xl font-bold text-white">{selectedLab.title}</h2>
                 <p className="text-slate-400">{selectedLab.description}</p>
               </div>
