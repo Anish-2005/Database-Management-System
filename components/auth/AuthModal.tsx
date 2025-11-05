@@ -100,9 +100,9 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
           />
 
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.9, opacity: 0, y: 20 }}
             className="relative bg-slate-900/95 backdrop-blur-xl border border-slate-800 rounded-3xl w-full max-w-md overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >

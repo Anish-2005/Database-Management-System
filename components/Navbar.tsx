@@ -224,14 +224,12 @@ export default function Navbar({
             user ? (
               <UserProfile />
             ) : (
-              <motion.button
-                onClick={() => setAuthModalOpen(true)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-6 py-2 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700 rounded-lg text-slate-300 hover:text-white transition-colors"
+              <a
+                href="/login"
+                className="px-6 py-2 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700 rounded-lg text-slate-300 hover:text-white transition-colors inline-block"
               >
                 Sign In
-              </motion.button>
+              </a>
             )
           )}
         </div>
@@ -313,15 +311,13 @@ export default function Navbar({
                     </button>
                   </div>
                 ) : (
-                  <button
-                    onClick={() => {
-                      setAuthModalOpen(true)
-                      setIsMenuOpen(false)
-                    }}
+                  <a
+                    href="/login"
+                    onClick={() => setIsMenuOpen(false)}
                     className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 rounded-lg font-medium text-white flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition-transform"
                   >
                     Sign In
-                  </button>
+                  </a>
                 )}
               </div>
             )}

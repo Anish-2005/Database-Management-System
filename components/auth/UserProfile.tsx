@@ -3,7 +3,7 @@
 
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
-import { User, LogOut, Settings, ChevronDown, Edit3 } from "lucide-react"
+import { User, LogOut, Settings, ChevronDown, Edit3, Heart } from "lucide-react"
 import { useAuth } from "../../lib/contexts/AuthContext"
 
 export default function UserProfile() {
@@ -148,6 +148,15 @@ export default function UserProfile() {
 
             {/* Menu Items */}
             <div className="p-2">
+              <a
+                href="/profile"
+                onClick={() => setIsOpen(false)}
+                className="w-full flex items-center gap-3 px-3 py-2 text-left text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-xl transition-colors"
+              >
+                <Heart className="w-4 h-4" />
+                <span className="text-sm">My Profile</span>
+              </a>
+
               <button
                 onClick={() => setIsEditing(!isEditing)}
                 className="w-full flex items-center gap-3 px-3 py-2 text-left text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-xl transition-colors"

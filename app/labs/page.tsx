@@ -177,7 +177,7 @@ export default function LabsPage() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="fixed top-28 left-1/2 transform -translate-x-1/2 z-50 bg-red-500/20 border border-red-500/30 rounded-lg px-4 py-2 text-red-400 text-sm font-medium shadow-lg"
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-red-500/20 border border-red-500/30 rounded-lg px-4 py-2 text-red-400 text-sm font-medium shadow-lg"
         >
           {authError}
         </motion.div>
