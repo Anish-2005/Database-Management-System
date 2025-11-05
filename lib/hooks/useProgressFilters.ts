@@ -1,15 +1,15 @@
 import { useState, useMemo } from 'react'
 import { recentActivity, type RecentActivity } from '../progressData'
 
-export function useProgressFilters() {
+export function useProgressFilters(activities: RecentActivity[] = recentActivity) {
   const [selectedTimeframe, setSelectedTimeframe] = useState("week")
   const [selectedCategory, setSelectedCategory] = useState("all")
 
   const filteredActivity = useMemo(() => {
-    return recentActivity.filter(activity =>
+    return activities.filter(activity =>
       selectedCategory === "all" || activity.type === selectedCategory
     )
-  }, [selectedCategory])
+  }, [activities, selectedCategory])
 
   return {
     selectedTimeframe,
