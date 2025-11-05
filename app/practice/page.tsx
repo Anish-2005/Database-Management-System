@@ -48,7 +48,8 @@ export default function PracticePage() {
     startChallenge,
     submitAnswer,
     closeChallenge,
-    isSubmitting
+    isSubmitting,
+    pointsEarned
   } = usePracticeQuiz()
 
   const handleStartChallenge = (challenge: any) => {
@@ -146,6 +147,7 @@ export default function PracticePage() {
         onCloseChallenge={closeChallenge}
         onStartChallenge={handleStartChallenge}
         isSubmitting={isSubmitting}
+        pointsEarned={pointsEarned}
       />
     </div>
   )

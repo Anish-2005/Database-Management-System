@@ -131,6 +131,8 @@ export async function POST(request: NextRequest) {
       userStats = new UserPracticeStats({ userId })
     }
 
+    let pointsEarned = 0
+
     // Update based on action
     switch (action) {
       case 'start_attempt':
@@ -160,8 +162,8 @@ export async function POST(request: NextRequest) {
           userStats.challengesCompleted += 1
 
           // Award points based on difficulty (simplified)
-          const points = challengeId <= 2 ? 100 : challengeId <= 4 ? 150 : 200
-          userStats.totalPoints += points
+          pointsEarned = challengeId <= 2 ? 100 : challengeId <= 4 ? 150 : 200
+          userStats.totalPoints += pointsEarned
 
           // Update streak
           const today = new Date().toDateString()
@@ -210,7 +212,8 @@ export async function POST(request: NextRequest) {
           challengesCompleted: userStats.challengesCompleted,
           currentStreak: userStats.currentStreak,
           averageScore: userStats.averageScore
-        }
+        },
+        pointsEarned: action === 'complete_challenge' && !challengeProgress.completed ? pointsEarned : 0
       }
     })
   } catch (error) {

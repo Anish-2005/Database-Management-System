@@ -10,6 +10,7 @@ export const usePracticeQuiz = () => {
   const [showResult, setShowResult] = useState(false)
   const [score, setScore] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [pointsEarned, setPointsEarned] = useState(0)
   const { user } = useAuth()
 
   const startChallenge = async (challenge: PracticeChallenge) => {
@@ -64,7 +65,7 @@ export const usePracticeQuiz = () => {
         // Save completion if user is logged in
         if (user?.uid) {
           try {
-            await fetch('/api/practice/data', {
+            const response = await fetch('/api/practice/data', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -74,6 +75,10 @@ export const usePracticeQuiz = () => {
                 score: finalScore
               })
             })
+            const data = await response.json()
+            if (data.success && data.data.pointsEarned) {
+              setPointsEarned(data.data.pointsEarned)
+            }
           } catch (error) {
             console.error('Error saving challenge completion:', error)
           }
@@ -99,6 +104,7 @@ export const usePracticeQuiz = () => {
     setShowResult(false)
     setScore(0)
     setIsSubmitting(false)
+    setPointsEarned(0)
   }
 
   return {
@@ -111,6 +117,7 @@ export const usePracticeQuiz = () => {
     startChallenge,
     submitAnswer,
     closeChallenge,
-    isSubmitting
+    isSubmitting,
+    pointsEarned
   }
 }

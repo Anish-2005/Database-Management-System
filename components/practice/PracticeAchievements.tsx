@@ -1,8 +1,16 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Trophy } from "lucide-react"
+import { Trophy, Code, Zap, Database } from "lucide-react"
 import { PracticeAchievement } from "../../lib/practiceData"
+
+// Icon mapping for dynamic icon names
+const iconMap: Record<string, any> = {
+  Code,
+  Zap,
+  Database,
+  Trophy
+}
 
 interface PracticeAchievementsProps {
   achievements: PracticeAchievement[]
@@ -25,40 +33,43 @@ export const PracticeAchievements = ({ achievements }: PracticeAchievementsProps
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {achievements.map((achievement, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className={`p-6 rounded-2xl border transition-all ${
-                achievement.unlocked
-                  ? 'bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-yellow-500/30'
-                  : 'bg-slate-800/40 border-slate-700'
-              }`}
-            >
-              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 ${
-                achievement.unlocked
-                  ? 'bg-gradient-to-br from-yellow-500 to-orange-500'
-                  : 'bg-slate-700'
-              }`}>
-                <achievement.icon className={`w-6 h-6 ${achievement.unlocked ? 'text-white' : 'text-slate-500'}`} />
-              </div>
-              <h3 className={`text-lg font-semibold mb-2 ${achievement.unlocked ? 'text-white' : 'text-slate-400'}`}>
-                {achievement.title}
-              </h3>
-              <p className={`text-sm ${achievement.unlocked ? 'text-slate-300' : 'text-slate-500'}`}>
-                {achievement.desc}
-              </p>
-              {achievement.unlocked && (
-                <div className="mt-3 flex items-center gap-1 text-yellow-400">
-                  <Trophy className="w-4 h-4" />
-                  <span className="text-xs">Unlocked!</span>
+          {achievements.map((achievement, index) => {
+            const Icon = typeof achievement.icon === 'string' ? iconMap[achievement.icon] : achievement.icon
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className={`p-6 rounded-2xl border transition-all ${
+                  achievement.unlocked
+                    ? 'bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-yellow-500/30'
+                    : 'bg-slate-800/40 border-slate-700'
+                }`}
+              >
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 ${
+                  achievement.unlocked
+                    ? 'bg-gradient-to-br from-yellow-500 to-orange-500'
+                    : 'bg-slate-700'
+                }`}>
+                  {Icon && <Icon className={`w-6 h-6 ${achievement.unlocked ? 'text-white' : 'text-slate-500'}`} />}
                 </div>
-              )}
-            </motion.div>
-          ))}
+                <h3 className={`text-lg font-semibold mb-2 ${achievement.unlocked ? 'text-white' : 'text-slate-400'}`}>
+                  {achievement.title}
+                </h3>
+                <p className={`text-sm ${achievement.unlocked ? 'text-slate-300' : 'text-slate-500'}`}>
+                  {achievement.desc}
+                </p>
+                {achievement.unlocked && (
+                  <div className="mt-3 flex items-center gap-1 text-yellow-400">
+                    <Trophy className="w-4 h-4" />
+                    <span className="text-xs">Unlocked!</span>
+                  </div>
+                )}
+              </motion.div>
+            )
+          })}
         </div>
       </div>
     </motion.div>

@@ -15,6 +15,7 @@ interface PracticeModalProps {
   onCloseChallenge: () => void
   onStartChallenge: (challenge: PracticeChallenge) => void
   isSubmitting?: boolean
+  pointsEarned?: number
 }
 
 export const PracticeModal = ({
@@ -27,7 +28,8 @@ export const PracticeModal = ({
   onSubmitAnswer,
   onCloseChallenge,
   onStartChallenge,
-  isSubmitting = false
+  isSubmitting = false,
+  pointsEarned = 0
 }: PracticeModalProps) => {
   if (!selectedChallenge) return null
 
@@ -213,7 +215,12 @@ export const PracticeModal = ({
                     <Trophy className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-2">Challenge Completed!</h3>
-                  <p className="text-slate-400 mb-4">You earned {score} points</p>
+                  <p className="text-slate-400 mb-4">
+                    {pointsEarned > 0
+                      ? `You earned ${pointsEarned} points!`
+                      : `Score: ${score}%`
+                    }
+                  </p>
                   <div className="flex justify-center gap-3">
                     <motion.button
                       whileHover={{ scale: 1.05 }}
