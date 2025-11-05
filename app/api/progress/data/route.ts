@@ -372,7 +372,7 @@ async function updateSkillProgress(userId: string, category: string, score: numb
       return
   }
 
-  const skill = await UserSkillProgress.findOne({ userId, skill })
+  const skill = await UserSkillProgress.findOne({ userId, skill: skillName })
   if (skill) {
     if (type === 'tutorial') {
       skill.completedTutorials += 1
