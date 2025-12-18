@@ -33,25 +33,25 @@ export default function Background({ isPlaying = true }: BackgroundProps) {
     // Animate particles
     particlesRef.current.forEach((particles, index) => {
       const speeds = [
-        { x: 0.1, y: 0.15 },   // particles1
-        { x: -0.08, y: -0.12 }, // particles2
-        { x: 0.05, y: 0.1 }    // particles3
+        { x: 0.02, y: 0.03 },
+        { x: -0.015, y: -0.025 },
+        { x: 0.01, y: 0.02 }
       ]
-      const speed = speeds[index] || { x: 0.1, y: 0.15 }
+      const speed = speeds[index] || { x: 0.02, y: 0.03 }
       particles.rotation.x = elapsedTime * speed.x
       particles.rotation.y = elapsedTime * speed.y
     })
 
     // Animate shapes
     shapesRef.current.forEach((shape, index) => {
-      shape.rotation.x = elapsedTime * 0.2
-      shape.rotation.y = elapsedTime * 0.3
-      shape.position.y = Math.sin(elapsedTime + index) * 0.5
+      shape.rotation.x = elapsedTime * 0.05
+      shape.rotation.y = elapsedTime * 0.08
+      shape.position.y = Math.sin(elapsedTime * 0.5 + index) * 0.25
     })
 
     // Animate lines
     if (linesRef.current) {
-      linesRef.current.rotation.z = elapsedTime * 0.1
+      linesRef.current.rotation.z = elapsedTime * 0.02
     }
 
     rendererRef.current.render(sceneRef.current, cameraRef.current)
@@ -111,9 +111,9 @@ export default function Background({ isPlaying = true }: BackgroundProps) {
       return new THREE.Points(geometry, material)
     }
 
-    const particles1 = createParticles(2000, 0x6366f1, 0.1)
-    const particles2 = createParticles(1500, 0x8b5cf6, 0.08)
-    const particles3 = createParticles(1000, 0x06b6d4, 0.12)
+    const particles1 = createParticles(900, 0x6366f1, 0.08)
+    const particles2 = createParticles(700, 0x8b5cf6, 0.07)
+    const particles3 = createParticles(500, 0x06b6d4, 0.09)
 
     particlesRef.current = [particles1, particles2, particles3]
     scene.add(particles1)
@@ -138,10 +138,10 @@ export default function Background({ isPlaying = true }: BackgroundProps) {
       }
 
       const material = new THREE.MeshPhongMaterial({
-        color: Math.random() * 0xffffff,
+        color: 0x7c8db5,
         transparent: true,
-        opacity: 0.7,
-        shininess: 100
+        opacity: 0.45,
+        shininess: 20
       })
 
       const mesh = new THREE.Mesh(geometry, material)
@@ -168,10 +168,10 @@ export default function Background({ isPlaying = true }: BackgroundProps) {
     lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3))
 
     const lineMaterial = new THREE.LineBasicMaterial({
-      color: 0x6366f1,
+      color: 0x6b7280,
       transparent: true,
-      opacity: 0.5,
-      linewidth: 2
+      opacity: 0.25,
+      linewidth: 1
     })
 
     const lines = new THREE.LineSegments(lineGeometry, lineMaterial)
@@ -179,10 +179,10 @@ export default function Background({ isPlaying = true }: BackgroundProps) {
     scene.add(lines)
 
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0x404040, 2)
+    const ambientLight = new THREE.AmbientLight(0x404040, 1.2)
     scene.add(ambientLight)
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.7)
     directionalLight.position.set(5, 5, 5)
     scene.add(directionalLight)
 
@@ -225,44 +225,44 @@ export default function Background({ isPlaying = true }: BackgroundProps) {
       {/* Advanced Background Canvas */}
       <canvas 
         ref={canvasRef} 
-        className="fixed inset-0 pointer-events-none opacity-60 z-0"
+        className="fixed inset-0 pointer-events-none opacity-30 z-0"
       />
 
       {/* Animated Gradient Orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-[100px]"
+          className="absolute top-1/4 left-1/4 w-80 h-80 bg-purple-500/12 rounded-full blur-[110px]"
           animate={isPlaying ? {
-            x: [0, 100, 0],
-            y: [0, -50, 0],
-            scale: [1, 1.2, 1],
+            x: [0, 40, 0],
+            y: [0, -30, 0],
+            scale: [1, 1.05, 1],
           } : {}}
           transition={{
-            duration: 8,
+            duration: 18,
             repeat: isPlaying ? Number.POSITIVE_INFINITY : 0,
           }}
         />
         <motion.div
-          className="absolute top-1/2 right-1/4 w-80 h-80 bg-cyan-500/20 rounded-full blur-[100px]"
+          className="absolute top-1/2 right-1/4 w-72 h-72 bg-cyan-500/12 rounded-full blur-[110px]"
           animate={isPlaying ? {
-            x: [0, -80, 0],
-            y: [0, 60, 0],
-            scale: [1.2, 1, 1.2],
+            x: [0, -35, 0],
+            y: [0, 40, 0],
+            scale: [1.05, 1, 1.05],
           } : {}}
           transition={{
-            duration: 10,
+            duration: 20,
             repeat: isPlaying ? Number.POSITIVE_INFINITY : 0,
           }}
         />
         <motion.div
-          className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-pink-500/15 rounded-full blur-[100px]"
+          className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-pink-500/10 rounded-full blur-[110px]"
           animate={isPlaying ? {
-            x: [0, 60, 0],
-            y: [0, -80, 0],
-            scale: [1, 1.1, 1],
+            x: [0, 30, 0],
+            y: [0, -45, 0],
+            scale: [1, 1.04, 1],
           } : {}}
           transition={{
-            duration: 12,
+            duration: 24,
             repeat: isPlaying ? Number.POSITIVE_INFINITY : 0,
           }}
         />
@@ -270,7 +270,7 @@ export default function Background({ isPlaying = true }: BackgroundProps) {
 
       {/* Grid Pattern Overlay */}
       <div 
-        className="fixed inset-0 pointer-events-none opacity-10"
+        className="fixed inset-0 pointer-events-none opacity-6"
         style={{
           backgroundImage: `
             linear-gradient(rgba(99, 102, 241, 0.1) 1px, transparent 1px),
