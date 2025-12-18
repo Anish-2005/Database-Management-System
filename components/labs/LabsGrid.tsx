@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Search, Clock, Users, Star, CheckCircle, Bookmark, Heart, Code, Database, BarChart3, Layers, Zap, Target, Brain, TrendingUp } from "lucide-react"
+import { Search, Clock, Users, Star, CheckCircle, Bookmark, Heart, Code, Database, BarChart3, Layers, Zap, Target, Brain, TrendingUp, Trash } from "lucide-react"
 import { Lab } from '../../lib/labsData'
 
 interface LabsGridProps {
@@ -13,6 +13,7 @@ interface LabsGridProps {
   toggleBookmark: (id: string) => void
   toggleFavorite: (id: string) => void
   onLabClick: (lab: Lab) => void
+  onDeleteLab?: (id: string) => void
   getDifficultyColor: (difficulty: string) => string
 }
 
@@ -25,6 +26,7 @@ export default function LabsGrid({
   toggleBookmark,
   toggleFavorite,
   onLabClick,
+  onDeleteLab,
   getDifficultyColor
 }: LabsGridProps) {
   // Icon mapping function
@@ -175,6 +177,21 @@ export default function LabsGrid({
                     >
                       <Heart className={`w-4 h-4 ${favoriteLabs.has(lab.id) ? 'fill-current' : ''}`} />
                     </motion.button>
+
+                    {onDeleteLab && (
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          onDeleteLab(lab.id)
+                        }}
+                        className="p-2 rounded-xl transition-all bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30"
+                        aria-label="Delete lab"
+                      >
+                        <Trash className="w-4 h-4" />
+                      </motion.button>
+                    )}
                   </div>
                 </div>
 

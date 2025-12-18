@@ -231,6 +231,7 @@ export default function LabsPage() {
                 toggleBookmark={authenticatedToggleBookmark}
                 toggleFavorite={authenticatedToggleFavorite}
                 onLabClick={handleLabClick}
+                onDeleteLab={handleDeleteLab}
                 getDifficultyColor={getDifficultyColor}
               />
             </>
@@ -265,6 +266,7 @@ export default function LabsPage() {
                 toggleBookmark={authenticatedToggleBookmark}
                 toggleFavorite={authenticatedToggleFavorite}
                 onLabClick={handleLabClick}
+                onDeleteLab={handleDeleteLab}
                 getDifficultyColor={getDifficultyColor}
               />
             </>

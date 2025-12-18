@@ -769,4 +769,5 @@ HAVING COUNT(*) > 10;`
   }
 ]
 
-export const PASSCODE = 'letmein123'
+// Passcode used by Labs management UI; align with env so API/client stay in sync.
+export const PASSCODE = process.env.NEXT_PUBLIC_ADMIN_PASSCODE || 'admin123'

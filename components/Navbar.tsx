@@ -3,51 +3,7 @@ import {
   Database,
   Menu,
   X,
-  Play,
-  Pause,
-  Rocket,
-  Zap,
-  Sparkles,
-} from "lucide-react"
-import { motion } from "framer-motion"
-import { useAuth } from "../lib/contexts/AuthContext"
-import UserProfile from "./auth/UserProfile"
-interface NavbarProps {
-  currentPage?: string
-  subtitle?: string
-  showLaunchDemo?: boolean
-  isPlaying?: boolean
-  setIsPlaying?: (playing: boolean) => void
-  isMenuOpen?: boolean
-  setIsMenuOpen?: (open: boolean) => void
-}
-
-export default function Navbar({
-  currentPage = "home",
-  subtitle = "Next-Gen Database System",
-  showLaunchDemo = true,
-  isPlaying = true,
-  setIsPlaying = () => {},
-  isMenuOpen = false,
-  setIsMenuOpen = () => {},
-}: NavbarProps) {
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null)
-  const [scrolled, setScrolled] = useState(false)
-
-  const { user, loading } = useAuth()
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  const navItems = [
-    { name: "Home", href: "/", icon: Database },
-    { name: "Tutorials", href: "/tutorials", icon: Sparkles },
-    { name: "Labs", href: "/labs", icon: Zap },
+        .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
     { name: "Practice", href: "/practice", icon: Play },
     { name: "Resources", href: "/resources", icon: Database },
     { name: "Progress", href: "/progress", icon: Rocket },
@@ -56,14 +12,12 @@ export default function Navbar({
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 animate-fade-in ${
-        scrolled 
-          ? 'backdrop-blur-2xl bg-slate-950/90 border-b border-purple-500/20 shadow-2xl shadow-purple-500/10' 
-          : 'backdrop-blur-xl bg-slate-900/70 border-b border-slate-700/30'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 animate-fade-in ${
+        scrolled
+          ? 'backdrop-blur-xl bg-slate-950/85 border-b border-slate-800/70'
+          : 'backdrop-blur-lg bg-slate-900/70 border-b border-slate-800/50'
       }`}
     >
-      {/* Animated gradient line */}
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-purple-500 to-transparent animate-pulse-slow" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center relative">
         {/* Logo Section */}
@@ -71,85 +25,33 @@ export default function Navbar({
           href="/"
           className="flex items-center gap-3 group cursor-pointer transform hover:scale-105 transition-transform duration-300"
         >
-          <div className="relative">
-            {/* Pulsing outer glow */}
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-pink-500 to-purple-600 rounded-xl blur-xl opacity-40 animate-pulse-glow" />
-            
-            {/* Logo container */}
-            <div className="relative w-12 h-12 bg-gradient-to-br from-purple-600 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-2xl shadow-purple-500/50 border border-purple-400/20 animate-glow-pulse">
-              <Database className="w-7 h-7 text-white" />
-              
-              {/* Rotating particles */}
-              <div className="absolute w-1 h-1 bg-white rounded-full animate-orbit-1" style={{ left: '50%', top: '50%' }} />
-              <div className="absolute w-1 h-1 bg-white rounded-full animate-orbit-2" style={{ left: '50%', top: '50%' }} />
-              <div className="absolute w-1 h-1 bg-white rounded-full animate-orbit-3" style={{ left: '50%', top: '50%' }} />
-            </div>
-          </div>
-          
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="mr-8 font-bold text-2xl bg-gradient-to-r from-purple-300 via-pink-300 to-purple-400 bg-clip-text text-transparent group-hover:from-purple-200 group-hover:via-pink-200 group-hover:to-purple-300 transition-all duration-300">
-                QuantumDB
-              </span>
-            </div>
-            <div className="text-xs text-slate-400 group-hover:text-slate-300 transition-colors">
-              {subtitle}
-            </div>
-          </div>
-        </a>
+          @keyframes fade-in {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          @keyframes pulse-slow {
+            0%, 100% { opacity: 0.3; transform: scaleX(0.9); }
+            50% { opacity: 0.6; transform: scaleX(1); }
+          }
+          @keyframes slide-down {
+            from { max-height: 0; opacity: 0; }
+            to { max-height: 500px; opacity: 1; }
+          }
+          @keyframes fade-in-left {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+          }
+          @keyframes rotate-in {
+            from { transform: rotate(-90deg); opacity: 0; }
+            to { transform: rotate(0deg); opacity: 1; }
+          }
 
-        {/* 🌌 Enhanced Desktop Menu */}
-<div className="hidden lg:flex items-center gap-3">
-  {navItems.map((item) => {
-    const isActive = item.name.toLowerCase() === currentPage.toLowerCase()
-    const Icon = item.icon
-    const isHovered = hoveredItem === item.name
-
-    return (
-      <a
-        key={item.name}
-        href={item.href}
-        onMouseEnter={() => setHoveredItem(item.name)}
-        onMouseLeave={() => setHoveredItem(null)}
-        className="relative px-4 py-2 rounded-xl transition-all duration-300 group"
-      >
-        {/* Animated Background */}
-        <div
-          className={`absolute inset-0 rounded-xl transition-all duration-300 backdrop-blur-md ${
-            isActive
-              ? 'bg-gradient-to-r from-purple-600/20 to-pink-500/20 opacity-100 shadow-[0_0_12px_-2px_rgba(168,85,247,0.3)]'
-              : isHovered
-              ? 'bg-slate-800/40 opacity-100 shadow-inner'
-              : 'opacity-0'
-          }`}
-        />
-
-        {/* Glowing Border (Active) */}
-        {isActive && (
-          <div className="absolute inset-0 rounded-xl border border-purple-500/40 animate-[pulse_2s_infinite]" />
-        )}
-
-        {/* Icon + Text */}
-        <div className="relative z-10 flex items-center gap-2">
-          <Icon
-            className={`w-4 h-4 transition-all duration-300 ${
-              isActive
-                ? 'text-purple-400 drop-shadow-[0_0_6px_rgba(168,85,247,0.6)]'
-                : 'text-slate-400 group-hover:text-purple-300'
-            }`}
-          />
-          <span
-            className={`text-sm font-medium transition-colors duration-300 ${
-              isActive ? 'text-white' : 'text-slate-300 group-hover:text-white'
-            }`}
-          >
-            {item.name}
-          </span>
-        </div>
-
-        {/* Underline Glow */}
-        <motion.div
-          className="absolute -bottom-1 left-1/2 h-[2px] rounded-full bg-gradient-to-r from-transparent via-purple-500 to-transparent"
+          .animate-fade-in { animation: fade-in 0.6s ease-out; }
+          .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
+          .animate-slide-down { animation: slide-down 0.3s ease-out; }
+          .animate-fade-in-left { animation: fade-in-left 0.4s ease-out forwards; }
+          .animate-rotate-in { animation: rotate-in 0.2s ease-out; }
+          className="absolute -bottom-1 left-1/2 h-[2px] rounded-full bg-purple-400/70"
           animate={{
             width: isActive ? '100%' : isHovered ? '60%' : '0%',
             opacity: isActive || isHovered ? 1 : 0,
@@ -168,52 +70,33 @@ export default function Navbar({
           {setIsPlaying && (
             <motion.button
               onClick={() => setIsPlaying(!isPlaying)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`relative p-3 rounded-lg backdrop-blur-sm border transition-all group overflow-hidden transform duration-200 ${
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              className={`relative p-3 rounded-lg border transition-all duration-200 ${
                 isPlaying
-                  ? 'bg-slate-800/50 border-slate-700 hover:border-purple-500/50 hover:bg-slate-700/60'
-                  : 'bg-purple-500/20 border-purple-500/50 hover:border-purple-400/70 hover:bg-purple-500/30'
+                  ? 'bg-slate-800/60 border-slate-700 hover:bg-slate-700'
+                  : 'bg-purple-500/20 border-purple-500/40 hover:bg-purple-500/30'
               }`}
               title={isPlaying ? 'Pause background animations' : 'Resume background animations'}
             >
-              <div className={`absolute inset-0 transition-all duration-300 ${
-                isPlaying
-                  ? 'bg-gradient-to-r from-purple-500/0 via-purple-500/10 to-purple-500/0 animate-shimmer'
-                  : 'bg-gradient-to-r from-purple-500/20 to-pink-500/20'
-              }`} />
-              
               <motion.div
                 animate={{ rotate: isPlaying ? 0 : 180 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.25 }}
                 className="relative z-10"
               >
                 {isPlaying ? (
-                  <Pause className="w-4 h-4 text-slate-300 group-hover:text-white transition-colors" />
+                  <Pause className="w-4 h-4 text-slate-200" />
                 ) : (
-                  <Play className="w-4 h-4 text-purple-300 group-hover:text-white transition-colors" />
+                  <Play className="w-4 h-4 text-purple-200" />
                 )}
               </motion.div>
-              
-              {/* Status indicator */}
-              <div className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 rounded-full transition-all duration-300 ${
-                isPlaying ? 'bg-green-400 shadow-green-400/50 shadow-lg' : 'bg-purple-400 shadow-purple-400/50 shadow-lg'
-              }`} />
             </motion.button>
           )}
 
           {showLaunchDemo && !user && !loading && (
-            <button className="relative px-6  bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500 rounded-lg font-medium text-white overflow-hidden group hover:scale-105 active:scale-95 transform transition-all duration-200">
-              {/* Shine effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shine" />
-              
-              {/* Glow */}
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-500 blur-xl opacity-50 animate-pulse-slow" />
-
-              <span className="relative flex items-center gap-2">
-                Launch Demo
-                <Rocket className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-              </span>
+            <button className="px-5 py-2 bg-purple-600/80 hover:bg-purple-600 rounded-lg font-medium text-white flex items-center gap-2 transition-colors duration-200">
+              Launch Demo
+              <Rocket className="w-4 h-4" />
             </button>
           )}
 
@@ -247,7 +130,7 @@ export default function Navbar({
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="lg:hidden border-t border-slate-700/50 bg-slate-950/95 backdrop-blur-2xl overflow-hidden animate-slide-down">
+        <div className="lg:hidden border-t border-slate-800/60 bg-slate-950/90 backdrop-blur-xl overflow-hidden animate-slide-down">
           <div className="px-4 py-6 space-y-2">
             {navItems.map((item, index) => {
               const isActive = item.name.toLowerCase() === currentPage.toLowerCase()
