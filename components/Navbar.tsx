@@ -87,11 +87,7 @@ export default function Navbar({
               >
                 <div
                   className={`absolute inset-0 rounded-lg transition-all duration-150 ${
-                    isActive
-                      ? "bg-slate-800/70 border border-slate-700"
-                      : isHovered
-                      ? "bg-slate-800/50"
-                      : "opacity-0"
+                    isHovered ? "bg-slate-800/50" : "opacity-0"
                   }`}
                 />
                 <div className="relative z-10 flex items-center gap-2">
