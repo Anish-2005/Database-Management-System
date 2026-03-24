@@ -1,8 +1,15 @@
 "use client"
 
-import { useState, useMemo, type Dispatch, type SetStateAction } from "react"
+import {
+  useState,
+  useMemo,
+  useEffect,
+  useRef,
+  type Dispatch,
+  type SetStateAction,
+} from "react"
 import Link from "next/link"
-import { Database, Menu, X, Sparkles } from "lucide-react"
+import { Database, Menu, X, Sparkles, ChevronDown } from "lucide-react"
 import { useAuth } from "../lib/contexts/AuthContext"
 import UserProfile from "./auth/UserProfile"
 
@@ -16,12 +23,15 @@ interface NavbarProps {
   setIsMenuOpen?: Dispatch<SetStateAction<boolean>> | ((open: boolean) => void)
 }
 
-const navItems = [
+const primaryNavItems = [
   { name: "Home", href: "/" },
   { name: "Tutorials", href: "/tutorials" },
   { name: "Labs", href: "/labs" },
   { name: "Practice", href: "/practice" },
   { name: "Resources", href: "/resources" },
+]
+
+const secondaryNavItems = [
   { name: "Progress", href: "/progress" },
   { name: "Documentation", href: "/documentation" },
   { name: "Community", href: "/community" },
@@ -38,6 +48,8 @@ export default function Navbar({
 }: NavbarProps) {
   const { user, loading } = useAuth()
   const [localMenuOpen, setLocalMenuOpen] = useState(false)
+  const [isMoreOpen, setIsMoreOpen] = useState(false)
+  const moreMenuRef = useRef<HTMLDivElement>(null)
 
   const menuOpen = isMenuOpen ?? localMenuOpen
   const setMenuOpen = (open: boolean) => {
@@ -49,6 +61,27 @@ export default function Navbar({
   }
 
   const activePage = useMemo(() => currentPage.toLowerCase(), [currentPage])
+  const isSecondaryActive = secondaryNavItems.some(
+    (item) => item.name.toLowerCase() === activePage
+  )
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (!moreMenuRef.current) return
+      if (!moreMenuRef.current.contains(event.target as Node)) {
+        setIsMoreOpen(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleOutsideClick)
+    return () => document.removeEventListener("mousedown", handleOutsideClick)
+  }, [])
+
+  useEffect(() => {
+    if (menuOpen) {
+      setIsMoreOpen(false)
+    }
+  }, [menuOpen])
 
   return (
     <header className="fixed top-0 z-50 w-full border-b border-indigo-400/20 bg-slate-950/82 backdrop-blur-xl">
@@ -63,23 +96,63 @@ export default function Navbar({
           </div>
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex">
-          {navItems.map((item) => {
-            const isActive = item.name.toLowerCase() === activePage
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`rounded-lg px-3 py-2 text-sm font-medium transition-all ${
-                  isActive
-                    ? "bg-gradient-to-r from-violet-500/35 to-cyan-400/20 text-white ring-1 ring-violet-300/30"
-                    : "text-slate-300 hover:bg-slate-900/65 hover:text-white"
-                }`}
-              >
-                {item.name}
-              </Link>
-            )
-          })}
+        <nav className="hidden items-center lg:flex">
+          <div className="flex items-center gap-1 rounded-full border border-indigo-400/25 bg-slate-900/65 p-1">
+            {primaryNavItems.map((item) => {
+              const isActive = item.name.toLowerCase() === activePage
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`rounded-full px-3 py-2 text-sm font-medium transition-all ${
+                    isActive
+                      ? "bg-gradient-to-r from-violet-500/45 to-cyan-400/30 text-white shadow-lg shadow-violet-900/30"
+                      : "text-slate-300 hover:bg-slate-800/80 hover:text-white"
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              )
+            })}
+          </div>
+
+          <div className="relative ml-2" ref={moreMenuRef}>
+            <button
+              onClick={() => setIsMoreOpen((prev) => !prev)}
+              className={`inline-flex items-center gap-1 rounded-full border px-3 py-2 text-sm font-medium transition-colors ${
+                isSecondaryActive || isMoreOpen
+                  ? "border-violet-300/35 bg-violet-500/15 text-violet-100"
+                  : "border-slate-700 bg-slate-900/70 text-slate-300 hover:border-indigo-300/30 hover:text-white"
+              }`}
+            >
+              More
+              <ChevronDown
+                className={`h-4 w-4 transition-transform ${isMoreOpen ? "rotate-180" : ""}`}
+              />
+            </button>
+
+            {isMoreOpen && (
+              <div className="absolute right-0 mt-2 w-52 rounded-xl border border-indigo-300/25 bg-slate-950/95 p-2 shadow-2xl shadow-violet-950/40">
+                {secondaryNavItems.map((item) => {
+                  const isActive = item.name.toLowerCase() === activePage
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setIsMoreOpen(false)}
+                      className={`block rounded-lg px-3 py-2 text-sm transition-colors ${
+                        isActive
+                          ? "bg-violet-500/20 text-white"
+                          : "text-slate-300 hover:bg-slate-800/70 hover:text-white"
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  )
+                })}
+              </div>
+            )}
+          </div>
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
@@ -113,34 +186,67 @@ export default function Navbar({
 
       {menuOpen && (
         <div className="border-t border-indigo-400/20 bg-slate-950/96 px-4 py-4 lg:hidden">
-          <nav className="grid gap-1">
-            {navItems.map((item) => {
-              const isActive = item.name.toLowerCase() === activePage
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setMenuOpen(false)}
-                  className={`rounded-lg px-3 py-2 text-sm font-medium ${
-                    isActive
-                      ? "bg-gradient-to-r from-violet-500/35 to-cyan-400/20 text-white ring-1 ring-violet-300/30"
-                      : "text-slate-300 hover:bg-slate-900/70 hover:text-white"
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              )
-            })}
+          <div className="space-y-4">
+            <div>
+              <p className="mb-2 text-xs font-semibold tracking-wider text-slate-400 uppercase">
+                Main
+              </p>
+              <nav className="grid gap-1">
+                {primaryNavItems.map((item) => {
+                  const isActive = item.name.toLowerCase() === activePage
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setMenuOpen(false)}
+                      className={`rounded-lg px-3 py-2 text-sm font-medium ${
+                        isActive
+                          ? "bg-gradient-to-r from-violet-500/35 to-cyan-400/20 text-white ring-1 ring-violet-300/30"
+                          : "text-slate-300 hover:bg-slate-900/70 hover:text-white"
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  )
+                })}
+              </nav>
+            </div>
+
+            <div>
+              <p className="mb-2 text-xs font-semibold tracking-wider text-slate-400 uppercase">
+                Explore
+              </p>
+              <nav className="grid grid-cols-2 gap-1">
+                {secondaryNavItems.map((item) => {
+                  const isActive = item.name.toLowerCase() === activePage
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setMenuOpen(false)}
+                      className={`rounded-lg px-3 py-2 text-sm font-medium ${
+                        isActive
+                          ? "bg-violet-500/25 text-white"
+                          : "text-slate-300 hover:bg-slate-900/70 hover:text-white"
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  )
+                })}
+              </nav>
+            </div>
+
             {!loading && !user && (
               <Link
                 href="/login"
                 onClick={() => setMenuOpen(false)}
-                className="mt-2 rounded-lg border border-indigo-400/25 bg-slate-900/75 px-3 py-2 text-center text-sm font-medium text-slate-100"
+                className="mt-1 block rounded-lg border border-indigo-400/25 bg-slate-900/75 px-3 py-2 text-center text-sm font-medium text-slate-100"
               >
                 Sign In
               </Link>
             )}
-          </nav>
+          </div>
         </div>
       )}
     </header>
