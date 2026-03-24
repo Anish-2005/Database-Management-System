@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Heart, Bookmark, Database, Code, User } from 'lucide-react'
 import Background from '../../components/Background'
 import Navbar from '../../components/Navbar'
+import Footer from '../../components/Footer'
 import { useAuth } from '../../lib/contexts/AuthContext'
 import { ProfileHeader, SavedItemsSection, EmptyState } from '../../components/profile'
 
@@ -198,6 +199,7 @@ export default function ProfilePage() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   )
 }
