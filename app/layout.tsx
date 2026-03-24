@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import CursorAnimation from "@/components/CursorAnimation";
 import { AuthProvider } from "@/lib/contexts/AuthContext";
 
 const geistSans = Geist({
@@ -15,8 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "QuantumDB - Next-Gen Database Management System",
-  description: "Experience unprecedented performance with our AI-powered distributed database system. Built for the most demanding applications with real-time analytics and infinite scalability.",
+  title: "QuantumDB - Database Management Platform",
+  description:
+    "A modern database management platform for tutorials, labs, practice, and team collaboration.",
 };
 
 export default function RootLayout({
@@ -26,17 +26,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased cursor-none`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AuthProvider>
-          {/* Cursor Animation Component */}
-          <CursorAnimation 
-            color="#8b5cf6"
-            size={24}
-            blendMode="screen"
-          />
-          
           {children}
         </AuthProvider>
       </body>
