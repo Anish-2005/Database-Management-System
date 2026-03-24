@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { Heart, Bookmark, Database, Code, User } from 'lucide-react'
 import Background from '../../components/Background'
 import Navbar from '../../components/Navbar'
-import CursorAnimation from '../../components/CursorAnimation'
 import { useAuth } from '../../lib/contexts/AuthContext'
 import { ProfileHeader, SavedItemsSection, EmptyState } from '../../components/profile'
 
@@ -134,7 +133,7 @@ export default function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+      <div className="app-shell flex items-center justify-center">
         <div className="text-center">
           <User className="w-16 h-16 text-slate-600 mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-2">Please sign in</h2>
@@ -145,9 +144,8 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white relative overflow-x-hidden">
+    <div className="app-shell">
       <Background isPlaying={isPlaying} />
-      <CursorAnimation />
       <Navbar
         currentPage="profile"
         isPlaying={isPlaying}
@@ -156,7 +154,7 @@ export default function ProfilePage() {
         setIsMenuOpen={setIsMenuOpen}
       />
 
-      <div className="relative z-10 pt-20 pb-16">
+      <div className="app-main">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <ProfileHeader user={user} />

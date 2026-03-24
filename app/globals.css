@@ -4,87 +4,36 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.06 0 260);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.12 0 0);
-  --card-foreground: oklch(0.95 0 0);
-  --popover: oklch(0.12 0 0);
-  --popover-foreground: oklch(0.95 0 0);
-  --primary: oklch(0.62 0.32 265);
-  --primary-foreground: oklch(0.95 0 0);
-  --secondary: oklch(0.48 0.22 210);
-  --secondary-foreground: oklch(0.95 0 0);
-  --muted: oklch(0.25 0 0);
-  --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.62 0.28 300);
-  --accent-foreground: oklch(0.95 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.95 0 0);
-  --border: oklch(0.2 0 0);
-  --input: oklch(0.15 0 0);
-  --ring: oklch(0.5 0.3 262);
-  --chart-1: oklch(0.55 0.35 280);
-  --chart-2: oklch(0.5 0.3 200);
-  --chart-3: oklch(0.45 0.25 150);
-  --chart-4: oklch(0.6 0.3 50);
-  --chart-5: oklch(0.5 0.25 320);
-  --radius: 0.625rem;
-  --content-max-width: 1100px;
-  --hero-height: 80vh;
-  --sidebar: oklch(0.1 0 0);
-  --sidebar-foreground: oklch(0.95 0 0);
-  --sidebar-primary: oklch(0.5 0.3 262);
-  --sidebar-primary-foreground: oklch(0.95 0 0);
-  --sidebar-accent: oklch(0.55 0.35 280);
-  --sidebar-accent-foreground: oklch(0.95 0 0);
-  --sidebar-border: oklch(0.2 0 0);
-  --sidebar-ring: oklch(0.5 0.3 262);
-}
-
-.dark {
-  --background: oklch(0.06 0 260);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
-}
-
-/* Improved font stack and subtle UI tokens */
-:root {
-  --font-sans-fallback: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  --control-radius: 12px;
+  --background: oklch(0.16 0.03 257);
+  --foreground: oklch(0.95 0.01 255);
+  --card: oklch(0.21 0.03 256);
+  --card-foreground: oklch(0.95 0.01 255);
+  --popover: oklch(0.21 0.03 256);
+  --popover-foreground: oklch(0.95 0.01 255);
+  --primary: oklch(0.66 0.14 245);
+  --primary-foreground: oklch(0.98 0.01 255);
+  --secondary: oklch(0.39 0.06 243);
+  --secondary-foreground: oklch(0.98 0.01 255);
+  --muted: oklch(0.27 0.03 255);
+  --muted-foreground: oklch(0.72 0.02 255);
+  --accent: oklch(0.62 0.1 210);
+  --accent-foreground: oklch(0.98 0.01 255);
+  --destructive: oklch(0.57 0.2 27);
+  --destructive-foreground: oklch(0.98 0.01 255);
+  --border: oklch(0.34 0.03 255);
+  --input: oklch(0.24 0.03 255);
+  --ring: oklch(0.63 0.1 240);
+  --chart-1: oklch(0.7 0.16 255);
+  --chart-2: oklch(0.67 0.14 220);
+  --chart-3: oklch(0.62 0.12 195);
+  --chart-4: oklch(0.76 0.12 130);
+  --chart-5: oklch(0.72 0.15 55);
+  --radius: 0.75rem;
 }
 
 @theme inline {
-  --font-sans: "Geist", "Geist Fallback";
-  --font-mono: "Geist Mono", "Geist Mono Fallback";
+  --font-sans: "Geist", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Geist Mono", "Consolas", monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -113,136 +62,93 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
+  html,
+  body {
+    min-height: 100%;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: var(--font-sans-fallback);
+    font-family: "Geist", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+    text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+  }
 }
 
 @layer utilities {
-  .glow-primary {
-    box-shadow: 0 0 20px rgba(127, 29, 255, 0.5), 0 0 40px rgba(127, 29, 255, 0.3);
+  .app-shell {
+    @apply relative min-h-screen overflow-x-hidden text-foreground;
+    background: linear-gradient(180deg, rgba(8, 16, 30, 0.9) 0%, rgba(7, 14, 24, 0.94) 100%);
   }
 
-  .glow-secondary {
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3);
+  .app-main {
+    @apply relative z-10 pt-24 pb-20;
   }
 
-  .glow-accent {
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5), 0 0 40px rgba(168, 85, 247, 0.3);
+  .surface-panel {
+    @apply rounded-2xl border border-slate-700/80 bg-slate-900/45 backdrop-blur-sm;
   }
 
-  /* Buttons */
-  .btn-primary {
-    background: linear-gradient(90deg, color-mix(in srgb, var(--primary) 70%, white 10%), var(--accent));
-    color: white;
-    border-radius: var(--control-radius);
-    padding: 0.75rem 1.25rem;
-    font-weight: 600;
-    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.12);
-    transition: transform 150ms ease, box-shadow 150ms ease;
+  .section-title {
+    @apply text-3xl font-semibold tracking-tight text-slate-100 sm:text-4xl;
   }
 
-  .btn-outline {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.06);
-    color: var(--foreground);
-    padding: 0.7rem 1.1rem;
-    border-radius: var(--control-radius);
-    transition: background 150ms ease, transform 150ms ease;
+  .section-subtitle {
+    @apply text-base leading-7 text-slate-400;
   }
 
-  .card-elevated {
-    background: linear-gradient(180deg, color-mix(in srgb, var(--card) 85%, transparent 15%), var(--card));
-    border-radius: 1rem;
-    padding: 1.25rem;
-    box-shadow: 0 6px 30px rgba(2,6,23,0.45);
-    border: 1px solid rgba(255,255,255,0.03);
-  }
-
-  .grid-pattern {
-    background-image: linear-gradient(rgba(127, 29, 255, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(127, 29, 255, 0.1) 1px, transparent 1px);
-    background-size: 50px 50px;
-  }
-
-  .data-flow {
-    animation: dataFlow 3s ease-in-out infinite;
-  }
-
-  @keyframes dataFlow {
+  @keyframes floatOrb {
     0%,
     100% {
-      opacity: 0.3;
+      transform: translateY(0);
+      opacity: 0.35;
     }
     50% {
-      opacity: 1;
+      transform: translateY(-18px);
+      opacity: 0.5;
     }
   }
 }
 
-/* Custom Scrollbar Styles */
 @layer utilities {
-  /* Webkit browsers (Chrome, Safari, Edge) */
   ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
   }
 
   ::-webkit-scrollbar-track {
-    background: rgba(15, 23, 42, 0.3);
-    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.55);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(139, 92, 246, 0.6), rgba(168, 85, 247, 0.6));
-    border-radius: 8px;
-    border: 2px solid rgba(15, 23, 42, 0.3);
-    transition: all 0.3s ease;
+    background: rgba(100, 116, 139, 0.55);
+    border-radius: 9999px;
+    border: 2px solid rgba(15, 23, 42, 0.55);
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, rgba(139, 92, 246, 0.8), rgba(168, 85, 247, 0.8));
-    box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+    background: rgba(148, 163, 184, 0.7);
   }
 
-  ::-webkit-scrollbar-thumb:active {
-    background: linear-gradient(180deg, rgba(139, 92, 246, 0.9), rgba(168, 85, 247, 0.9));
-  }
-
-  ::-webkit-scrollbar-corner {
-    background: rgba(15, 23, 42, 0.3);
-  }
-
-  /* Firefox */
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(139, 92, 246, 0.6) rgba(15, 23, 42, 0.3);
-  }
-
-  /* Hide scrollbar for very small content */
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+    scrollbar-color: rgba(100, 116, 139, 0.65) rgba(15, 23, 42, 0.55);
   }
 }

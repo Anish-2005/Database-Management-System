@@ -13,7 +13,7 @@ interface NavbarProps {
   isPlaying?: boolean
   setIsPlaying?: (playing: boolean) => void
   isMenuOpen?: boolean
-  setIsMenuOpen?: (open: boolean) => void
+  setIsMenuOpen?: (open?: boolean) => void
 }
 
 const navItems = [
@@ -40,7 +40,13 @@ export default function Navbar({
   const [localMenuOpen, setLocalMenuOpen] = useState(false)
 
   const menuOpen = isMenuOpen ?? localMenuOpen
-  const setMenuOpen = setIsMenuOpen ?? setLocalMenuOpen
+  const setMenuOpen = (open: boolean) => {
+    if (setIsMenuOpen) {
+      setIsMenuOpen(open)
+      return
+    }
+    setLocalMenuOpen(open)
+  }
 
   const activePage = useMemo(() => currentPage.toLowerCase(), [currentPage])
 

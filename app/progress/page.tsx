@@ -36,7 +36,7 @@ export default function ProgressPage() {
   } = useProgressFilters(recentActivity)
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white overflow-hidden relative">
+    <div className="app-shell">
       <Background isPlaying={isPlaying} />
 
       {/* Navigation */}
@@ -49,7 +49,7 @@ export default function ProgressPage() {
         setIsMenuOpen={setIsMenuOpen}
       />
 
-      <div className="relative z-10 pt-24 pb-24">
+      <div className="app-main">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ProgressHeader />
 

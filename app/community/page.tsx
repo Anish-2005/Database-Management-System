@@ -17,9 +17,18 @@ import { EventsGrid } from "../../components/community/EventsGrid"
 
 export default function CommunityPage() {
   const [isPlaying, setIsPlaying] = useState(true)
-  const { data } = useCommunityData()
+  const { data, incrementDiscussionViews } = useCommunityData()
   const { filters, updateSearchQuery, updateActiveFilter, filterDiscussions, sortDiscussions, filterMembers, sortMembers, filterEvents, sortEvents } = useCommunityFilters()
-  const { state, setActiveTab, toggleNewPost, handleDiscussionClick, handleMemberFollow, handleEventRegistration } = useCommunityManagement()
+  const {
+    state,
+    setActiveTab,
+    toggleNewPost,
+    handleDiscussionClick,
+    handleMemberFollow,
+    handleEventRegistration,
+    toggleMenu,
+    closeMenu
+  } = useCommunityManagement()
 
   // Load animation state from localStorage after hydration
   useEffect(() => {
@@ -40,7 +49,7 @@ export default function CommunityPage() {
   const filteredEvents = sortEvents(filterEvents(data.events))
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white overflow-hidden relative">
+    <div className="app-shell">
       <Background isPlaying={isPlaying} />
 
       {/* Navigation */}
@@ -50,10 +59,10 @@ export default function CommunityPage() {
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         isMenuOpen={state.isMenuOpen}
-        setIsMenuOpen={useCommunityManagement().toggleMenu}
+        setIsMenuOpen={(open) => (open ? toggleMenu() : closeMenu())}
       />
 
-      <div className="relative z-10 pt-24 pb-24">
+      <div className="app-main">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <CommunityHeader />
@@ -79,7 +88,7 @@ export default function CommunityPage() {
               {/* Discussions List */}
               <DiscussionsList
                 discussions={filteredDiscussions}
-                onDiscussionClick={(discussion) => handleDiscussionClick(discussion, useCommunityData().incrementDiscussionViews)}
+                onDiscussionClick={(discussion) => handleDiscussionClick(discussion, incrementDiscussionViews)}
               />
             </div>
           )}

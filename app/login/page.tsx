@@ -5,7 +5,6 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '../../lib/contexts/AuthContext'
 import Background from '../../components/Background'
-import CursorAnimation from '../../components/CursorAnimation'
 import { LoginHeader, BackButton, AuthForm } from '../../components/auth'
 
 export default function LoginPage() {
@@ -90,9 +89,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white relative overflow-x-hidden">
+    <div className="app-shell">
       <Background isPlaying={false} />
-      <CursorAnimation />
 
       <BackButton />
 

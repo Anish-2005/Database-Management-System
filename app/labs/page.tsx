@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Database, Plus, Search, Filter, Target, User, X, Sparkles, Users } from 'lucide-react'
 import Background from '../../components/Background'
 import Navbar from '../../components/Navbar'
-import CursorAnimation from '../../components/CursorAnimation'
 import LabsHeader from '../../components/labs/LabsHeader'
 import LabsFilters from '../../components/labs/LabsFilters'
 import LabsGrid from '../../components/labs/LabsGrid'
@@ -160,9 +159,8 @@ export default function LabsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white relative overflow-x-hidden">
+    <div className="app-shell">
       <Background isPlaying={isPlaying} />
-      <CursorAnimation />
       <Navbar 
         currentPage="labs" 
         isPlaying={isPlaying}
@@ -183,7 +181,7 @@ export default function LabsPage() {
         </motion.div>
       )}
 
-      <div className="relative z-10 pt-20 pb-16">
+      <div className="app-main">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <LabsHeader />
