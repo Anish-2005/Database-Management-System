@@ -42,7 +42,7 @@ export default function AboutPage() {
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         isMenuOpen={state.isMenuOpen}
-        setIsMenuOpen={(open) => (open ? openMenu() : closeMenu())}
+        setIsMenuOpen={(open: boolean) => (open ? openMenu() : closeMenu())}
       />
 
       <div className="app-main">

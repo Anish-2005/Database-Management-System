@@ -59,7 +59,7 @@ export default function CommunityPage() {
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         isMenuOpen={state.isMenuOpen}
-        setIsMenuOpen={(open) => (open ? toggleMenu() : closeMenu())}
+        setIsMenuOpen={(open: boolean) => (open ? toggleMenu() : closeMenu())}
       />
 
       <div className="app-main">
