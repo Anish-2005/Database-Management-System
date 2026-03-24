@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import Navbar from "../../components/Navbar"
 import Background from "../../components/Background"
+import Footer from "../../components/Footer"
 import { useAboutData } from "../../lib/hooks/useAboutData"
 import { useAboutManagement } from "../../lib/hooks/useAboutManagement"
 import { AboutHeader } from "../../components/about/AboutHeader"
@@ -73,6 +74,7 @@ export default function AboutPage() {
           <CallToAction />
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

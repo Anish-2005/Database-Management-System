@@ -52,7 +52,7 @@ export default function Navbar({
 
   return (
     <header className="fixed top-0 z-50 w-full border-b border-indigo-400/20 bg-slate-950/82 backdrop-blur-xl">
-      <div className="mx-auto flex h-17 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3 transition-transform hover:scale-[1.01]">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/85 to-cyan-400/70 ring-1 ring-violet-300/30">
             <Database className="h-5 w-5 text-white" />

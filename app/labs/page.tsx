@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Database, Plus, Search, Filter, Target, User, X, Sparkles, Users } from 'lucide-react'
 import Background from '../../components/Background'
 import Navbar from '../../components/Navbar'
+import Footer from '../../components/Footer'
 import LabsHeader from '../../components/labs/LabsHeader'
 import LabsFilters from '../../components/labs/LabsFilters'
 import LabsGrid from '../../components/labs/LabsGrid'
@@ -285,6 +286,7 @@ export default function LabsPage() {
           )}
         </div>
       </div>
+      <Footer />
 
       {/* Modals */}
       <LabDetailModal

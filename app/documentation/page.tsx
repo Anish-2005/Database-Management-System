@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import Navbar from "../../components/Navbar"
 import Background from "../../components/Background"
+import Footer from "../../components/Footer"
 import { DocumentationHeader } from "../../components/documentation/DocumentationHeader"
 import { DocumentationFilters } from "../../components/documentation/DocumentationFilters"
 import { DocumentationGrid } from "../../components/documentation/DocumentationGrid"
@@ -70,6 +71,7 @@ export default function DocumentationPage() {
           <QuickLinks />
         </div>
       </div>
+      <Footer />
 
       <DocumentationDetailModal
         activeDoc={activeDoc}

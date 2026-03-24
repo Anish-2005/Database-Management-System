@@ -2,6 +2,7 @@
 
 import Navbar from "../../components/Navbar"
 import Background from "../../components/Background"
+import Footer from "../../components/Footer"
 import { PricingHeader } from "../../components/pricing/PricingHeader"
 import { BillingToggle } from "../../components/pricing/BillingToggle"
 import { PricingCards } from "../../components/pricing/PricingCards"
@@ -54,6 +55,7 @@ export default function PricingPage() {
           <CTABanner />
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

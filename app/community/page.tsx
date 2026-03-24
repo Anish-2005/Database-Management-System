@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Navbar from "../../components/Navbar"
 import Background from "../../components/Background"
+import Footer from "../../components/Footer"
 import { useCommunityData } from "../../lib/hooks/useCommunityData"
 import { useCommunityFilters } from "../../lib/hooks/useCommunityFilters"
 import { useCommunityManagement } from "../../lib/hooks/useCommunityManagement"
@@ -55,7 +56,7 @@ export default function CommunityPage() {
       {/* Navigation */}
       <Navbar
         currentPage="Community"
-        subtitle="Connect • Share • Learn"
+        subtitle="Connect | Share | Learn"
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         isMenuOpen={state.isMenuOpen}
@@ -110,6 +111,7 @@ export default function CommunityPage() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

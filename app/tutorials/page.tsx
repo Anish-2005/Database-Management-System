@@ -15,6 +15,7 @@ import {
 } from "lucide-react"
 import Navbar from "../../components/Navbar"
 import Background from "../../components/Background"
+import Footer from "../../components/Footer"
 import HeaderSection from "../../components/tutorials/HeaderSection"
 import SearchFiltersSection from "../../components/tutorials/SearchFiltersSection"
 import AdvancedFiltersSection from "../../components/tutorials/AdvancedFiltersSection"
@@ -209,7 +210,7 @@ export default function TutorialsPage() {
       {/* Navigation */}
       <Navbar
         currentPage="Tutorials"
-        subtitle="Learn • Practice • Master"
+        subtitle="Learn | Practice | Master"
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         isMenuOpen={isMenuOpen}
@@ -221,6 +222,7 @@ export default function TutorialsPage() {
           <TutorialsContainer />
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

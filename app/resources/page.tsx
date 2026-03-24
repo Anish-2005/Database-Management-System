@@ -2,6 +2,7 @@
 
 import Navbar from "../../components/Navbar"
 import Background from "../../components/Background"
+import Footer from "../../components/Footer"
 import { ResourcesHeader } from "../../components/resources/ResourcesHeader"
 import { QuickStats } from "../../components/resources/QuickStats"
 import { SearchFiltersSection } from "../../components/resources/SearchFiltersSection"
@@ -48,6 +49,7 @@ export default function ResourcesPage() {
           <FeaturedTools />
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

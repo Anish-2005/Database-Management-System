@@ -2,6 +2,7 @@
 
 import Navbar from "../../components/Navbar"
 import Background from "../../components/Background"
+import Footer from "../../components/Footer"
 import { PracticeHeader } from "../../components/practice/PracticeHeader"
 import { PracticeStats } from "../../components/practice/PracticeStats"
 import { PracticeFilters } from "../../components/practice/PracticeFilters"
@@ -77,7 +78,7 @@ export default function PracticePage() {
       {/* Navigation */}
       <Navbar
         currentPage="Practice"
-        subtitle="Practice • Challenge • Excel"
+        subtitle="Practice | Challenge | Excel"
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         isMenuOpen={isMenuOpen}
@@ -135,6 +136,7 @@ export default function PracticePage() {
           )}
         </div>
       </div>
+      <Footer />
 
       <PracticeModal
         selectedChallenge={selectedChallenge}

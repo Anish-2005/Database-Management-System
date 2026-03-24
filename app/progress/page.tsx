@@ -2,6 +2,7 @@
 
 import Navbar from "../../components/Navbar"
 import Background from "../../components/Background"
+import Footer from "../../components/Footer"
 import { ProgressHeader } from "../../components/progress/ProgressHeader"
 import { OverviewStats } from "../../components/progress/OverviewStats"
 import { SkillProgress } from "../../components/progress/SkillProgress"
@@ -98,6 +99,7 @@ export default function ProgressPage() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   )
 }
