@@ -1,28 +1,27 @@
 <svg width="544" height="128" viewBox="0 0 272 64" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="qdb_mark_h" x1="10" y1="8" x2="54" y2="56" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#77216F" />
-      <stop offset="65%" stop-color="#5E2750" />
+    <linearGradient id="qdb_h_bg" x1="10" y1="8" x2="54" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#7F2C7C" />
+      <stop offset="60%" stop-color="#5E2750" />
       <stop offset="100%" stop-color="#2C001E" />
     </linearGradient>
-    <linearGradient id="qdb_word" x1="78" y1="24" x2="248" y2="49" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#F3C8FF" />
-      <stop offset="55%" stop-color="#C084FC" />
-      <stop offset="100%" stop-color="#E95420" />
-    </linearGradient>
+    <radialGradient id="qdb_h_glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(23 20) rotate(42) scale(34 27)">
+      <stop stop-color="#CBA6EC" stop-opacity="0.35" />
+      <stop offset="1" stop-color="#CBA6EC" stop-opacity="0" />
+    </radialGradient>
   </defs>
 
-  <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#qdb_mark_h)" stroke="#A87ACF" stroke-width="1.5" />
-  <rect x="16" y="19" width="28" height="6.5" rx="3.25" fill="#F5EAFF" />
-  <rect x="16" y="29" width="28" height="6.5" rx="3.25" fill="#EAD9FC" />
-  <rect x="16" y="39" width="28" height="6.5" rx="3.25" fill="#D9BEF6" />
-  <circle cx="47.5" cy="44.5" r="4.5" fill="#E95420" />
+  <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#qdb_h_bg)" stroke="#B98BDA" stroke-width="1.5" />
+  <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#qdb_h_glow)" />
+  <circle cx="32" cy="32" r="12.5" stroke="#F5EAFF" stroke-width="5" />
+  <path d="M39.5 39.5L46.2 46.2" stroke="#F5EAFF" stroke-width="5" stroke-linecap="round" />
+  <circle cx="46.5" cy="17.5" r="2.8" fill="#E95420" />
 
   <text
     x="76"
-    y="41"
-    fill="url(#qdb_word)"
-    style="font: 700 24px Ubuntu, 'Segoe UI', sans-serif; letter-spacing: 0.02em;"
+    y="40.5"
+    fill="#F7F2FF"
+    style="font: 600 24px Ubuntu, 'Segoe UI', sans-serif; letter-spacing: 0.015em;"
   >
     QuantumDB
   </text>
