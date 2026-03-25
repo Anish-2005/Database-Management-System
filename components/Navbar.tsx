@@ -9,9 +9,10 @@ import {
   type SetStateAction,
 } from "react"
 import Link from "next/link"
-import { Database, Menu, X, Sparkles, ChevronDown } from "lucide-react"
+import { Menu, X, Sparkles, ChevronDown } from "lucide-react"
 import { useAuth } from "../lib/contexts/AuthContext"
 import UserProfile from "./auth/UserProfile"
+import BrandLogo from "./BrandLogo"
 
 interface NavbarProps {
   currentPage?: string
@@ -88,13 +89,7 @@ export default function Navbar({
     <header className="fixed top-0 z-50 w-full border-b border-violet-400/25 bg-[#150718]/84 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3 transition-transform hover:scale-[1.01]">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-700/90 via-fuchsia-600/85 to-orange-500/80 ring-1 ring-violet-200/35">
-            <Database className="h-5 w-5 text-white" />
-          </div>
-          <div className="leading-tight">
-            <p className="text-sm font-semibold tracking-wide brand-gradient">QuantumDB</p>
-            <p className="hidden text-xs text-slate-200/80 sm:block">{subtitle}</p>
-          </div>
+          <BrandLogo size="md" subtitle={subtitle} />
         </Link>
 
         <nav className="hidden items-center lg:flex">

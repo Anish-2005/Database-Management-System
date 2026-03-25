@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import BrandLogo from "./BrandLogo"
 
 const footerLinks = {
   product: [
@@ -28,7 +29,11 @@ export default function Footer() {
     <footer className="relative z-10 mt-20 border-t border-violet-400/25 bg-[#150718]/75">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-5 lg:px-8">
         <div className="lg:col-span-2">
-          <h3 className="text-lg font-semibold brand-gradient">QuantumDB</h3>
+          <BrandLogo
+            size="md"
+            subtitle="Industry-grade database learning platform"
+            className="mb-1"
+          />
           <p className="mt-3 max-w-md text-sm leading-6 text-slate-300/85">
             Professional learning and workflow platform for database engineering teams.
           </p>

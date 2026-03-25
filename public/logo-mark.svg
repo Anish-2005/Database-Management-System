@@ -1,0 +1,20 @@
+<svg width="128" height="128" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="qdb_mark_bg" x1="10" y1="8" x2="54" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#7F2C7C" />
+      <stop offset="60%" stop-color="#5E2750" />
+      <stop offset="100%" stop-color="#2C001E" />
+    </linearGradient>
+    <radialGradient id="qdb_mark_glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(23 20) rotate(42) scale(34 27)">
+      <stop stop-color="#CBA6EC" stop-opacity="0.35" />
+      <stop offset="1" stop-color="#CBA6EC" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#qdb_mark_bg)" stroke="#B98BDA" stroke-width="1.5" />
+  <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#qdb_mark_glow)" />
+
+  <circle cx="32" cy="32" r="12.5" stroke="#F5EAFF" stroke-width="5" />
+  <path d="M39.5 39.5L46.2 46.2" stroke="#F5EAFF" stroke-width="5" stroke-linecap="round" />
+  <circle cx="46.5" cy="17.5" r="2.8" fill="#E95420" />
+</svg>

@@ -19,6 +19,11 @@ export const metadata: Metadata = {
   title: "QuantumDB - Database Management Platform",
   description:
     "A modern database management platform for tutorials, labs, practice, and team collaboration.",
+  icons: {
+    icon: [{ url: "/logo-mark.svg", type: "image/svg+xml" }],
+    shortcut: "/logo-mark.svg",
+    apple: "/logo-mark.svg",
+  },
 };
 
 export default function RootLayout({

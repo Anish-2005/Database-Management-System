@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Lock } from 'lucide-react'
+import BrandLogo from '../BrandLogo'
 
 interface LoginHeaderProps {
   mode: 'login' | 'signup'
@@ -12,11 +12,9 @@ export function LoginHeader({ mode }: LoginHeaderProps) {
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
-        className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-purple-500/20 to-cyan-500/20 mb-6 border border-purple-500/30"
+        className="inline-flex items-center justify-center mb-6"
       >
-        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-          <Lock className="w-6 h-6 text-white" />
-        </div>
+        <BrandLogo size="lg" withWordmark={false} />
       </motion.div>
 
       <motion.h1
