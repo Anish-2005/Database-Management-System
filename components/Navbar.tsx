@@ -36,6 +36,7 @@ const secondaryNavItems = [
   { name: "Documentation", href: "/documentation" },
   { name: "Community", href: "/community" },
   { name: "Pricing", href: "/pricing" },
+  { name: "Settings", href: "/settings" },
   { name: "About", href: "/about" },
 ]
 

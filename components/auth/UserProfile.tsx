@@ -9,6 +9,7 @@ import { useAuth } from "../../lib/contexts/AuthContext"
 export default function UserProfile() {
   const [isOpen, setIsOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
+  const [avatarError, setAvatarError] = useState(false)
   const [displayName, setDisplayName] = useState('')
   const { user, logout, updateUserProfile } = useAuth()
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -18,6 +19,10 @@ export default function UserProfile() {
       setDisplayName(user.displayName)
     }
   }, [user])
+
+  useEffect(() => {
+    setAvatarError(false)
+  }, [user?.photoURL, user?.uid])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -62,6 +67,9 @@ export default function UserProfile() {
     return user?.displayName || user?.email?.split('@')[0] || 'User'
   }
 
+  const resolvedPhotoURL = user?.photoURL || user?.providerData?.find((p) => p.photoURL)?.photoURL
+  const showPhoto = Boolean(resolvedPhotoURL) && !avatarError
+
   if (!user) return null
 
   return (
@@ -74,11 +82,13 @@ export default function UserProfile() {
       >
         {/* Avatar */}
         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-semibold text-sm">
-          {user.photoURL ? (
+          {showPhoto ? (
             <img
-              src={user.photoURL}
+              src={resolvedPhotoURL!}
               alt="Profile"
               className="w-8 h-8 rounded-full object-cover"
+              referrerPolicy="no-referrer"
+              onError={() => setAvatarError(true)}
             />
           ) : (
             getInitials(getDisplayName())
@@ -112,11 +122,13 @@ export default function UserProfile() {
             <div className="p-4 border-b border-slate-800">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-semibold">
-                  {user.photoURL ? (
+                  {showPhoto ? (
                     <img
-                      src={user.photoURL}
+                      src={resolvedPhotoURL!}
                       alt="Profile"
                       className="w-12 h-12 rounded-full object-cover"
+                      referrerPolicy="no-referrer"
+                      onError={() => setAvatarError(true)}
                     />
                   ) : (
                     getInitials(getDisplayName())
@@ -165,16 +177,14 @@ export default function UserProfile() {
                 <span className="text-sm">Edit Profile</span>
               </button>
 
-              <button
-                onClick={() => {
-                  setIsOpen(false)
-                  // Could open settings modal here
-                }}
+              <a
+                href="/settings"
+                onClick={() => setIsOpen(false)}
                 className="w-full flex items-center gap-3 px-3 py-2 text-left text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-xl transition-colors"
               >
                 <Settings className="w-4 h-4" />
                 <span className="text-sm">Settings</span>
-              </button>
+              </a>
 
               <div className="border-t border-slate-800 my-2"></div>
 

@@ -38,6 +38,7 @@ function TutorialsContainer() {
   const [selectedTutorial, setSelectedTutorial] = useState<any>(null)
   const [copiedCodeId, setCopiedCodeId] = useState<string | null>(null)
   const [authError, setAuthError] = useState<string | null>(null)
+  const [showSettings, setShowSettings] = useState(false)
 
   // Use custom hooks
   const { tutorials, categories } = useTutorialData()
@@ -112,7 +113,7 @@ function TutorialsContainer() {
         categories={categories}
         showAdvancedFilters={filters.showAdvancedFilters}
         setShowAdvancedFilters={filters.setShowAdvancedFilters}
-        setShowSettings={() => {}} // Will be implemented
+        setShowSettings={setShowSettings}
       />
 
       {/* Advanced Filters Section */}
@@ -172,8 +173,8 @@ function TutorialsContainer() {
 
       {/* Settings Modal */}
       <SettingsModal
-        showSettings={false} // Will be controlled by a button
-        setShowSettings={() => {}}
+        showSettings={showSettings}
+        setShowSettings={setShowSettings}
         settings={settings}
         setSettings={setSettings}
         resetSettings={resetSettings}

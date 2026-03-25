@@ -11,7 +11,8 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   sendPasswordResetEmail,
-  updateProfile
+  updateProfile,
+  reload
 } from 'firebase/auth'
 import { auth } from '../firebase'
 
@@ -66,7 +67,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider()
-    await signInWithPopup(auth, provider)
+    const credential = await signInWithPopup(auth, provider)
+    await reload(credential.user)
+    setUser(auth.currentUser)
   }
 
   const logout = async () => {
@@ -80,8 +83,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const updateUserProfile = async (updates: { displayName?: string; photoURL?: string }) => {
     if (user) {
       await updateProfile(user, updates)
-      // Force a re-render by updating the user state
-      setUser({ ...user, ...updates })
+      await reload(user)
+      setUser(auth.currentUser)
     }
   }
 
