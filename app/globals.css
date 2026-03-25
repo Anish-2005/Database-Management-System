@@ -4,36 +4,36 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.14 0.03 276);
-  --foreground: oklch(0.96 0.02 258);
-  --card: oklch(0.19 0.03 273);
-  --card-foreground: oklch(0.96 0.02 258);
-  --popover: oklch(0.2 0.03 273);
-  --popover-foreground: oklch(0.96 0.02 258);
-  --primary: oklch(0.66 0.18 285);
-  --primary-foreground: oklch(0.98 0.01 258);
-  --secondary: oklch(0.61 0.14 225);
-  --secondary-foreground: oklch(0.98 0.01 258);
-  --muted: oklch(0.26 0.03 270);
-  --muted-foreground: oklch(0.74 0.02 265);
-  --accent: oklch(0.7 0.14 236);
-  --accent-foreground: oklch(0.98 0.01 258);
+  --background: oklch(0.13 0.035 328);
+  --foreground: oklch(0.96 0.02 20);
+  --card: oklch(0.18 0.035 324);
+  --card-foreground: oklch(0.96 0.02 20);
+  --popover: oklch(0.19 0.035 324);
+  --popover-foreground: oklch(0.96 0.02 20);
+  --primary: oklch(0.61 0.2 327);
+  --primary-foreground: oklch(0.98 0.01 20);
+  --secondary: oklch(0.57 0.16 304);
+  --secondary-foreground: oklch(0.98 0.01 20);
+  --muted: oklch(0.25 0.035 320);
+  --muted-foreground: oklch(0.75 0.02 18);
+  --accent: oklch(0.75 0.18 48);
+  --accent-foreground: oklch(0.98 0.01 20);
   --destructive: oklch(0.57 0.2 27);
-  --destructive-foreground: oklch(0.98 0.01 258);
-  --border: oklch(0.33 0.04 274);
-  --input: oklch(0.23 0.03 272);
-  --ring: oklch(0.67 0.17 286);
-  --chart-1: oklch(0.69 0.2 285);
-  --chart-2: oklch(0.68 0.14 230);
-  --chart-3: oklch(0.67 0.12 194);
+  --destructive-foreground: oklch(0.98 0.01 20);
+  --border: oklch(0.32 0.055 318);
+  --input: oklch(0.22 0.035 320);
+  --ring: oklch(0.64 0.2 326);
+  --chart-1: oklch(0.67 0.2 327);
+  --chart-2: oklch(0.62 0.17 304);
+  --chart-3: oklch(0.75 0.18 48);
   --chart-4: oklch(0.76 0.12 130);
   --chart-5: oklch(0.72 0.15 55);
   --radius: 0.75rem;
 }
 
 @theme inline {
-  --font-sans: "Geist", "Segoe UI", system-ui, sans-serif;
-  --font-mono: "Geist Mono", "Consolas", monospace;
+  --font-sans: "Ubuntu", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Ubuntu Mono", "Consolas", monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -76,7 +76,7 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: "Geist", "Segoe UI", system-ui, sans-serif;
+    font-family: "Ubuntu", "Segoe UI", system-ui, sans-serif;
     line-height: 1.5;
     letter-spacing: 0.01em;
     text-rendering: optimizeLegibility;
@@ -95,9 +95,10 @@
 @layer utilities {
   .app-shell {
     @apply relative min-h-screen overflow-x-hidden text-foreground;
-    background: radial-gradient(circle at 0% 0%, rgba(139, 92, 246, 0.18), transparent 35%),
-      radial-gradient(circle at 95% 8%, rgba(34, 211, 238, 0.14), transparent 34%),
-      linear-gradient(180deg, rgba(7, 8, 23, 0.98), rgba(9, 11, 27, 0.98));
+    background: radial-gradient(circle at 0% 0%, rgba(119, 33, 111, 0.34), transparent 36%),
+      radial-gradient(circle at 96% 12%, rgba(145, 65, 172, 0.2), transparent 32%),
+      radial-gradient(circle at 94% 85%, rgba(233, 84, 32, 0.13), transparent 32%),
+      linear-gradient(180deg, rgba(22, 5, 22, 0.98), rgba(29, 9, 35, 0.98));
   }
 
   .app-main {
@@ -105,8 +106,8 @@
   }
 
   .surface-panel {
-    @apply rounded-2xl border border-indigo-400/20 bg-slate-900/55 backdrop-blur-sm;
-    box-shadow: 0 18px 60px rgba(8, 10, 35, 0.45);
+    @apply rounded-2xl border border-violet-400/25 bg-[#1f0f2a]/68 backdrop-blur-sm;
+    box-shadow: 0 18px 60px rgba(18, 7, 24, 0.48);
   }
 
   .section-title {
@@ -118,24 +119,24 @@
   }
 
   .brand-gradient {
-    background: linear-gradient(90deg, #d8b4fe, #a5b4fc 45%, #67e8f9);
+    background: linear-gradient(90deg, #f3c8ff 0%, #c084fc 45%, #e95420 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
   .brand-badge {
-    @apply inline-flex items-center gap-2 rounded-full border border-indigo-400/30 bg-indigo-500/10 px-3 py-1 text-xs font-medium text-indigo-200;
+    @apply inline-flex items-center gap-2 rounded-full border border-violet-300/35 bg-violet-500/12 px-3 py-1 text-xs font-medium text-violet-100;
   }
 
   .panel-hover {
-    @apply transition-all duration-200 hover:border-cyan-300/35 hover:bg-slate-900/70;
+    @apply transition-all duration-200 hover:border-orange-300/40 hover:bg-[#2a1435]/85;
   }
 
   .btn-brand {
     @apply rounded-lg px-5 py-2.5 text-sm font-semibold text-white;
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.92), rgba(34, 211, 238, 0.85));
-    box-shadow: 0 10px 24px rgba(124, 58, 237, 0.32);
+    background: linear-gradient(135deg, rgba(119, 33, 111, 0.95), rgba(169, 76, 195, 0.92), rgba(233, 84, 32, 0.9));
+    box-shadow: 0 12px 28px rgba(116, 34, 113, 0.42);
   }
 
   .btn-brand:hover {
@@ -166,17 +167,17 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(139, 92, 246, 0.65), rgba(34, 211, 238, 0.55));
+    background: linear-gradient(180deg, rgba(145, 65, 172, 0.72), rgba(233, 84, 32, 0.62));
     border-radius: 9999px;
     border: 2px solid rgba(15, 23, 42, 0.65);
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, rgba(167, 139, 250, 0.78), rgba(103, 232, 249, 0.74));
+    background: linear-gradient(180deg, rgba(192, 132, 252, 0.85), rgba(251, 146, 60, 0.8));
   }
 
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(129, 140, 248, 0.7) rgba(15, 23, 42, 0.55);
+    scrollbar-color: rgba(168, 85, 247, 0.76) rgba(15, 23, 42, 0.55);
   }
 }

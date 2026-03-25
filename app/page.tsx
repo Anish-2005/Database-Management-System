@@ -75,7 +75,7 @@ export default function HomePage() {
               </a>
               <a
                 href="/labs"
-                className="rounded-lg border border-indigo-400/30 bg-slate-900/65 px-5 py-2.5 text-sm font-semibold text-slate-100 hover:border-cyan-300/40 hover:bg-slate-900/90"
+                className="rounded-lg border border-violet-400/35 bg-[#2a1133]/70 px-5 py-2.5 text-sm font-semibold text-slate-100 hover:border-orange-300/50 hover:bg-[#341741]/90"
               >
                 Explore Labs
               </a>
@@ -103,14 +103,14 @@ export default function HomePage() {
                 const Icon = module.icon
                 return (
                   <article key={module.title} className="surface-panel panel-hover p-6">
-                    <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500/15 ring-1 ring-indigo-300/30">
-                      <Icon className="h-5 w-5 text-cyan-200" />
+                    <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-violet-500/20 ring-1 ring-violet-300/35">
+                      <Icon className="h-5 w-5 text-orange-200" />
                     </div>
                     <h3 className="text-lg font-semibold text-slate-100">{module.title}</h3>
                     <p className="mt-2 text-sm leading-6 text-slate-300/85">{module.text}</p>
                     <a
                       href={module.href}
-                      className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-cyan-200 hover:text-cyan-100"
+                      className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-orange-200 hover:text-orange-100"
                     >
                       Open Module
                       <ArrowRight className="h-4 w-4" />
@@ -126,8 +126,8 @@ export default function HomePage() {
               const Icon = capability.icon
               return (
                 <article key={capability.name} className="surface-panel p-6">
-                  <div className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-cyan-500/12 ring-1 ring-cyan-300/30">
-                    <Icon className="h-4 w-4 text-cyan-200" />
+                  <div className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-orange-500/12 ring-1 ring-orange-300/30">
+                    <Icon className="h-4 w-4 text-orange-200" />
                   </div>
                   <h3 className="text-base font-semibold text-slate-100">{capability.name}</h3>
                   <p className="mt-2 text-sm leading-6 text-slate-300/85">{capability.detail}</p>

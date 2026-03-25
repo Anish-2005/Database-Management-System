@@ -85,20 +85,20 @@ export default function Navbar({
   }, [menuOpen])
 
   return (
-    <header className="fixed top-0 z-50 w-full border-b border-indigo-400/20 bg-slate-950/82 backdrop-blur-xl">
+    <header className="fixed top-0 z-50 w-full border-b border-violet-400/25 bg-[#150718]/84 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3 transition-transform hover:scale-[1.01]">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/85 to-cyan-400/70 ring-1 ring-violet-300/30">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-700/90 via-fuchsia-600/85 to-orange-500/80 ring-1 ring-violet-200/35">
             <Database className="h-5 w-5 text-white" />
           </div>
           <div className="leading-tight">
             <p className="text-sm font-semibold tracking-wide brand-gradient">QuantumDB</p>
-            <p className="hidden text-xs text-slate-300/80 sm:block">{subtitle}</p>
+            <p className="hidden text-xs text-slate-200/80 sm:block">{subtitle}</p>
           </div>
         </Link>
 
         <nav className="hidden items-center lg:flex">
-          <div className="flex items-center gap-1 rounded-full border border-indigo-400/25 bg-slate-900/65 p-1">
+          <div className="flex items-center gap-1 rounded-full border border-violet-400/30 bg-[#2a1133]/75 p-1">
             {primaryNavItems.map((item) => {
               const isActive = item.name.toLowerCase() === activePage
               return (
@@ -107,8 +107,8 @@ export default function Navbar({
                   href={item.href}
                   className={`rounded-full px-3 py-2 text-sm font-medium transition-all ${
                     isActive
-                      ? "bg-gradient-to-r from-violet-500/45 to-cyan-400/30 text-white shadow-lg shadow-violet-900/30"
-                      : "text-slate-300 hover:bg-slate-800/80 hover:text-white"
+                      ? "bg-gradient-to-r from-violet-600/55 via-fuchsia-500/45 to-orange-500/30 text-white shadow-lg shadow-violet-900/35"
+                      : "text-slate-300 hover:bg-[#33163d]/80 hover:text-white"
                   }`}
                 >
                   {item.name}
@@ -122,8 +122,8 @@ export default function Navbar({
               onClick={() => setIsMoreOpen((prev) => !prev)}
               className={`inline-flex items-center gap-1 rounded-full border px-3 py-2 text-sm font-medium transition-colors ${
                 isSecondaryActive || isMoreOpen
-                  ? "border-violet-300/35 bg-violet-500/15 text-violet-100"
-                  : "border-slate-700 bg-slate-900/70 text-slate-300 hover:border-indigo-300/30 hover:text-white"
+                  ? "border-violet-300/45 bg-violet-500/18 text-violet-100"
+                  : "border-violet-400/20 bg-[#27112f]/70 text-slate-300 hover:border-violet-300/35 hover:text-white"
               }`}
             >
               More
@@ -133,7 +133,7 @@ export default function Navbar({
             </button>
 
             {isMoreOpen && (
-              <div className="absolute right-0 mt-2 w-52 rounded-xl border border-indigo-300/25 bg-slate-950/95 p-2 shadow-2xl shadow-violet-950/40">
+              <div className="absolute right-0 mt-2 w-52 rounded-xl border border-violet-300/30 bg-[#1a0a20]/95 p-2 shadow-2xl shadow-violet-950/50">
                 {secondaryNavItems.map((item) => {
                   const isActive = item.name.toLowerCase() === activePage
                   return (
@@ -143,8 +143,8 @@ export default function Navbar({
                       onClick={() => setIsMoreOpen(false)}
                       className={`block rounded-lg px-3 py-2 text-sm transition-colors ${
                         isActive
-                          ? "bg-violet-500/20 text-white"
-                          : "text-slate-300 hover:bg-slate-800/70 hover:text-white"
+                          ? "bg-violet-500/22 text-white"
+                          : "text-slate-300 hover:bg-[#34163f]/75 hover:text-white"
                       }`}
                     >
                       {item.name}
@@ -169,7 +169,7 @@ export default function Navbar({
             ) : (
               <Link
                 href="/login"
-                className="rounded-lg border border-indigo-400/25 bg-slate-900/70 px-4 py-2 text-sm font-medium text-slate-100 transition-colors hover:border-indigo-300/45 hover:bg-slate-800/80"
+                className="rounded-lg border border-violet-300/30 bg-[#2a1133]/75 px-4 py-2 text-sm font-medium text-slate-100 transition-colors hover:border-orange-300/45 hover:bg-[#371a41]/85"
               >
                 Sign In
               </Link>
@@ -177,7 +177,7 @@ export default function Navbar({
         </div>
 
         <button
-          className="rounded-lg border border-indigo-400/30 bg-slate-900/70 p-2 text-slate-100 lg:hidden"
+          className="rounded-lg border border-violet-300/35 bg-[#2a1133]/80 p-2 text-slate-100 lg:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -186,7 +186,7 @@ export default function Navbar({
       </div>
 
       {menuOpen && (
-        <div className="border-t border-indigo-400/20 bg-slate-950/96 px-4 py-4 lg:hidden">
+        <div className="border-t border-violet-400/25 bg-[#1a0a20]/96 px-4 py-4 lg:hidden">
           <div className="space-y-4">
             <div>
               <p className="mb-2 text-xs font-semibold tracking-wider text-slate-400 uppercase">
@@ -202,8 +202,8 @@ export default function Navbar({
                       onClick={() => setMenuOpen(false)}
                       className={`rounded-lg px-3 py-2 text-sm font-medium ${
                         isActive
-                          ? "bg-gradient-to-r from-violet-500/35 to-cyan-400/20 text-white ring-1 ring-violet-300/30"
-                          : "text-slate-300 hover:bg-slate-900/70 hover:text-white"
+                          ? "bg-gradient-to-r from-violet-600/45 to-orange-500/25 text-white ring-1 ring-violet-300/35"
+                          : "text-slate-300 hover:bg-[#34163f]/75 hover:text-white"
                       }`}
                     >
                       {item.name}
@@ -227,8 +227,8 @@ export default function Navbar({
                       onClick={() => setMenuOpen(false)}
                       className={`rounded-lg px-3 py-2 text-sm font-medium ${
                         isActive
-                          ? "bg-violet-500/25 text-white"
-                          : "text-slate-300 hover:bg-slate-900/70 hover:text-white"
+                          ? "bg-violet-500/30 text-white"
+                          : "text-slate-300 hover:bg-[#34163f]/75 hover:text-white"
                       }`}
                     >
                       {item.name}
@@ -242,7 +242,7 @@ export default function Navbar({
               <Link
                 href="/login"
                 onClick={() => setMenuOpen(false)}
-                className="mt-1 block rounded-lg border border-indigo-400/25 bg-slate-900/75 px-3 py-2 text-center text-sm font-medium text-slate-100"
+                className="mt-1 block rounded-lg border border-violet-300/30 bg-[#2a1133]/85 px-3 py-2 text-center text-sm font-medium text-slate-100"
               >
                 Sign In
               </Link>
