@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Ubuntu, Ubuntu_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -69,16 +69,19 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#2c001e" },
-    { media: "(prefers-color-scheme: light)", color: "#77216f" },
-  ],
   icons: {
     icon: [{ url: "/logo-mark.svg", type: "image/svg+xml" }],
     shortcut: "/logo-mark.svg",
     apple: "/logo-mark.svg",
   },
 };
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#2c001e" },
+    { media: "(prefers-color-scheme: light)", color: "#77216f" },
+  ],
+}
 
 export default function RootLayout({
   children,
