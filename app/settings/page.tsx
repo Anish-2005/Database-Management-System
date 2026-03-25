@@ -243,7 +243,7 @@ export default function SettingsPage() {
               </div>
 
               <div className="space-y-4">
-                <label className="flex items-center justify-between rounded-lg border border-slate-700/70 bg-slate-900/40 p-3">
+                <label className="setting-row flex items-center justify-between">
                   <span className="text-sm text-slate-200">Background Animations</span>
                   <input
                     type="checkbox"
@@ -258,7 +258,7 @@ export default function SettingsPage() {
                   <select
                     value={settings.theme}
                     onChange={(e) => setSettings((prev) => ({ ...prev, theme: e.target.value as ThemeOption }))}
-                    className="mt-2 w-full rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm text-white"
+                    className="field-surface mt-2"
                   >
                     <option value="dark">Dark</option>
                     <option value="light">Light</option>
@@ -266,7 +266,7 @@ export default function SettingsPage() {
                   </select>
                 </label>
 
-                <label className="flex items-center justify-between rounded-lg border border-slate-700/70 bg-slate-900/40 p-3">
+                <label className="setting-row flex items-center justify-between">
                   <span className="text-sm text-slate-200">Show Completed Tutorials</span>
                   <input
                     type="checkbox"
@@ -285,7 +285,7 @@ export default function SettingsPage() {
               </div>
 
               <div className="space-y-4">
-                <label className="flex items-center justify-between rounded-lg border border-slate-700/70 bg-slate-900/40 p-3">
+                <label className="setting-row flex items-center justify-between">
                   <span className="text-sm text-slate-200">Notifications</span>
                   <input
                     type="checkbox"
@@ -295,7 +295,7 @@ export default function SettingsPage() {
                   />
                 </label>
 
-                <label className="flex items-center justify-between rounded-lg border border-slate-700/70 bg-slate-900/40 p-3">
+                <label className="setting-row flex items-center justify-between">
                   <span className="text-sm text-slate-200">Auto Save Progress</span>
                   <input
                     type="checkbox"
@@ -310,7 +310,7 @@ export default function SettingsPage() {
                   <select
                     value={settings.sortBy}
                     onChange={(e) => setSettings((prev) => ({ ...prev, sortBy: e.target.value }))}
-                    className="mt-2 w-full rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm text-white"
+                    className="field-surface mt-2"
                   >
                     <option value="newest">Newest First</option>
                     <option value="oldest">Oldest First</option>
@@ -327,7 +327,7 @@ export default function SettingsPage() {
                     onChange={(e) =>
                       setSettings((prev) => ({ ...prev, itemsPerPage: Number.parseInt(e.target.value, 10) }))
                     }
-                    className="mt-2 w-full rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm text-white"
+                    className="field-surface mt-2"
                   >
                     {[12, 24, 36, 48].map((count) => (
                       <option key={count} value={count}>
@@ -357,7 +357,7 @@ export default function SettingsPage() {
                   <input
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
-                    className="mt-2 w-full rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm text-white"
+                    className="field-surface mt-2"
                     placeholder="Your name"
                   />
                 </label>
@@ -366,7 +366,7 @@ export default function SettingsPage() {
                   <input
                     value={photoURL}
                     onChange={(e) => setPhotoURL(e.target.value)}
-                    className="mt-2 w-full rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm text-white"
+                    className="field-surface mt-2"
                     placeholder="https://..."
                   />
                 </label>
@@ -406,25 +406,25 @@ export default function SettingsPage() {
             <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               <button
                 onClick={clearTutorialData}
-                className="rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-sm text-slate-200 hover:border-slate-500"
+                className="setting-row text-left text-sm text-slate-200 hover:border-violet-300/40"
               >
                 Clear Tutorial Data
               </button>
               <button
                 onClick={clearLabsData}
-                className="rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-sm text-slate-200 hover:border-slate-500"
+                className="setting-row text-left text-sm text-slate-200 hover:border-violet-300/40"
               >
                 Clear Labs Data
               </button>
               <button
                 onClick={clearPracticeData}
-                className="rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-sm text-slate-200 hover:border-slate-500"
+                className="setting-row text-left text-sm text-slate-200 hover:border-violet-300/40"
               >
                 Clear Practice Data
               </button>
               <button
                 onClick={clearDocumentationData}
-                className="rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2 text-sm text-slate-200 hover:border-slate-500"
+                className="setting-row text-left text-sm text-slate-200 hover:border-violet-300/40"
               >
                 Clear Documentation Data
               </button>

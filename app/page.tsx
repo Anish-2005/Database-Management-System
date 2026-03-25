@@ -75,7 +75,7 @@ export default function HomePage() {
               </a>
               <a
                 href="/labs"
-                className="rounded-lg border border-violet-400/35 bg-[#2a1133]/70 px-5 py-2.5 text-sm font-semibold text-slate-100 hover:border-orange-300/50 hover:bg-[#341741]/90"
+                className="rounded-lg border border-violet-300/30 bg-[#2a1133]/72 px-5 py-2.5 text-sm font-semibold text-slate-100 transition-colors hover:border-orange-300/55 hover:bg-[#351941]/90"
               >
                 Explore Labs
               </a>
@@ -86,7 +86,7 @@ export default function HomePage() {
             {kpis.map((item) => (
               <article key={item.label} className="surface-panel panel-hover p-5">
                 <p className="text-3xl font-semibold brand-gradient">{item.value}</p>
-                <p className="mt-2 text-sm text-slate-300/85">{item.label}</p>
+                <p className="mt-2 text-sm text-slate-200/90">{item.label}</p>
               </article>
             ))}
           </section>
